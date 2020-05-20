@@ -1,49 +1,36 @@
 <div>
     <h4>Add/Edit Song</h4>
-    <form>
+    <form (submit)="onAddSong(songForm)" #songForm="ngForm">
       <div class="form-row">
           <div class="form-group col-md-6">
             <label for="SongTitle">Song Title</label>
-            <input id="SongTitle" type="text" class="form-control" placeholder="Enter Song Title">
+            <input id="SongTitle" type="text" class="form-control" placeholder="Enter Song Title" name="Title" ngModel>
           </div>
           <div class="form-group col-md-6">
             <label for="FirstLine">First Line</label>
-            <input id="FirstLine" type="text" class="form-control"  placeholder="Enter First Line">
+            <input id="FirstLine" type="text" class="form-control"  placeholder="Enter First Line" name="FirstLine" ngModel>
           </div>
           <div class="form-group col-md-12">
             <label for="Lyrics">Lyrics</label>
-            <textarea id="Lyrics" type="text" class="form-control" rows="10" placeholder="Enter/Paste Lyrics"></textarea>
+            <textarea id="Lyrics" type="text" class="form-control" rows="10" placeholder="Enter/Paste Lyrics" name="Lyrics" ngModel></textarea>
+          </div>
+          <div class="form-group col-md-12">
+            <label for="Author">Author</label>
+            <textarea id="Author" type="text" class="form-control" rows="10" placeholder="Enter/Paste Lyrics" name="Author" ngModel></textarea>
           </div>
           <div class="form-group col-md-4">
-            <label for="MusicKey">Select Musical Key</label>
-            <select class="form-control">
-              <option>A</option>
-              <option>Bb</option>
-              <option>B</option>
-              <option>C</option>
-              <option>C#</option>
-              <option>D</option>
-              <option>Eb</option>
-              <option>E</option>
-              <option>F</option>
-              <option>F#</option>
-              <option>G</option>>
-              <option>Ab</option>       
-            </select>
-            <select class="form-control">
-                <Option>Major</Option>
-                <option>Minor</option>
-            </select>
+            <label for="MusicalKey">Musical Key</label>
+            <input id="MusicalKey" type="text" class="form-control"  placeholder="Key" name="MusicalKey" ngModel>
           </div>
           <div class="form-group col-md-6">
             <label for="Pace/Group">Pace Group</label>
-            <select class="form-control col-md-6" id="exampleFormControlSelect1">
+            <select class="form-control col-md-6" id="exampleFormControlSelect1" name="PaceGrp" ngModel>
               <option>Fast - Praise</option>
               <option>Medium</option>
               <option>Slow - Worship</option>
               <option>Christmas</option>
               <option>Kids/School</option>
-            </select>             
+            </select>
           </div>
 
       </div>
@@ -51,3 +38,4 @@
       <button type="cancel" class="btn btn-primary mb-4">Cancel</button>
     </form>
 </div>
+

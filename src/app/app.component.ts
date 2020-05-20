@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+import { Song } from './song.model';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -9,4 +11,5 @@ export class AppComponent {
   title = 'enlightWeb';
   icon = '../../assets/Images/logo.png';
   Login = true;
+  storedSongs: Song[] = [];
 }

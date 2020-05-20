@@ -7,8 +7,16 @@ import { LoginComponent } from './login/login.component';
 import { BuildSetComponent } from './build-set/build-set.component';
 import { EditSongComponent } from './edit-song/edit-song.component';
 import { LeadSheetComponent } from './lead-sheet/lead-sheet.component';
-import { from } from 'rxjs';
+
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ScrollSongsComponent } from './scroll-songs/scroll-songs.component';
+import { LyricsComponent } from './lyrics/lyrics.component';
+import { SetComponent } from './set/set.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -17,11 +25,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BuildSetComponent,
     EditSongComponent,
     LeadSheetComponent,
+    ScrollSongsComponent,
+    LyricsComponent,
+    SetComponent,
   ],
   imports: [
     BrowserModule,
     appRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

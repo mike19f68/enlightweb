@@ -1,0 +1,42 @@
+:host {
+  display: block;
+  float: left;
+  background-color: paleturquoise;
+  border-style: dotted;
+  border-radius: 2px;
+  border-width: 1px;
+  color: blue;
+  width:40%;
+  overflow: scroll;
+  margin: auto;
+  padding:0;
+  height: calc(100vh - 3rem);
+}
+.component {
+  display:block;
+  width:100%;
+}
+.filter {
+  padding:3px;
+  display:block;
+  height: 3rem;
+  background-color: rgb(142, 172, 212);
+}
+
+#search {
+  width: 50% !important;
+}
+
+.songRef {
+  color: red;
+  font-size:small;
+  float:left;
+}
+
+.clipped {
+  width:35%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+

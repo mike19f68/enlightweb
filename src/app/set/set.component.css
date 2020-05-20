@@ -1,0 +1,14 @@
+:host {
+  display: block;
+  float: left;
+  background-color: rgb(175, 238, 203);
+  border-style: dotted;
+  border-radius: 2px;
+  border-width: 1px;
+  color: green;
+  width: 40%;
+  height: calc(100vh - 3rem);
+  overflow: auto;
+  margin: auto;
+  padding:3px;
+}
