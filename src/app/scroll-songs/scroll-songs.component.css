@@ -28,15 +28,28 @@
 }
 
 .songRef {
+
   color: red;
   font-size:small;
   float:left;
 }
 
 .clipped {
-  width:35%;
+  width:20%;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-
+td, th {
+  padding-left:5px;
+  font-size:12px;
+}
+tr {
+  border-bottom-color:black;
+  border-bottom-style: solid;
+  border-bottom-width:.5px;
+}
+tr:hover {
+  background-color: #ffff99;
+  cursor: pointer;
+}

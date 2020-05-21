@@ -26,9 +26,15 @@ router.post("",(req, res, next) => {
     });
   });
 });
+var d = new Date();
+d.setDate(d.getDate() - 365);
 
 router.get("", (req, res, next) => {
-  Song.find().then(documents => {
+  var query = {
+    LastPlay: { $gt: d },
+    Rating: {$gt: 2 }
+  };
+  Song.find(query).then(documents => {
     res.status(200).json({
       message: "Songs fetched successfully!",
       songs: documents
