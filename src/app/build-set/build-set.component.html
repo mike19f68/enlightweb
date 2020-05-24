@@ -1,8 +1,8 @@
 <div>
 
- <app-lyrics></app-lyrics>
+  <app-scroll-songs (SongToSend)="receiveSong($event)"></app-scroll-songs>
 
-  <app-scroll-songs></app-scroll-songs>
+  <app-lyrics [currentSong]="receivedC"></app-lyrics>
 
   <section class="set">
     <app-set></app-set>

@@ -6,9 +6,9 @@
   border-radius: 2px;
   border-width: 1px;
   color: green;
-  width: 40%;
+  width: calc(100vw - 843px);
   height: calc(100vh - 3rem);
-  overflow: auto;
+  overflow:hidden;
   margin: auto;
   padding:3px;
 }

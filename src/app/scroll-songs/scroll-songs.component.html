@@ -1,32 +1,49 @@
 <div class="component">
-  <div class="filter sticky-top">
-     <div class="btn-group">
-       <input id="searchinput" type="search" class="form-control" placeholder="Search">
+  <div class="filter sticky-top container-fluid">
+     <div class="btn-group" ng-controller="delaySearch">
+       <input id="searchinput" type="search" class="form-control" placeholder="Search"
+                  [(ngModel)]="searchString"
+                  (change)="ngOnInit()">
        <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>
      </div>
-
-
-    <div class="d-inline-block" ngbDropdown>
-      <button class="btn btn-outline-primary mr-2" id="PaceGrp" ngbDropdownToggle>Standard</button>
-      <div ngbDropdownMenu aria-labelledby="PaceGrp">
-          <button ngbDropdownItem>Standard</button>
-          <button ngbDropdownItem>Fast</button>
-          <button ngbDropdownItem>Med</button>
-          <button ngbDropdownItem>Slow</button>
-          <button ngbDropdownItem>Christmas</button>
-          <button ngbDropdownItem>Kids/School</button>
-          <button ngbDropdownItem>All Songs</button>
-      </div>
+    <div class="drop-filter d-inline-block btn-group" (change)="ngOnInit()">
+      <select id="PaceGrp" [(ngModel)]="selectedGroup" class="mr-0 drop-filter d-inline-block form-control">
+        <option value="0" selected>Standard</option>
+        <option value="1">Fast</option>
+        <option value="2">Medium</option>
+        <option value="3">Slow</option>
+        <option value="4">School</option>
+        <option value="5">Christmas</option>
+        <option value="6">All</option>
+      </select>
     </div>
-
-    <div class="d-inline-block" ngbDropdown>
-      <button class="btn btn-outline-primary mr-2" id="LastPlay" ngbDropdownToggle>Recent</button>
-      <div ngbDropdownMenu aria-labelledby="LastPlay">
-          <button ngbDropdownItem>Recent</button>
-          <button ngbDropdownItem>>2 years</button>
-          <button ngbDropdownItem>3 years</button>
-          <button ngbDropdownItem>All Songs</button>
-      </div>
+    <div class="drop-filter d-inline-block btn-group" (change)="ngOnInit()">
+      <select id="PaceGrp" [(ngModel)]="selectedAge" class="mr-0 drop-filter d-inline-block form-control">
+        <option value="1" selected>Recent</option>
+        <option value="2">2 years</option>
+        <option value="3">3 years</option>
+        <option value="10">All</option>
+      </select>
+    </div>
+    <div class="drop-filter d-inline-block btn-group" (change)="ngOnInit()">
+      <select id="Rating" [(ngModel)]="selectedRating" class="mr-0 drop-filter d-inline-block form-control">
+        <option value="4">Rating 5</option>
+        <option value="3">Rating 4+</option>
+        <option value="2" selected>Rating 3+</option>
+        <option value="1">Rating 2+</option>
+        <option value="0">All Songs</option>
+      </select>
+    </div>
+    <div>
+      <table>
+        <tr>
+          <th class="hdr_Ref">Ref</th>
+          <th class="hdr_Title">Title</th>
+          <th class="hdr_FirstLine">First Line</th>
+          <th class="hdr_key">Key</th>
+          <th>Add</th>
+        </tr>
+      </table>
     </div>
   </div>
   <!-- end filter-->
@@ -38,47 +55,13 @@
    </div>
   <div *ngIf="!isLoading">
 <table>
-  <tr>
-    <th>Ref</th>
-    <th>Title</th>
-    <th>First Line</th>
-    <th>Key</th>
-    <th></th>
-  </tr>
-  <tr *ngFor="let song of songs; let index = index" id="song-{{index}}">
-     <td Class="songRef">{{song.SongRef}}</td>
-     <td class="clipped ellipsis">{{song.SongTitle}}</td>
-     <td class="clipped ellipsis">{{song.FirstLine}}</td>
-     <td>{{song.MusicalKey}}</td>
-     <td><button class="btn btn-link p-0">Add</button></td>
+  <tr class="picker" *ngFor="let song of songs; let index = index" id="song-{{index}}" (mouseup)="showLyrics(song, index)" [class.active]="index == ActiveIndex">
+     <td class="col_Ref">{{song.SongRef}}</td>
+     <td class="col_Title clipped">{{song.SongTitle}}</td>
+     <td class="col_FirstLine clipped">{{song.FirstLine}}</td>
+     <td class="col_key">{{song.MusicalKey}}</td>
+     <td><img src="../../assets/Images/ToList.png" alt=" " width="14" height="14"></td>
+     <td #song style="display:none">{{song}}</td>
   </tr>
 </table>
 </div>
-
-<!--
- <div class="d-flex justify-content-center" *ngIf="isLoading">
-  <div class="spinner-border" role="status">
-    <span class="sr-only">Loading...</span>
-  </div>
- </div>
- <div *ngIf="!isLoading">
-
-  <ngb-accordion #a="ngbAccordion">
-    <ngb-panel *ngFor="let song of songs; let index = index" id="static-{{index}}" >
-        <ng-template ngbPanelHeader class="p-0">
-            <div class="d-flex justify-content-between row-content">
-                <div class="row-content">
-                  <div class="songRef">{{song.SongRef}}</div>
-                  <div class="titles">{{song.SongTitle}} - {{song.FirstLine}}</div>
-                </div>
-                <button ngbPanelToggle class="btn btn-link p-0">Open</button>
-            </div>
-        </ng-template>
-        <ng-template ngbPanelContent>
-            {{ song.Lyrics }}
-        </ng-template>
-    </ngb-panel>
-  </ngb-accordion>
- </div>
-</div>
--->

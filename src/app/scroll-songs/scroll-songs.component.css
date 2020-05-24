@@ -5,11 +5,11 @@
   border-style: dotted;
   border-radius: 2px;
   border-width: 1px;
-  color: blue;
-  width:40%;
+  width: 560px;
   overflow: scroll;
   margin: auto;
   padding:0;
+  margin-left:220px;
   height: calc(100vh - 3rem);
 }
 .component {
@@ -19,27 +19,28 @@
 .filter {
   padding:3px;
   display:block;
-  height: 3rem;
+  height: 4rem;
   background-color: rgb(142, 172, 212);
 }
 
-#search {
-  width: 50% !important;
+#searchinput {
+  height: 28px;
+  width: 100%;
+  margin: 5px;
 }
-
-.songRef {
-
-  color: red;
+.drop-filter {
+  height:28px;
+  padding:0;
   font-size:small;
-  float:left;
+  margin-right:5px;
 }
 
 .clipped {
-  width:20%;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
 td, th {
   padding-left:5px;
   font-size:12px;
@@ -49,7 +50,64 @@ tr {
   border-bottom-style: solid;
   border-bottom-width:.5px;
 }
-tr:hover {
+tr.picker:hover {
   background-color: #ffff99;
   cursor: pointer;
+}
+
+tr.active {
+  background-color:#123456 !important;
+  color: white;
+}
+
+
+.hdr_Ref {
+  padding:0;
+  width:30px;
+}
+
+.col_Ref
+{
+  color: red;
+  font-size:small;
+  float:left;
+  width:30px;
+}
+
+.hdr_Title {
+  padding:0;
+  min-width:200px;
+  width:200px;
+}
+
+.col_Title
+{
+  float:left;
+  min-width:200px;
+  width:200px;
+}
+
+.hdr_FirstLine {
+  padding:0;
+  min-width:250px;
+  width:250px;
+}
+
+.col_FirstLine
+{
+  float:left;
+  min-width:255px;
+  width:255px;
+}
+.hdr_Key {
+  padding:0;
+  min-width:30px;
+  width:30px;
+}
+
+.Col_Key
+{
+  float:left;
+  min-width:30px;
+  width:30px;
 }

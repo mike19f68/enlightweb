@@ -8,12 +8,13 @@ const songSchema = mongoose.Schema({
   Author: { type: String },
   CCLI_Ref: { type: String },
   Copyright: { type: String },
-  PaceGrp: { type: String, required: true },
+  PaceGrp: { type: Number, required: true },
   Rating: { type: Number, required: true },
   LastPlay: { type: Date },
   MusicalKey: { type: String },
-  Tempo: { type: Number }
+  Tempo: { type: Number },
+  fields: {type: [String], index: true}
 });
-
+songSchema .index({fields: 'text'});
 
 module.exports = mongoose.model('Song', songSchema);

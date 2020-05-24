@@ -7,7 +7,7 @@ export interface Song {
   Author: string;
   CCLI_Ref: string;
   Copyright: string;
-  PaceGrp: string;
+  PaceGrp: number;
   Rating: number;
   LastPlay: Date;
   MusicalKey: string;

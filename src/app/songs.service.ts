@@ -5,19 +5,21 @@ import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 import { Song } from './song.model';
-import { templateJitUrl } from '@angular/compiler';
+import { templateJitUrl, createOfflineCompileUrlResolver } from '@angular/compiler';
 
 @Injectable({providedIn: 'root'})
 export class SongsService {
   private songs: Song[] = [];
   private songsUpdated = new Subject<Song[]>();
+  private songId: string;
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  getSongs() {
+  getSongs(paceGrp: number, age: number, rating: number, find: string) {
+    const queryParams = `?pace=${paceGrp}&age=${age}&rating=${rating}&find=${find}`;
     this.http
       .get<{ message: string; songs: any }>(
-        'http://localhost:3000/api/songs'
+        'http://localhost:3000/api/songs' + queryParams
       )
       .pipe(map((songData) => {
         return songData.songs.map(song => {
@@ -69,6 +71,7 @@ export class SongsService {
         });
       }))
       .subscribe(loadedSongs => {
+        console.log('got here...');
         this.songs = loadedSongs;
         this.songsUpdated.next([...this.songs]);
     });
@@ -87,7 +90,7 @@ export class SongsService {
           author: string,
           ccliref: string,
           copyright: string,
-          pacegrp: string,
+          pacegrp: number,
           rating: number,
           lastplay: Date,
           musicalkey: string,
@@ -112,12 +115,14 @@ export class SongsService {
           'http://localhost:3000/api/songs', song
           )
       .subscribe(responseData => {
+        // tslint:disable-next-line: no-shadowed-variable
         const id = responseData.songId;
         song.id = id;
         this.songs.push(song);
         this.songsUpdated.next([...this.songs]);
       });
     }
+
     deleteSong(songId: string) {
       this.http.delete(
         'http://localhost:3000/api/songs/' + songId
