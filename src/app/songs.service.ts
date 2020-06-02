@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 import { Song } from './song.model';
-import { templateJitUrl, createOfflineCompileUrlResolver } from '@angular/compiler';
 
 @Injectable({providedIn: 'root'})
 export class SongsService {
@@ -15,8 +14,9 @@ export class SongsService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  getSongs(paceGrp: number, age: number, rating: number, find: string) {
-    const queryParams = `?pace=${paceGrp}&age=${age}&rating=${rating}&find=${find}`;
+  getSongs(paceGrp: string, age: string, rating: string, find: string, sortField: string, sortDirection: number) {
+    const queryParams = `?pace=${paceGrp}&age=${age}&rating=${rating}&find=${find}&sortField=${sortField}&sortDirection=${sortDirection}`;
+
     this.http
       .get<{ message: string; songs: any }>(
         'http://localhost:3000/api/songs' + queryParams
@@ -71,7 +71,6 @@ export class SongsService {
         });
       }))
       .subscribe(loadedSongs => {
-        console.log('got here...');
         this.songs = loadedSongs;
         this.songsUpdated.next([...this.songs]);
     });

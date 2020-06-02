@@ -32,11 +32,30 @@ router.get("", (req, res, next) => {
  const Age = +req.query.age;
  const Rating = +req.query.rating;
  const searchString = req.query.find;
+ const sortField = req.query.sortField;
+ const sortDirection = +req.query.sortDirection;
+
+
+ switch (sortField) {
+    case "SortRef":
+       sortParam = { 'SortRef': sortDirection };
+       break;
+    case "SongTitle":
+       sortParam = { 'SongTitle': sortDirection };
+       break;
+    case "FirstLine":
+        sortParam = { 'FirstLine': sortDirection };
+        break;
+    case "MusicalKey":
+        sortParam = { 'MusicalKey': sortDirection };
+        break;
+    default:
+      sortParam = { 'SortRef': -1 };
+  }
 
 var query = {};
 var queryArray = [];
 
-var userInput = new RegExp(searchString+" ", 'i');
 queryArray = [
   { 'Lyrics': { $regex: new RegExp(searchString,'i')}},
   { 'Title': { $regex: new RegExp(searchString,'i')}},
@@ -73,8 +92,8 @@ switch (true) {
 
   query.Rating = { $gt: Rating};
 
-  Song.find({ $or: queryArray }).find(query).then(documents => {
-    res.status(200).json({
+ Song.find({ $or: queryArray }).find(query).sort(sortParam).then(documents => {
+      res.status(200).json({
       message: "Songs fetched successfully!",
       songs: documents
     });

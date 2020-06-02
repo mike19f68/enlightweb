@@ -5,6 +5,9 @@ const mongoose = require('mongoose');
 const songsRoutes = require("./routes/songs");
 const app = express();
 
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useUnifiedTopology', true);
+mongoose.set('useCreateIndex', true);
 mongoose
 .connect(
   "mongodb+srv://mfarrant:NbncTkYWPgy9lC5I@cluster0-tmobm.mongodb.net/enlight?retryWrites=true&w=majority"

@@ -12,4 +12,5 @@ export class AppComponent {
   icon = '../../assets/Images/logo.png';
   Login = true;
   storedSongs: Song[] = [];
+
 }

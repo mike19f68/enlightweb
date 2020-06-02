@@ -1,67 +1,127 @@
 <div class="component">
-  <div class="filter sticky-top container-fluid">
-     <div class="btn-group" ng-controller="delaySearch">
-       <input id="searchinput" type="search" class="form-control" placeholder="Search"
-                  [(ngModel)]="searchString"
-                  (change)="ngOnInit()">
-       <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>
-     </div>
-    <div class="drop-filter d-inline-block btn-group" (change)="ngOnInit()">
-      <select id="PaceGrp" [(ngModel)]="selectedGroup" class="mr-0 drop-filter d-inline-block form-control">
-        <option value="0" selected>Standard</option>
-        <option value="1">Fast</option>
-        <option value="2">Medium</option>
-        <option value="3">Slow</option>
-        <option value="4">School</option>
-        <option value="5">Christmas</option>
-        <option value="6">All</option>
-      </select>
-    </div>
-    <div class="drop-filter d-inline-block btn-group" (change)="ngOnInit()">
-      <select id="PaceGrp" [(ngModel)]="selectedAge" class="mr-0 drop-filter d-inline-block form-control">
-        <option value="1" selected>Recent</option>
-        <option value="2">2 years</option>
-        <option value="3">3 years</option>
-        <option value="10">All</option>
-      </select>
-    </div>
-    <div class="drop-filter d-inline-block btn-group" (change)="ngOnInit()">
-      <select id="Rating" [(ngModel)]="selectedRating" class="mr-0 drop-filter d-inline-block form-control">
-        <option value="4">Rating 5</option>
-        <option value="3">Rating 4+</option>
-        <option value="2" selected>Rating 3+</option>
-        <option value="1">Rating 2+</option>
-        <option value="0">All Songs</option>
-      </select>
-    </div>
-    <div>
-      <table>
-        <tr>
-          <th class="hdr_Ref">Ref</th>
-          <th class="hdr_Title">Title</th>
-          <th class="hdr_FirstLine">First Line</th>
-          <th class="hdr_key">Key</th>
-          <th>Add</th>
-        </tr>
-      </table>
+  <div class="lyricsSection">
+    <div class="form-group">
+      <div *ngIf="hasData">
+        <p class="title clipped">{{song.SongTitle}}</p>
+        <p class="firstline clipped">{{song.FirstLine}}</p>
+        <p class="lyrics">{{song.Lyrics}}</p>
+      </div>
+      <div *ngIf="!hasData">No Data</div>
     </div>
   </div>
-  <!-- end filter-->
-  <div></div>
-  <div class="d-flex justify-content-center" *ngIf="isLoading">
-    <div class="spinner-border" role="status">
-      <span class="sr-only">Loading...</span>
+  <div class="tableSection">
+    <div class="filter sticky-top container-fluid">
+      <div class="btn-group">
+        <input id="searchinput" type="search" class="form-control" placeholder="Search" [(ngModel)]="searchString"
+          (change)="ngOnInit()">
+        <div id="searchclear" class="glyphicon glyphicon-remove-circle"></div>
+      </div>
+      <div class="drop-filter d-inline-block btn-group" (change)="ngOnInit()">
+        <select id="PaceGrp" [(ngModel)]="selectedGroup" class="mr-0 drop-filter d-inline-block form-control">
+          <option value="0" selected>Standard</option>
+          <option value="1">Fast</option>
+          <option value="2">Medium</option>
+          <option value="3">Slow</option>
+          <option value="4">School</option>
+          <option value="5">Christmas</option>
+          <option value="6">All</option>
+        </select>
+      </div>
+      <div class="drop-filter d-inline-block btn-group" (change)="ngOnInit()">
+        <select id="PaceGrp" [(ngModel)]="selectedAge" class="mr-0 drop-filter d-inline-block form-control">
+          <option value="1" selected>Recent</option>
+          <option value="2">2 years</option>
+          <option value="3">3 years</option>
+          <option value="10">All</option>
+        </select>
+      </div>
+      <div class="drop-filter d-inline-block btn-group" (change)="ngOnInit()">
+        <select id="Rating" [(ngModel)]="selectedRating" class="mr-0 drop-filter d-inline-block form-control">
+          <option value="4">Rating 5</option>
+          <option value="3">Rating 4+</option>
+          <option value="2" selected>Rating 3+</option>
+          <option value="1">Rating 2+</option>
+          <option value="0">All Songs</option>
+        </select>
+      </div>
+      <div>
+        <table>
+          <tr>
+            <td class="hdr_Ref sortable" (click)='changeSort("SongRef")'>Ref</td>
+            <td class="hdr_Title" (click)='changeSort("SongTitle")'>Title</td>
+            <td class="hdr_FirstLine sortable" (click)='changeSort("FirstLine")'>First Line</td>
+            <td class="hdr_Key sortable" (click)='changeSort("MusicalKey")'>Key</td>
+            <td class="hdr_Key">Add</td>
+          </tr>
+        </table>
+      </div>
     </div>
-   </div>
-  <div *ngIf="!isLoading">
-<table>
-  <tr class="picker" *ngFor="let song of songs; let index = index" id="song-{{index}}" (mouseup)="showLyrics(song, index)" [class.active]="index == ActiveIndex">
-     <td class="col_Ref">{{song.SongRef}}</td>
-     <td class="col_Title clipped">{{song.SongTitle}}</td>
-     <td class="col_FirstLine clipped">{{song.FirstLine}}</td>
-     <td class="col_key">{{song.MusicalKey}}</td>
-     <td><img src="../../assets/Images/ToList.png" alt=" " width="14" height="14"></td>
-     <td #song style="display:none">{{song}}</td>
-  </tr>
-</table>
+    <div>
+      <div *ngIf="isLoading" class="waiting">
+        <div class="spinner-border" role="status">
+          <div class="sr-only">Loading...</div>
+        </div>
+      </div>
+      <div *ngIf="!isLoading">
+        <table>
+          <tr class="picker" *ngFor="let song of songs; let index = index" id="song-{{index}}"
+            (mouseup)="showLyrics(song, index)" [class.active]="index == ActiveIndex">
+            <td class="col_Ref">{{song.SongRef}}</td>
+            <td class="col_Title clipped">{{song.SongTitle}}</td>
+            <td class="col_FirstLine clipped">{{song.FirstLine}}</td>
+            <td class="col_key">{{song.MusicalKey}}</td>
+            <td><img src="../../assets/Images/ToList.png" alt=" " width="14" height="14" (click)="addSong(song)"></td>
+            <td #song style="display:none">{{song}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div></div>
+  <div class="setSection" (click)="closeRightClickMenu()">
+
+    <div class="setHeader sticky-top container-fluid">
+
+
+      <form class="form-inline">
+        <div class="form-group">
+          <div class="input-group">
+            <div class="setdatetitle">Set Date:</div>
+ <!--          <input class="form-control" placeholder="dd-mm-yyyy"
+                   name="dp" type="date"  [(ngModel)]="setDate" (change)="onDateSelected()" >  -->
+         <input class="form-control" placeholder="yyyy-mm-dd"
+                   name="dp" [(ngModel)]="setDate" ngbDatepicker #dp="ngbDatepicker" (dateSelect)="onDateSelected()">
+            <div class="input-group-append">
+              <button class="btn calendar" (click)="dp.toggle()" type="button">
+                <img width="28px" title="Pick Date" src="..\..\assets\Images\cal.png"/>
+              </button>
+            </div>
+
+            <button class="btn" type="button"><img width="28px" title="Load Template" (click)="loadTemplate()" src="..\..\assets\Images\add_template.png"/></button>
+            <button class="btn" type="button"><img width="28px" title="Clear Set" (click)="clearSet()" src="..\..\assets\Images\erase_document.png"/></button>
+            <button class="btn" type="button"><img width="28px" title="Load Set" src="..\..\assets\Images\load_document.png"/></button>
+            <button class="btn" type="button"><img width="28px" title="Save Set" src="..\..\assets\Images\save_document.png"/></button>
+            <button class="btn" type="button"><img width="28px" title="Export to Word" src="..\..\assets\Images\Export_document.png"/></button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <p *ngIf="!setStarted">Set Not Started</p>
+
+
+    <div [sortablejs]="setList" [sortablejsOptions]="{ animation: 150 }">
+       <div class="setitem" *ngFor="let set of setList; let index = index" id="{{set.Style}}" (contextmenu)="rightClick($event, index)">
+       {{set.Seq}} {{ set.Title }}  {{set.FirstLine}} {{set.Key}}
+    </div>
+    </div>
+
+    <app-set-context-menu *ngIf="!isHidden" [x]="xPosTabMenu" [y]="yPosTabMenu"></app-set-context-menu>
+
+    <hr>
+
+    <div class="sticky-bottom setFooter container-fluid">
+
+    </div>
+  </div>
 </div>
