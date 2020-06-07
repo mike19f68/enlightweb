@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-set-context-menu',
@@ -9,22 +9,18 @@ export class SetContextMenuComponent implements OnInit {
 
   @Input() x = 0;
   @Input() y = 0;
+  @Input() menuitems = '';
   @Input() index = 0;
+  theMenuItems = [];
+  @Output() menuItemSelected = new EventEmitter();
 
   constructor() { }
 
-setStandard(index) {
-  console.log(index);
-}
-
-setPre(index) {
-  console.log(index);
-}
-
-setExtra(index) {
-  console.log(index);
-}
+  outputSelectedMenuItem( menuitem: string) {
+    this.menuItemSelected.emit(menuitem);
+  }
 
   ngOnInit() {
+    this.theMenuItems = this.menuitems.split(';');
   }
 }

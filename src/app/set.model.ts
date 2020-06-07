@@ -1,4 +1,10 @@
 export class Set {
+  id: string;
+  SetName: string;
+  SetRow: setRow;
+}
+
+export class setRow {
   Seq: string;
   Title: string;
   FirstLine: string;

@@ -2,10 +2,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { Song } from '../song.model';
-import { Set } from '../Set.model';
+import { Set, setRow } from '../Set.model';
 
 import { SongsService } from '../songs.service';
+import { SetsService } from '../sets.service';
 import { DatePipe } from '@angular/common';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-scroll-songs',
@@ -20,15 +22,23 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
   setStarted = false;
   songs: Song[];
   song: Song;
+  sets: Set[];
+  set: Set;
   setList: Set[] = [];
+  setRows: setRow[] = [];
   newSet: Set;
+  newRow: setRow;
   setDate: Date = new Date();
   dateString = '';
   private songsSub: Subscription;
+  private setsSub: Subscription;
 
-  constructor(public songsService: SongsService) {}
+  constructor(public songsService: SongsService,
+              public setsService: SetsService) {}
+
 
   isLoading = false;
+  chooseSet = false;
   ActiveIndex = 0;
   searchString = '';
   selectedGroup = '0';
@@ -41,6 +51,7 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
   public isHidden = true;
   xPosTabMenu = 0;
   yPosTabMenu = 0;
+  indexTabMenu = 0;
 
   public datepipe: DatePipe;
 
@@ -89,18 +100,17 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
       this.ActiveIndex = 0;
   }
 
-  addSong(song: Song) {
+  addtoSet(song: Song) {
 
-     const newSet: Set = new Set();
-     newSet.Seq = 'x';
-     newSet.Key = song.MusicalKey;
-     newSet.FirstLine = song.FirstLine;
-     newSet.SongRef = song.SongRef;
-     newSet.Title = song.SongTitle;
-     newSet.Lyrics = song.Lyrics;
-     newSet.Style = 'Extra';
-
-     this.setList.splice(this.setList.length, 0, newSet);
+     const newRow: setRow = new setRow();
+     newRow.Seq = 's';
+     newRow.Key = song.MusicalKey;
+     newRow.FirstLine = song.FirstLine;
+     newRow.SongRef = song.SongRef;
+     newRow.Title = song.SongTitle;
+     newRow.Lyrics = song.Lyrics;
+     newRow.Style = 'Std';
+     this.setRows.splice(this.setRows.length, 0 , newRow);
      this.setStarted = true;
   }
 
@@ -113,47 +123,51 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
   }
 
   loadTemplate() {
-    let newSet: Set = new Set();
-    newSet.Seq = 'AM';
-    newSet.Title = '';
-    newSet.Style = 'time';
-    this.setList.splice(this.setList.length, 0 , newSet);
-    newSet = new Set();
-    newSet.Style = 'splitter';
-    this.setList.splice(this.setList.length, 0 , newSet);
-    newSet = new Set();
-    newSet.Style = 'splitter';
-    this.setList.splice(this.setList.length, 0 , newSet);
-    newSet = new Set();
-    newSet.Style = 'splitter';
-    this.setList.splice(this.setList.length, 0 , newSet);
-    newSet = new Set();
-    newSet.Seq = 'PM';
-    newSet.Title = '';
-    newSet.Style = 'time';
-    this.setList.splice(this.setList.length, 0 , newSet);
-    newSet = new Set();
-    newSet.Style = 'splitter';
-    this.setList.splice(this.setList.length, 0 , newSet);
-    newSet = new Set();
-    newSet.Style = 'splitter';
-    this.setList.splice(this.setList.length, 0 , newSet);
-    newSet = new Set();
-    newSet.Style = 'splitter';
-    this.setList.splice(this.setList.length, 0 , newSet);
+    let newRow: setRow = new setRow();
+    newRow.Seq = 'AM';
+    newRow.Title = '';
+    newRow.Style = 'time';
+    this.setRows.splice(this.setRows.length, 0 , newRow);
+    newRow = new setRow();
+    newRow.Style = 'splitter';
+    this.setRows.splice(this.setRows.length, 0 , newRow);
+    newRow = new setRow();
+    newRow.Style = 'splitter';
+    this.setRows.splice(this.setRows.length, 0 , newRow);
+    newRow = new setRow();
+    newRow.Style = 'splitter';
+    this.setRows.splice(this.setRows.length, 0 , newRow);
+    newRow = new setRow();
+    newRow.Seq = 'PM';
+    newRow.Title = '';
+    newRow.Style = 'time';
+    this.setRows.splice(this.setRows.length, 0 , newRow);
+    newRow = new setRow();
+    newRow.Style = 'splitter';
+    this.setRows.splice(this.setRows.length, 0 , newRow);
+    newRow = new setRow();
+    newRow.Style = 'splitter';
+    this.setRows.splice(this.setRows.length, 0 , newRow);
+    newRow = new setRow();
+    newRow.Style = 'splitter';
+    this.setRows.splice(this.setRows.length, 0 , newRow);
     this.setStarted = true;
   }
-clearSet() {
-  this.setList.length = 0;
+  clearSet() {
+    this.setRows.length = 0;
+  }
+
+  showMenuOptions() {
+    return 'Delete;AM Title;PM Title;Spacer;Standard Song;Pre Song;Extra Song';
 }
+
 
 rightClick(event, index) {
   event.stopPropagation();
   this.xPosTabMenu = event.clientX;
   this.yPosTabMenu = event.clientY;
+  this.indexTabMenu = index;
   this.isHidden = false;
-  console.log(index);
-  this.setList[index].Style = 'song';
   return false;
 }
 
@@ -161,18 +175,40 @@ closeRightClickMenu() {
   this.isHidden = true;
 }
 
+handleMenuSelection( menuselection: string) {
+  if ( menuselection === 'Delete') {
+    this.setRows.splice(this.indexTabMenu, 1);
+  } else if ( menuselection === 'Standard Song') {
+    this.setRows[this.indexTabMenu].Style = 'song';
+    this.setRows[this.indexTabMenu].Seq = 's';
+  } else if ( menuselection === 'Pre Song') {
+    this.setRows[this.indexTabMenu].Style = 'Pre';
+    this.setRows[this.indexTabMenu].Seq = 'p';
+  } else if ( menuselection === 'Extra Song') {
+    this.setRows[this.indexTabMenu].Style = 'Extra';
+    this.setRows[this.indexTabMenu].Seq = 'X';
+  }
+}
+
+
 transformDate(date) {
   return this.datepipe.transform(date, 'yyyy-MM-dd');
 }
 
-
-
+getSets() {
+  this.chooseSet = true;
+  this.setsService.getSets(
+    );
+  this.setsSub = this.setsService.getSetUpdateListener()
+    .subscribe((sets: Set[]) => {
+      this.sets = sets;
+      this.set = this.sets[0];
+      this.hasData = true;
+    });
+}
 
   ngOnDestroy() {
     this.songsSub.unsubscribe();
   }
-
-
-
 
 }
