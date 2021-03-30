@@ -103,7 +103,7 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
   addtoSet(song: Song) {
 
      const newRow: setRow = new setRow();
-     newRow.Seq = 's';
+     newRow.Seq = 'S';
      newRow.Key = song.MusicalKey;
      newRow.FirstLine = song.FirstLine;
      newRow.SongRef = song.SongRef;
@@ -180,10 +180,10 @@ handleMenuSelection( menuselection: string) {
     this.setRows.splice(this.indexTabMenu, 1);
   } else if ( menuselection === 'Standard Song') {
     this.setRows[this.indexTabMenu].Style = 'song';
-    this.setRows[this.indexTabMenu].Seq = 's';
+    this.setRows[this.indexTabMenu].Seq = 'S';
   } else if ( menuselection === 'Pre Song') {
     this.setRows[this.indexTabMenu].Style = 'Pre';
-    this.setRows[this.indexTabMenu].Seq = 'p';
+    this.setRows[this.indexTabMenu].Seq = 'P';
   } else if ( menuselection === 'Extra Song') {
     this.setRows[this.indexTabMenu].Style = 'Extra';
     this.setRows[this.indexTabMenu].Seq = 'X';

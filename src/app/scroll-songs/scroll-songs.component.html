@@ -114,7 +114,10 @@
 
     <div [sortablejs]="setList" [sortablejsOptions]="{ animation: 150 }">
        <div class="setitem" *ngFor="let set of setRows; let index = index" id="{{set.Style}}" (contextmenu)="rightClick($event, index)">
-         {{set.Seq}} {{ set.Title }}  {{set.FirstLine}} {{set.Key}}
+         <div class="rowseq">{{set.Seq}}</div>
+         <div class="rowtitle">{{ set.Title }}</div>
+         <div class="rowfirstline">{{ set.FirstLine }}</div>
+         <div class="rowkey">{{set.Key}}</div>
        </div>
     </div>
 

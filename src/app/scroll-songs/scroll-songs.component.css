@@ -145,6 +145,7 @@ tr.active {
   cursor: pointer;
 }
 
+
 .lyrics {
   white-space: pre-line;
 }
@@ -246,10 +247,28 @@ ngx-sortable {
   color: white;
 }
 #Extra {
-  color:gray;
   font-style:italic;
   background-color: lightgray;
 }
 #Pre {
-  color:blue;
+  background-color: cornflowerblue;
+}
+.setitem:hover {
+  background-color:white;
+}
+.rowseq {
+  display:inline-block;
+  width:2%;
+}
+.rowtitle {
+  display:inline-block;
+  width:40%;
+}
+.rowfirstline {
+  display:inline-block;
+  width:40%;
+}
+.rowkey {
+  display:inline-block;
+  width:3%;
 }
