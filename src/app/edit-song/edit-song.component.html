@@ -2,35 +2,70 @@
     <h4>Add/Edit Song</h4>
     <form (submit)="onAddSong(songForm)" #songForm="ngForm">
       <div class="form-row">
+        <div class="form-group col-md-3">
+
+        </div>
           <div class="form-group col-md-6">
             <label for="SongTitle">Song Title</label>
-            <input id="SongTitle" type="text" class="form-control" placeholder="Enter Song Title" name="Title" ngModel>
-          </div>
-          <div class="form-group col-md-6">
+            <input id="SongTitle" type="text" class="form-control" placeholder="Song Title" name="Title" ngModel>
             <label for="FirstLine">First Line</label>
-            <input id="FirstLine" type="text" class="form-control"  placeholder="Enter First Line" name="FirstLine" ngModel>
-          </div>
-          <div class="form-group col-md-12">
+            <input id="FirstLine" type="text" class="form-control"  placeholder="First Line" name="FirstLine" ngModel>
             <label for="Lyrics">Lyrics</label>
-            <textarea id="Lyrics" type="text" class="form-control" rows="10" placeholder="Enter/Paste Lyrics" name="Lyrics" ngModel></textarea>
-          </div>
-          <div class="form-group col-md-12">
+            <textarea id="Lyrics" type="text" class="form-control" rows="10" placeholder="Lyrics" name="Lyrics" ngModel></textarea>
             <label for="Author">Author</label>
-            <textarea id="Author" type="text" class="form-control" rows="10" placeholder="Enter/Paste Lyrics" name="Author" ngModel></textarea>
+            <textarea id="Author" type="text" class="form-control" rows="3" placeholder="Artist" name="Author" ngModel></textarea>
+            <label for="Rating">Rating</label>
+            <select class="form-control" id="RatingSelect" name="Rating" ngModel>
+              <option>5</option>
+              <option>4</option>
+              <option>3</option>
+              <option>2</option>
+              <option>1</option>
+              </select>
+
+              <label for="Pace/Group">Pace Group</label>
+              <select class="form-control" id="PaceSelect" name="PaceGrp" ngModel>
+                <option>Fast - Praise</option>
+                <option>Medium</option>
+                <option>Slow - Worship</option>
+                <option>Christmas</option>
+                <option>Kids/School</option>
+                </select>
+              <label for="MusicalKey">Musical Key</label>
+              <select class="form-control" id="KeySelect" name="MusicalKey" ngModel>
+                <option>A</option>
+                <option>Bb</option>
+                <option>B</option>
+                <option>C</option>
+                <option>C#</option>
+                <option>D</option>
+                <option>Eb</option>
+                <option>E</option>
+                <option>F</option>
+                <option>F#</option>
+                <option>G</option>
+                <option>Ab</option>
+                </select>
+                <label for="Copyright">Copyright</label>
+                <textarea id="Copyright" type="text" class="form-control" rows="3" placeholder="Copyright" name="Copyright" ngModel></textarea>
+                <label for="CCLI_Ref">CCLI Reference</label>
+                <Input id="CCLI_Ref" type="text" class="form-control" placeholder="CCLI_Ref" name="CCLI_Ref" ngModel>
+                  <label for="Tempo">Tempo</label>
+                  <Input id="Tempo" type="text" class="form-control" placeholder="Tempo" name="Tempo" ngModel>
+            </div>
+
+          <div class="form-group col-md-6">
+
           </div>
-          <div class="form-group col-md-4">
-            <label for="MusicalKey">Musical Key</label>
-            <input id="MusicalKey" type="text" class="form-control"  placeholder="Key" name="MusicalKey" ngModel>
+
+          <div class="form-group col-md-3">
+
+          </div>
+          <div class="form-group col-md-3">
+
           </div>
           <div class="form-group col-md-6">
-            <label for="Pace/Group">Pace Group</label>
-            <select class="form-control col-md-6" id="exampleFormControlSelect1" name="PaceGrp" ngModel>
-              <option>Fast - Praise</option>
-              <option>Medium</option>
-              <option>Slow - Worship</option>
-              <option>Christmas</option>
-              <option>Kids/School</option>
-            </select>
+
           </div>
 
       </div>

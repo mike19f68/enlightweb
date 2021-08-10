@@ -1,0 +1,18 @@
+:host {
+  display: block;
+  float: left;
+  background-color: lightgrey;
+  overflow: scroll;
+  margin: auto;
+  padding:5px;
+
+  height: calc(100vh - 3rem);
+  width: calc(100vw - 60px);
+}
+.component {
+  display:block;
+  width:100%;
+  overflow:scroll;
+  margin:0;
+
+}
