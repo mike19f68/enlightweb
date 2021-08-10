@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
+import { Song } from '../song.model';
 import { SongsService } from '../songs.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-edit-song',
@@ -9,6 +12,33 @@ import { SongsService } from '../songs.service';
   styleUrls: ['./edit-song.component.css']
 })
 export class EditSongComponent {
+
+  hasData = false;
+  setStarted = false;
+  songs: Song[];
+  song: Song;
+
+  setDate: Date = new Date();
+  dateString = '';
+  private songsSub: Subscription;
+
+  isLoading = false;
+  chooseSet = false;
+  ActiveIndex = 0;
+  searchString = '';
+  selectedGroup = '0';
+  selectedAge = '1';
+  selectedRating = '2';
+  sortField = 'SongRef';
+  sortDirection = -1;
+  setList1: any;
+
+  public isHidden = true;
+  xPosTabMenu = 0;
+  yPosTabMenu = 0;
+  indexTabMenu = 0;
+
+  public datepipe: DatePipe;
   SongRef = null;
   Title = '';
   FirstLine = '';
@@ -23,6 +53,50 @@ export class EditSongComponent {
   Tempo = null;
 
   constructor(public songsService: SongsService) {}
+
+  ngOnInit() {
+    this.getSongs();
+  }
+
+  getSongs() {
+    this.songsService.getSongs(
+      this.selectedGroup,
+      this.selectedAge,
+      this.selectedRating,
+      this.searchString,
+      this.sortField,
+      this.sortDirection
+      );
+    this.isLoading = true;
+    this.songsSub = this.songsService.getSongUpdateListener()
+      .subscribe((songs: Song[]) => {
+        this.isLoading = false;
+        this.songs = songs;
+        this.song = this.songs[0];
+        this.hasData = true;
+      });
+  }
+
+  changeSort(field: string) {
+    if (this.sortField === field) {
+      this.sortDirection = -this.sortDirection;
+    }
+    else {
+      this.sortField = field;
+      if (field === 'SongRef') {
+         this.sortDirection = -1;
+      } else {
+         this.sortDirection = 1;
+      }
+    }
+    this.getSongs();
+    this.ActiveIndex = 0;
+}
+selectSong(selectedSong: Song, index: number) {
+  this.hasData = true;
+  this.song = selectedSong;
+  this.ActiveIndex = index;
+}
 
   onAddSong(form: NgForm) {
     if (form.invalid) {
@@ -44,6 +118,10 @@ export class EditSongComponent {
       form.value.Tempo
       );
     form.resetForm();
+  }
+
+  ngOnDestroy() {
+    this.songsSub.unsubscribe();
   }
 
 }

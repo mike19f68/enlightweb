@@ -1,27 +1,151 @@
 <div>
     <h4>Add/Edit Song</h4>
-    <form (submit)="onAddSong(songForm)" #songForm="ngForm">
-      <div class="form-row">
-        <div class="form-group col-md-3">
+  <div class="editsong">
 
+    <div class="tableSection col-md-6">
+      <div class="filter sticky-top container-fluid">
+        <div class="btn-group">
+          <input id="searchinput" type="search" class="form-control" placeholder="Search" [(ngModel)]="searchString"
+            (change)="ngOnInit()">
+          <div id="searchclear" class="glyphicon glyphicon-remove-circle"></div>
         </div>
-          <div class="form-group col-md-6">
-            <label for="SongTitle">Song Title</label>
-            <input id="SongTitle" type="text" class="form-control" placeholder="Song Title" name="Title" ngModel>
-            <label for="FirstLine">First Line</label>
-            <input id="FirstLine" type="text" class="form-control"  placeholder="First Line" name="FirstLine" ngModel>
-            <label for="Lyrics">Lyrics</label>
-            <textarea id="Lyrics" type="text" class="form-control" rows="10" placeholder="Lyrics" name="Lyrics" ngModel></textarea>
-            <label for="Author">Author</label>
-            <textarea id="Author" type="text" class="form-control" rows="3" placeholder="Artist" name="Author" ngModel></textarea>
-            <label for="Rating">Rating</label>
-            <select class="form-control" id="RatingSelect" name="Rating" ngModel>
-              <option>5</option>
-              <option>4</option>
-              <option>3</option>
-              <option>2</option>
-              <option>1</option>
+        <div class="drop-filter d-inline-block btn-group" (change)="ngOnInit()">
+          <select id="PaceGrp" [(ngModel)]="selectedGroup" class="mr-0 drop-filter d-inline-block form-control">
+            <option value="0" selected>Standard</option>
+            <option value="1">Fast</option>
+            <option value="2">Medium</option>
+            <option value="3">Slow</option>
+            <option value="4">School</option>
+            <option value="5">Christmas</option>
+            <option value="6">All</option>
+          </select>
+        </div>
+        <div class="drop-filter d-inline-block btn-group" (change)="ngOnInit()">
+          <select id="PaceGrp" [(ngModel)]="selectedAge" class="mr-0 drop-filter d-inline-block form-control">
+            <option value="1" selected>Recent</option>
+            <option value="2">2 years</option>
+            <option value="3">3 years</option>
+            <option value="10">All</option>
+          </select>
+        </div>
+        <div class="drop-filter d-inline-block btn-group" (change)="ngOnInit()">
+          <select id="Rating" [(ngModel)]="selectedRating" class="mr-0 drop-filter d-inline-block form-control">
+            <option value="4">Rating 5</option>
+            <option value="3">Rating 4+</option>
+            <option value="2" selected>Rating 3+</option>
+            <option value="1">Rating 2+</option>
+            <option value="0">All Songs</option>
+          </select>
+        </div>
+        <div class="drop-filter d-inline-block btn-group" (change)="ngOnInit()">
+          <button class="btn btn-add btn-primary">+New Song</button>
+        </div>
+        <div>
+          <table>
+            <tr>
+              <td class="hdr_Ref sortable" (click)='changeSort("SongRef")'>Ref</td>
+              <td class="hdr_Title sortable" (click)='changeSort("SongTitle")'>Title</td>
+              <td class="hdr_FirstLine sortable" (click)='changeSort("FirstLine")'>First Line</td>
+              <td class="hdr_Key sortable" (click)='changeSort("MusicalKey")'>Key</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div>
+        <div *ngIf="isLoading" class="waiting">
+          <div class="spinner-border" role="status">
+            <div class="sr-only">Loading...</div>
+          </div>
+        </div>
+        <div *ngIf="!isLoading">
+          <table>
+            <tr class="picker" *ngFor="let song of songs; let index = index" id="song-{{index}}"
+            (mouseup)="selectSong(song, index)"
+              [class.active]="index == ActiveIndex">
+              <td class="col_Ref">{{song.SongRef}}</td>
+              <td class="col_Title clipped">{{song.SongTitle}}</td>
+              <td class="col_FirstLine clipped">{{song.FirstLine}}</td>
+              <td class="col_key">{{song.MusicalKey}}</td>
+              <td #song style="display:none">{{song}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <form (submit)="onAddSong(songForm)" #songForm="ngForm" class="songpage">
+      <div class="buttons">
+        <label for="SongRef" class="mb-6">Song Ref:</label>
+        <input id="SongRef" type="text" class="form-control mb-6 btn songref" placeholder="0" value="{{song.SongRef}}"  name="SongRef" ngModel>
+        <button type="submit" class="btn btn-primary mb-6">Update</button>
+        <button type="cancel" class="btn btn-primary mb-6">Cancel</button>
+      </div>
+      <div class="form-row">
+          <div class="form-group col-md-12" *ngIf="hasData">
+            <div *ngIf="hasData">
+              <label for="SongTitle">Song Title</label>
+              <input id="SongTitle" type="text" class="form-control" placeholder="Song Title" value="{{song.SongTitle}}" name="Title" ngModel>
+              <label for="FirstLine">First Line</label>
+              <input id="FirstLine" type="text" class="form-control"  placeholder="First Line" value="{{song.FirstLine}}" name="FirstLine" ngModel>
+              <label for="Lyrics">Lyrics</label>
+              <textarea id="Lyrics" type="text" class="form-control" rows="10" placeholder="Lyrics" value="{{song.Lyrics}}" name="Lyrics" ngModel></textarea>
+              <label for="Author">Author</label>
+              <textarea id="Author" type="text" class="form-control" rows="3" placeholder="Artist" value="{{song.Author}}" name="Author" ngModel></textarea>
+              <label for="Rating">Rating</label>
+              <select class="form-control" id="RatingSelect" name="Rating" value="{{song.Rating}}" ngModel>
+                <option>5</option>
+                <option>4</option>
+                <option>3</option>
+                <option>2</option>
+                <option>1</option>
+             </select>
+
+              <label for="Pace/Group">Pace Group</label>
+              <select class="form-control" id="PaceSelect" name="PaceGrp" value="{{song.PaceGrp}}" ngModel>
+                <option>Fast - Praise</option>
+                <option>Medium</option>
+                <option>Slow - Worship</option>
+                <option>Christmas</option>
+                <option>Kids/School</option>
               </select>
+              <label for="MusicalKey">Musical Key</label>
+              <select class="form-control" id="KeySelect" name="MusicalKey" value="{{song.MusicalKey}}" ngModel>
+                <option>A</option>
+                <option>Bb</option>
+                <option>B</option>
+                <option>C</option>
+                <option>C#</option>
+                <option>D</option>
+                <option>Eb</option>
+                <option>E</option>
+                <option>F</option>
+                <option>F#</option>
+                <option>G</option>
+                <option>Ab</option>
+              </select>
+              <label for="Copyright">Copyright</label>
+              <textarea id="Copyright" type="text" class="form-control" rows="3" placeholder="Copyright" value="{{song.Copyright}}" name="Copyright" ngModel></textarea>
+              <label for="CCLI_Ref">CCLI Reference</label>
+              <Input id="CCLI_Ref" type="text" class="form-control" placeholder="CCLI_Ref" value="{{song.CCLI_Ref}}" name="CCLI_Ref" ngModel>
+              <label for="Tempo">Tempo</label>
+              <Input id="Tempo" type="text" class="form-control" placeholder="Tempo" value="{{song.Tempo}}" name="Tempo" ngModel>
+            </div>
+            <div *ngIf="!hasData">
+              <label for="SongTitle">Song Title</label>
+              <input id="SongTitle" type="text" class="form-control" placeholder="Song Title" name="Title" ngModel>
+              <label for="FirstLine">First Line</label>
+              <input id="FirstLine" type="text" class="form-control"  placeholder="First Line" name="FirstLine" ngModel>
+              <label for="Lyrics">Lyrics</label>
+              <textarea id="Lyrics" type="text" class="form-control" rows="10" placeholder="Lyrics" name="Lyrics" ngModel></textarea>
+              <label for="Author">Author</label>
+              <textarea id="Author" type="text" class="form-control" rows="3" placeholder="Artist" name="Author" ngModel></textarea>
+              <label for="Rating">Rating</label>
+              <select class="form-control" id="RatingSelect" name="Rating" ngModel>
+                <option>5</option>
+                <option>4</option>
+                <option>3</option>
+                <option>2</option>
+                <option>1</option>
+             </select>
 
               <label for="Pace/Group">Pace Group</label>
               <select class="form-control" id="PaceSelect" name="PaceGrp" ngModel>
@@ -30,7 +154,7 @@
                 <option>Slow - Worship</option>
                 <option>Christmas</option>
                 <option>Kids/School</option>
-                </select>
+              </select>
               <label for="MusicalKey">Musical Key</label>
               <select class="form-control" id="KeySelect" name="MusicalKey" ngModel>
                 <option>A</option>
@@ -45,32 +169,19 @@
                 <option>F#</option>
                 <option>G</option>
                 <option>Ab</option>
-                </select>
-                <label for="Copyright">Copyright</label>
-                <textarea id="Copyright" type="text" class="form-control" rows="3" placeholder="Copyright" name="Copyright" ngModel></textarea>
-                <label for="CCLI_Ref">CCLI Reference</label>
-                <Input id="CCLI_Ref" type="text" class="form-control" placeholder="CCLI_Ref" name="CCLI_Ref" ngModel>
-                  <label for="Tempo">Tempo</label>
-                  <Input id="Tempo" type="text" class="form-control" placeholder="Tempo" name="Tempo" ngModel>
+              </select>
+              <label for="Copyright">Copyright</label>
+              <textarea id="Copyright" type="text" class="form-control" rows="3" placeholder="Copyright" name="Copyright" ngModel></textarea>
+              <label for="CCLI_Ref">CCLI Reference</label>
+              <Input id="CCLI_Ref" type="text" class="form-control" placeholder="CCLI_Ref" name="CCLI_Ref" ngModel>
+              <label for="Tempo">Tempo</label>
+              <Input id="Tempo" type="text" class="form-control" placeholder="Tempo" name="Tempo" ngModel>
             </div>
-
-          <div class="form-group col-md-6">
-
+              <br/>
           </div>
-
-          <div class="form-group col-md-3">
-
-          </div>
-          <div class="form-group col-md-3">
-
-          </div>
-          <div class="form-group col-md-6">
-
-          </div>
-
       </div>
-      <button type="submit" class="btn btn-primary mb-4">Update</button>
-      <button type="cancel" class="btn btn-primary mb-4">Cancel</button>
     </form>
+
+  </div>
 </div>
 

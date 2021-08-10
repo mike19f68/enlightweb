@@ -2,17 +2,238 @@
   display: block;
   float: left;
   background-color: lightgrey;
-  overflow: scroll;
+  overflow-y: hidden;
   margin: auto;
-  padding:5px;
+  padding-left:5px;
+  align-items: center;
 
-  height: calc(100vh - 3rem);
-  width: calc(100vw - 60px);
+}
+.editsong {
+  height: calc(100vh - 6rem);
+  width: calc(100vw - 65px);
+}
+.songpage {
+  overflow-y: scroll;
+  margin:3px;
+  height:100%;
+}
+.form-row {
+  margin:3px;
 }
 .component {
   display:block;
   width:100%;
-  overflow:scroll;
+  overflow-y:scroll;
   margin:0;
+}
+
+.buttons {
+  width:100%;
+  text-align: right;
+}
+.btn {
+  margin:5px;
+}
+
+.tableSection {
+  float:left;
+  width: 650px;
+  min-width: 650px;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x:hidden;
+  padding:0px;
+}
+
+.filter {
+  padding:0;
+  display:block;
+  height: 4rem;
+  background-color: rgb(142, 172, 212);
+  width:630px;
+  float: left;
+}
+
+.waiting {
+  z-index:999;
+  text-align: center;
 
 }
+
+#searchinput {
+  height: 28px;
+  width: 100%;
+  margin: 5px;
+}
+.drop-filter {
+  height:28px;
+  padding:0;
+  font-size:small;
+  margin-right:5px;
+}
+.btn-add {
+  height:28px;
+  align-self: right;
+  margin:0px;
+  margin-left:5px;
+  padding-top:1px;
+  padding-bottom:1px;
+}
+
+table {
+  width: 630px;
+  margin:0px;
+  padding:1px;
+  table-layout: fixed;
+}
+td {
+  font-size:12px;
+  padding-left:3px;
+}
+tr {
+  border-bottom-color:black;
+  border-bottom-style: solid;
+  border-bottom-width:.5px;
+}
+tr.picker:hover {
+  background-color: #ffff99;
+  cursor: pointer;
+}
+
+tr.active {
+  background-color:#3871aa !important;
+  color: white;
+}
+
+
+.hdr_Ref {
+  margin:0;
+  background-color: darkslategrey;
+  color:white;
+  width:50px;
+}
+.col_Ref{
+  font-size:small;
+  width:50px;
+}
+
+.hdr_Title {
+  margin:0;
+  background-color: darkslategrey;
+  color:white;
+  width:260px;
+
+}
+.col_Title {
+  min-width:260px;
+  width:260px;
+  max-width: 260px;
+}
+
+
+.hdr_FirstLine {
+  margin:0;
+  background-color: darkslategrey;
+  color:white;
+  width:260px;
+
+}
+.col_FirstLine
+{
+  min-width:280px;
+  width:280px;
+  max-width: 280px;
+}
+
+.hdr_Key {
+  margin:0;
+  background-color: darkslategrey;
+  color:white;
+  width:45px;
+}
+
+.col_Key
+{
+  width:45px;
+}
+
+.sortable:hover {
+  text-decoration: underline overline;
+  text-decoration-color: red;
+  cursor: pointer;
+}
+
+.songref {
+  background-color: white !important;
+  text-align: left;
+  width:80px;
+  padding:3px;
+  margin:10px !important;
+
+}
+.lyrics {
+  white-space: pre-line;
+}
+.title {
+  font-weight: bold;
+}
+.firstline {
+  font-weight: bold;
+}
+
+ul {
+  list-style-type: none;
+  margin:0px;
+  padding:0px;
+}
+
+.setHeader {
+  height:3rem;
+  background-color: lightgray;
+  display:block;
+}
+ngx-sortable {
+  width:100%;
+}
+
+.setSeq {
+  font-size: 12px;
+  width: 20px;
+}
+.SeqTitle {
+  font-size: 12px;
+  width: 10px;
+  font-weight: strong;
+}
+.seqFirstLine {
+  font-size: 12px;
+  width: 10px;
+
+}
+.setKey {
+  font-size: 12px;
+  width: 40px;
+}
+
+
+.clipped {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.setdatetitle {
+  font-size:14px;
+  font-weight: bold;
+  vertical-align: middle;
+  margin:auto;
+  padding-right:10px;
+}
+
+.form-control {
+  margin:auto;
+  outline-width:0.5px;
+  outline-style: solid;
+  outline-color: lightslategray;
+}
+
