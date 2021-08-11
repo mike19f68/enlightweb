@@ -123,9 +123,10 @@ export class SongsService {
     }
 
     deleteSong(songId: string) {
-      this.http.delete(
-        'http://localhost:3000/api/songs/' + songId
-        )
+      this.http
+        .delete(
+          'http://localhost:3000/api/songs/' + songId
+          )
         .subscribe(() => {
           const updatedsongs = this.songs.filter(post => post.id !== songId);
           this.songs = updatedsongs;

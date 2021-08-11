@@ -54,6 +54,7 @@ export class EditSongComponent {
 
   constructor(public songsService: SongsService) {}
 
+  // tslint:disable-next-line: use-lifecycle-interface
   ngOnInit() {
     this.getSongs();
   }
@@ -75,6 +76,7 @@ export class EditSongComponent {
         this.song = this.songs[0];
         this.hasData = true;
       });
+    console.log('GotSongs');
   }
 
   changeSort(field: string) {
@@ -98,7 +100,7 @@ selectSong(selectedSong: Song, index: number) {
   this.ActiveIndex = index;
 }
 
-  onAddSong(form: NgForm) {
+onAddSong(form: NgForm) {
     if (form.invalid) {
       return;
     }
@@ -119,7 +121,14 @@ selectSong(selectedSong: Song, index: number) {
       );
     form.resetForm();
   }
-
+  deleteSong(SelectedSong: Song, index: number) {
+    if (!this.hasData) {
+      return;
+    }
+    this.songsService.deleteSong(this.song.id);
+    console.log(this.song.id);
+  }
+  // tslint:disable-next-line: use-lifecycle-interface
   ngOnDestroy() {
     this.songsSub.unsubscribe();
   }

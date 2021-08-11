@@ -113,6 +113,7 @@ export class SetsService {
         'http://localhost:3000/api/sets/' + setId
         )
         .subscribe(() => {
+          console.log(setId);
           const updatedsets = this.sets.filter(post => post.id !== setId);
           this.sets = updatedsets;
           this.setsUpdated.next([...this.sets]);

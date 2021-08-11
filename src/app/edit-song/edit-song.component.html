@@ -75,8 +75,9 @@
     <form (submit)="onAddSong(songForm)" #songForm="ngForm" class="songpage">
       <div class="buttons">
         <label for="SongRef" class="mb-6">Song Ref:</label>
-        <input id="SongRef" type="text" class="form-control mb-6 btn songref" placeholder="0" value="{{song.SongRef}}"  name="SongRef" ngModel>
-        <button type="submit" class="btn btn-primary mb-6">Update</button>
+        <input id="SongRef" type="int" class="form-control mb-6 btn songref" placeholder="0" value="{{song.SongRef}}"  name="SongRef" ngModel>
+        <button type="submit" class="btn btn-primary mb-6">Save</button>
+        <button type="Delete" class="btn btn-primary mb-6" (click)='deleteSong(song, ActiveIndex)'>Delete</button>
         <button type="cancel" class="btn btn-primary mb-6">Cancel</button>
       </div>
       <div class="form-row">
