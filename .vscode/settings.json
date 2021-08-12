@@ -1,0 +1,41 @@
+{
+  "deploy": {
+      "packages": [
+          {
+              "name": "Version 0.1",
+              "description": "Package version 0.1",
+              "files": [
+                  "**/*.js",
+                  "**/*.html",
+                  "**/*.ts",
+                  "**/*.css"
+              ],
+              "exclude": [
+                  "tests/**"
+              ],
+              "deployOnSave": false
+          },
+          {
+              "name": "Version 0.1 (anything)",
+              "description": "Package version 0.1"
+          }
+      ],
+
+      "targets": [
+          {
+              "type": "sftp",
+              "name": "My SFTP folder",
+              "description": "A SFTP folder",
+              "dir": "/Deployed",
+              "host": "217.194.210.66", "port": 22,
+              "user": "enlightw", "password": "w8HYsf8e37"
+          }
+      ],
+
+      "host": [
+          {
+              "dir": "./files_from_remotes"
+          }
+      ]
+  }
+}
