@@ -1,0 +1,12 @@
+.menu{
+  position: absolute;
+  width:auto;
+}
+div {
+  margin:0;
+  padding:3px;
+}
+li {
+  margin:0;
+  padding:0;
+}

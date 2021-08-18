@@ -1,0 +1,7 @@
+<div class="menu" [ngStyle]="{'left.px': x, 'top.px': y}">
+  <ul class="list-group">
+    <li class="list-group-item ngbButton" *ngFor="let menuItem of theMenuItems">
+      <div type="button" class="ngbButtonLabel" (click)="outputSelectedMenuItem(menuItem)">{{ menuItem }}</div>
+    </li>
+  </ul>
+</div>
