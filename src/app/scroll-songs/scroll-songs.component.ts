@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { Song } from '../song.model';
-import { Set, setRow } from '../Set.model';
+import { Set, setRow } from '../set.model';
 
 import { SongsService } from '../songs.service';
 import { SetsService } from '../sets.service';
