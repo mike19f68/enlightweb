@@ -1,18 +1,25 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from "@angular/material/input";
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatCardModule} from '@angular/material/card';
+
 import { AppComponent } from './app.component';
 import { appRoutingModule } from './app.routing';
 import { SortablejsModule } from 'ngx-sortablejs';
 
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './Auth/login/login.component';
 import { BuildSetComponent } from './build-set/build-set.component';
 import { EditSongComponent } from './edit-song/edit-song.component';
 import { LeadSheetComponent } from './lead-sheet/lead-sheet.component';
 
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { ScrollSongsComponent } from './scroll-songs/scroll-songs.component';
 import { SetComponent } from './set/set.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+
 import { HttpClientModule } from '@angular/common/http';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -33,6 +40,9 @@ import { SetContextMenuComponent } from './set-context-menu/set-context-menu.com
     BrowserModule,
     appRoutingModule,
     BrowserAnimationsModule,
+    MatInputModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
