@@ -129,6 +129,8 @@
               <Input id="CCLI_Ref" type="text" class="form-control" placeholder="CCLI_Ref" value="{{song.CCLI_Ref}}" name="CCLI_Ref" ngModel>
               <label for="Tempo">Tempo</label>
               <Input id="Tempo" type="text" class="form-control" placeholder="Tempo" value="{{song.Tempo}}" name="Tempo" ngModel>
+              <label for="LastPlay">Last Used</label>
+              <Input id="LastPlay" type="text" class="form-control" placeholder="---" name="LastPlay" ngModel>
             </div>
             <div *ngIf="!hasData">
               <label for="SongTitle">Song Title</label>
@@ -177,7 +179,9 @@
               <Input id="CCLI_Ref" type="text" class="form-control" placeholder="CCLI_Ref" name="CCLI_Ref" ngModel>
               <label for="Tempo">Tempo</label>
               <Input id="Tempo" type="text" class="form-control" placeholder="Tempo" name="Tempo" ngModel>
-            </div>
+              <label for="LastPlay">Last Used</label>
+              <Input id="LastPlay" type="text" class="form-control" placeholder="---" name="LastPlay" ngModel>
+              </div>
               <br/>
           </div>
       </div>
