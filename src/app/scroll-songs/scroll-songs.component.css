@@ -92,24 +92,25 @@ tr.active {
   margin:0;
   background-color: darkslategrey;
   color:white;
-  width:30px;
+  width:40px;
 }
 .col_Ref{
   font-size:small;
-  width:30px;
+  color: darkblue;
+  width:40px;
 }
 
 .hdr_Title {
   margin:0;
   background-color: darkslategrey;
   color:white;
-  width:250px;
+  width:245px;
 
 }
 .col_Title {
-  min-width:250px;
-  width:250px;
-  max-width: 250px;
+  min-width:245px;
+  width:245px;
+  max-width: 245px;
 }
 
 
@@ -117,14 +118,14 @@ tr.active {
   margin:0;
   background-color: darkslategrey;
   color:white;
-  width:260px;
+  width:255px;
 
 }
 .col_FirstLine
 {
-  min-width:260px;
-  width:260px;
-  max-width: 260px;
+  min-width:255px;
+  width:255px;
+  max-width: 255px;
 }
 
 .hdr_Key {

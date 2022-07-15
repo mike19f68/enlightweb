@@ -10,7 +10,5 @@ import { Song } from './song.model';
 export class AppComponent {
   title = 'enlightWeb';
   icon = '../../assets/Images/logo.png';
-  Login = true;
   storedSongs: Song[] = [];
-
 }
