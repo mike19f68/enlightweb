@@ -37,8 +37,8 @@ router.get("", (req, res, next) => {
 
 
  switch (sortField) {
-    case "SortRef":
-       sortParam = { 'SortRef': sortDirection };
+    case "SongRef":
+       sortParam = { 'SongRef': sortDirection };
        break;
     case "SongTitle":
        sortParam = { 'SongTitle': sortDirection };
@@ -50,7 +50,7 @@ router.get("", (req, res, next) => {
         sortParam = { 'MusicalKey': sortDirection };
         break;
     default:
-      sortParam = { 'SortRef': -1 };
+      sortParam = { 'SongRef': -1 };
   }
 
 var query = {};
