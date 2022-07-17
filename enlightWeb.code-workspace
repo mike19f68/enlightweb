@@ -1,8 +1,7 @@
 {
 	"folders": [
 		{
-			"name": "enlightWeb",
-			"path": "https://github.com/mike19f68/enlightweb"
+			"path": "."
 		}
 	],
 	"settings": {}
