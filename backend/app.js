@@ -21,27 +21,27 @@ mongoose
   .catch(() => {
     console.log('Connection to DB Failed');
   });
-
   app.use(cors({
-    origin: "http://localhost:3000"
+    origin: ["http://localhost:4200", "http://localhost:3000"],
+    methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
   }));
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false}));
   app.use("/",express.static(path.join(__dirname, "Enlight")));
 
-  app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    res.setHeader(
-      "Access-Control-Allow-Methods",
-      "GET, POST, PATCH, PUT, DELETE, OPTIONS"
-    );
-    next();
-  });
+  // app.use((req, res, next) => {
+  //   res.setHeader("Access-Control-Allow-Origin", "*");
+  //   res.setHeader(
+  //     "Access-Control-Allow-Headers",
+  //     "Origin, X-Requested-With, Content-Type, Accept"
+  //   );
+  //   res.setHeader(
+  //     "Access-Control-Allow-Methods",
+  //     "GET, POST, PATCH, PUT, DELETE, OPTIONS"
+  //   );
+  //   next();
+  // });
 
 app.use("/api/songs", songsRoutes);
 app.use("/api/sets", setsRoutes);
