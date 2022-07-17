@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require("body-parser");
 const path = require("path");
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const songsRoutes = require("./routes/songs");
 const setsRoutes = require("./routes/sets");
@@ -20,6 +21,10 @@ mongoose
   .catch(() => {
     console.log('Connection to DB Failed');
   });
+
+  app.use(cors({
+    origin: "http://localhost:3000"
+  }));
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false}));

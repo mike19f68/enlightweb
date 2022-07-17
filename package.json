@@ -23,6 +23,7 @@
     "@angular/router": "~9.1.13",
     "@ng-bootstrap/ng-bootstrap": "^10.0.0",
     "bootstrap": "^5.1.0",
+    "cors": "^2.8.5",
     "mongodb": "^4.1.0",
     "mongoose": "^5.13.7",
     "ngx-sortable": "^1.0.3",
