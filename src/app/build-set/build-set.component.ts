@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
 import { Song } from '../song.model';
+import { AuthService } from '../auth/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-build-set',
@@ -7,13 +9,16 @@ import { Song } from '../song.model';
   styleUrls: ['./build-set.component.css']
 })
 export class BuildSetComponent implements OnInit {
+  private authListenerSubs: Subscription;
+  constructor(private authService: AuthService) {}
+
 
   songToSendP: Song;
   @Input() receivedC: Song;
 
-  constructor() { }
 
   ngOnInit(): void {
+    this.authListenerSubs = this.authService.getAuthStatusListener().subscribe();
   }
 
   receiveSong(song: Song) {

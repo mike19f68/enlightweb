@@ -6,6 +6,8 @@ const cors = require('cors');
 
 const songsRoutes = require("./routes/songs");
 const setsRoutes = require("./routes/sets");
+const userRoutes = require("./routes/user");
+
 const app = express();
 
 mongoose.set('useNewUrlParser', true);
@@ -45,6 +47,8 @@ mongoose
 
 app.use("/api/songs", songsRoutes);
 app.use("/api/sets", setsRoutes);
+app.use("/api/user", userRoutes);
+
 app.use((req, res, next) => {
   res.sendFile(path.join(__dirname, "Enlight", "index.html"));
 });

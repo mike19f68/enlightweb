@@ -1,13 +1,19 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { AppComponent } from './app.component';
 import { appRoutingModule } from './app.routing';
 import { SortablejsModule } from 'ngx-sortablejs';
 
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './auth/login/login.component';
+import { SignupComponent } from './auth/Signup/signup.component';
 import { BuildSetComponent } from './build-set/build-set.component';
 import { EditSongComponent } from './edit-song/edit-song.component';
 import { LeadSheetComponent } from './lead-sheet/lead-sheet.component';
+
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ScrollSongsComponent } from './scroll-songs/scroll-songs.component';
@@ -22,6 +28,7 @@ import { SetContextMenuComponent } from './set-context-menu/set-context-menu.com
   declarations: [
     AppComponent,
     LoginComponent,
+    SignupComponent,
     BuildSetComponent,
     EditSongComponent,
     LeadSheetComponent,
@@ -37,6 +44,10 @@ import { SetContextMenuComponent } from './set-context-menu/set-context-menu.com
     ReactiveFormsModule,
     HttpClientModule,
     NgbModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
     SortablejsModule.forRoot({ animation: 150 })
   ],
   providers: [],

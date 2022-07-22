@@ -1,11 +1,12 @@
 <div class="container-fluid">
   <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <div class="navbar-nav">
-      <a class="nav-item nav-link" routerLink="/">Home</a>
-      <a class="nav-item nav-link" routerLink="/BuildSet">Build Set</a>
-      <a class="nav-item nav-link" routerLink="/EditSong">Edit/Add Song</a>
-      <a class="nav-item nav-link" routerLink="/LeadSheet">Lead Sheets</a>
-      <a class="nav-item nav-link" routerLink="/Login">Login</a>
+      <li *ngIf="userIsAuthenticated"><a class="nav-item nav-link" routerLink="/BuildSet">Build Set</a></li>
+      <li *ngIf="userIsAuthenticated"><a class="nav-item nav-link" routerLink="/EditSong">Edit/Add Song</a></li>
+      <li *ngIf="userIsAuthenticated"><a class="nav-item nav-link" routerLink="/LeadSheet">Lead Sheets</a></li>
+      <li *ngIf="userIsAuthenticated"><a class="nav-item nav-link" routerLink="/">Logout</a></li>
+      <li *ngIf="!userIsAuthenticated"><a class="nav-item nav-link" routerLink="/Login">Login</a></li>
+      <li *ngIf="!userIsAuthenticated"><a class="nav-item nav-link" routerLink="/Signup">Signup</a></li>
     </div>
   </nav>
   <div class="body">
