@@ -2,12 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { Song } from '../song.model';
-import { Set, setRow } from '../set.model';
+import { Set, SetRow } from '../set.model';
 
 import { SongsService } from '../songs.service';
 import { SetsService } from '../sets.service';
 import { DatePipe } from '@angular/common';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-scroll-songs',
@@ -25,9 +24,9 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
   sets: Set[];
   set: Set;
   setList: Set[] = [];
-  setRows: setRow[] = [];
+  setRows: SetRow[] = [];
   newSet: Set;
-  newRow: setRow;
+  newRow: SetRow;
   setDate: Date = new Date();
   dateString = '';
   private songsSub: Subscription;
@@ -102,7 +101,7 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
 
   addtoSet(song: Song) {
 
-     const newRow: setRow = new setRow();
+     const newRow: SetRow = new SetRow();
      newRow.Seq = 'S';
      newRow.Key = song.MusicalKey;
      newRow.FirstLine = song.FirstLine;
@@ -123,32 +122,32 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
   }
 
   loadTemplate() {
-    let newRow: setRow = new setRow();
+    let newRow: SetRow = new SetRow();
     newRow.Seq = 'AM';
     newRow.Title = '';
     newRow.Style = 'time';
     this.setRows.splice(this.setRows.length, 0 , newRow);
-    newRow = new setRow();
+    newRow = new SetRow();
     newRow.Style = 'splitter';
     this.setRows.splice(this.setRows.length, 0 , newRow);
-    newRow = new setRow();
+    newRow = new SetRow();
     newRow.Style = 'splitter';
     this.setRows.splice(this.setRows.length, 0 , newRow);
-    newRow = new setRow();
+    newRow = new SetRow();
     newRow.Style = 'splitter';
     this.setRows.splice(this.setRows.length, 0 , newRow);
-    newRow = new setRow();
+    newRow = new SetRow();
     newRow.Seq = 'PM';
     newRow.Title = '';
     newRow.Style = 'time';
     this.setRows.splice(this.setRows.length, 0 , newRow);
-    newRow = new setRow();
+    newRow = new SetRow();
     newRow.Style = 'splitter';
     this.setRows.splice(this.setRows.length, 0 , newRow);
-    newRow = new setRow();
+    newRow = new SetRow();
     newRow.Style = 'splitter';
     this.setRows.splice(this.setRows.length, 0 , newRow);
-    newRow = new setRow();
+    newRow = new SetRow();
     newRow.Style = 'splitter';
     this.setRows.splice(this.setRows.length, 0 , newRow);
     this.setStarted = true;
@@ -204,6 +203,7 @@ getSets() {
       this.sets = sets;
       this.set = this.sets[0];
       this.hasData = true;
+      console.log(this.sets.length);
     });
 }
 

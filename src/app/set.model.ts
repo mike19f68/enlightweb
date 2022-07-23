@@ -1,10 +1,10 @@
 export class Set {
   id: string;
   SetName: string;
-  SetRow: setRow;
+  SetRow: SetRow;
 }
 
-export class setRow {
+export class SetRow {
   Seq: string;
   Title: string;
   FirstLine: string;
