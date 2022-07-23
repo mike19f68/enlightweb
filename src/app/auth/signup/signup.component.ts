@@ -1,4 +1,3 @@
-<<<<<<< HEAD:src/app/auth/signup/signup.component.ts
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
