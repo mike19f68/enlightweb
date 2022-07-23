@@ -1,0 +1,12 @@
+html, body{min-height:100%;}
+body{height:100vh;}
+
+.container-fluid {
+  overflow: hidden;
+  display: block;
+  height: 99vh;
+  background-color: #d7e7fa;
+  border-width:1px;
+  border-color: darkblue;
+  border-style: solid;
+}

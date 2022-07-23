@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AppComponent } from './app.component';
-import { appRoutingModule } from './app.routing';
+import { AppRoutingModule } from './app-routing.module';
 import { SortablejsModule } from 'ngx-sortablejs';
 
 import { LoginComponent } from './auth/login/login.component';
@@ -23,6 +23,8 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SetContextMenuComponent } from './set-context-menu/set-context-menu.component';
+import { HeaderComponent } from './header/header.component';
+import { AuthInterceptor } from './auth/auth-interceptor';
 
 @NgModule({
   declarations: [
@@ -34,11 +36,12 @@ import { SetContextMenuComponent } from './set-context-menu/set-context-menu.com
     LeadSheetComponent,
     ScrollSongsComponent,
     SetComponent,
-    SetContextMenuComponent
+    SetContextMenuComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
-    appRoutingModule,
+    AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
@@ -50,8 +53,10 @@ import { SetContextMenuComponent } from './set-context-menu/set-context-menu.com
     MatProgressSpinnerModule,
     SortablejsModule.forRoot({ animation: 150 })
   ],
-  providers: [],
+  providers: [
+  //  { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
 

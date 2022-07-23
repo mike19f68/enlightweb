@@ -14,8 +14,6 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./scroll-songs.component.css']
 })
 
-
-
 export class ScrollSongsComponent implements OnInit, OnDestroy {
   hasData = false;
   setStarted = false;
