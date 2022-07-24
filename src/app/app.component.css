@@ -9,4 +9,5 @@ body{height:100vh;}
   border-width:1px;
   border-color: darkblue;
   border-style: solid;
+  padding:0px;
 }

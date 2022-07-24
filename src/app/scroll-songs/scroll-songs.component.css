@@ -7,16 +7,18 @@
   padding:0;
 
   height: calc(100vh - 3rem);
-  width: calc(100vw - 60px);
+  width: calc(100vw - 30px);
 }
 .component {
-  display:block;
+  display:flex;
   width:100%;
   overflow:hidden;
 }
+
 .tableSection {
   float:left;
   width: 650px;
+  min-width: 650px;
   height: calc(100vh - 4rem);
   overflow-y: scroll;
 }
@@ -26,6 +28,7 @@
   display:block;
   height: calc(100vh - 4rem);
   width:250px;
+  min-width: 250px;
   background-color: lightyellow;
   color: darkred;
   font-size:12px;
@@ -35,6 +38,15 @@
   overflow-y: scroll;
   overflow-x: hidden;
 }
+
+@media only screen and (max-width: 1420px) {
+  .lyricsSection {
+    width:0px;
+    min-width: 0px;
+    visibility: collapse;
+  }
+}
+
 .filter {
   padding:0;
   display:block;
@@ -87,7 +99,6 @@ tr.active {
   color: white;
 }
 
-
 .hdr_Ref {
   margin:0;
   background-color: darkslategrey;
@@ -112,7 +123,6 @@ tr.active {
   width:245px;
   max-width: 245px;
 }
-
 
 .hdr_FirstLine {
   margin:0;
@@ -162,9 +172,12 @@ ul {
   margin:0px;
   padding:0px;
 }
+
 .setSection {
   float:left;
-  width: calc(100vw - 960px);
+  /* width: calc(100vw - 960px); */
+  width:100%;
+  min-width:500px;
   height: calc(100vh - 3rem);
   background-color: lightsteelblue;
   font-size: 12px;
@@ -177,6 +190,7 @@ ul {
   background-color: lightgray;
   display:block;
 }
+
 ngx-sortable {
   width:100%;
 }
@@ -226,16 +240,11 @@ ngx-sortable {
 
 .setdatetitle {
   font-size:14px;
-  font-weight: bold;
   vertical-align: middle;
-  margin:auto;
-  padding-right:10px;
 }
 
 .form-control {
   margin:auto;
-  outline-width:0.5px;
-  outline-style: solid;
   outline-color: lightslategray;
 }
 
@@ -246,6 +255,10 @@ ngx-sortable {
 #time {
   background-color: navy;
   color: white;
+}
+#time .rowseq {
+  display:inline-block;
+  width:5%;
 }
 #Extra {
   font-style:italic;
@@ -258,18 +271,35 @@ ngx-sortable {
   background-color:white;
 }
 .rowseq {
-  display:inline-block;
-  width:2%;
+  display:inline-flex;
 }
 .rowtitle {
-  display:inline-block;
+  display:inline-flex;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-left: 3px;
+  margin-right: 10px;
   width:40%;
+  min-width:40%;
 }
 .rowfirstline {
-  display:inline-block;
-  width:40%;
+  display:inline-flex;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-left: 3px;
+  margin-right: 10px;
+  width:46%;
 }
 .rowkey {
-  display:inline-block;
+  display:inline-flex;
   width:3%;
+}
+
+.btn {
+  width:45px;
+  margin-left:2px;
+}
+
+.setdatetitle {
+  background-color: transparent;
 }

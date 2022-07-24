@@ -112,11 +112,7 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
   }
 
   onDateSelected() {
-    console.log(this.setDate);
     const d: Date = this.setDate;
-    console.log();
-    console.log(d.getFullYear);
-    console.log(this.setDate.getFullYear);
   }
 
   loadTemplate() {
@@ -135,20 +131,6 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
     newRow.Style = 'splitter';
     this.setRows.splice(this.setRows.length, 0 , newRow);
     newRow = new SetRow();
-    newRow.Seq = 'PM';
-    newRow.Title = '';
-    newRow.Style = 'time';
-    this.setRows.splice(this.setRows.length, 0 , newRow);
-    newRow = new SetRow();
-    newRow.Style = 'splitter';
-    this.setRows.splice(this.setRows.length, 0 , newRow);
-    newRow = new SetRow();
-    newRow.Style = 'splitter';
-    this.setRows.splice(this.setRows.length, 0 , newRow);
-    newRow = new SetRow();
-    newRow.Style = 'splitter';
-    this.setRows.splice(this.setRows.length, 0 , newRow);
-    this.setStarted = true;
   }
   clearSet() {
     this.setRows.length = 0;

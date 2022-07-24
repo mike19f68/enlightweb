@@ -82,23 +82,14 @@
   <div></div>
   <div class="setSection" (click)="closeRightClickMenu()">
 
-    <div class="setHeader sticky-top container-fluid">
-
-
+    <div class="setHeader sticky-top">
       <form class="form-inline">
         <div class="form-group">
           <div class="input-group">
-            <div class="setdatetitle">Set Date:</div>
- <!--          <input class="form-control" placeholder="dd-mm-yyyy"
-                   name="dp" type="date"  [(ngModel)]="setDate" (change)="onDateSelected()" >  -->
-         <input class="form-control" placeholder="yyyy-mm-dd"
+            <div class="title setdatetitle form-control">Set Details</div>
+            <input class="form-control " placeholder="yyyy-mm-yy"
                    name="dp" [(ngModel)]="setDate" ngbDatepicker #dp="ngbDatepicker" (dateSelect)="onDateSelected()">
-            <div class="input-group-append">
-              <button class="btn calendar" (click)="dp.toggle()" type="button">
-                <img width="28px" title="Pick Date" src="..\..\assets\Images\cal.png"/>
-              </button>
-            </div>
-
+            <button class="btn calendar" (click)="dp.toggle()" type="button"><img width="28px" title="Pick Date" src="..\..\assets\Images\cal.png"/></button>
             <button class="btn" type="button"><img width="28px" title="Load Template" (click)="loadTemplate()" src="..\..\assets\Images\add_template.png"/></button>
             <button class="btn" type="button"><img width="28px" title="Clear Set" (click)="clearSet()" src="..\..\assets\Images\erase_document.png"/></button>
             <button class="btn" type="button"><img width="28px" title="Load Set" (click)="getSets()" src="..\..\assets\Images\load_document.png"/></button>
@@ -115,8 +106,8 @@
     <div [sortablejs]="setList" [sortablejsOptions]="{ animation: 150 }">
        <div class="setitem" *ngFor="let set of setRows; let index = index" id="{{set.Style}}" (contextmenu)="rightClick($event, index)">
          <div class="rowseq">{{set.Seq}}</div>
-         <div class="rowtitle">{{ set.Title }}</div>
-         <div class="rowfirstline">{{ set.FirstLine }}</div>
+         <div class="rowtitle clipped">{{ set.Title }}</div>
+         <div class="rowfirstline clipped">{{ set.FirstLine }}</div>
          <div class="rowkey">{{set.Key}}</div>
        </div>
     </div>

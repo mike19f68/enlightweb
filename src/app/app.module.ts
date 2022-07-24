@@ -19,11 +19,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ScrollSongsComponent } from './scroll-songs/scroll-songs.component';
 import { SetComponent } from './set/set.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SetContextMenuComponent } from './set-context-menu/set-context-menu.component';
 import { HeaderComponent } from './header/header.component';
+import { AuthInterceptor } from './auth/auth-interceptor';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,7 @@ import { HeaderComponent } from './header/header.component';
     SortablejsModule.forRoot({ animation: 150 })
   ],
   providers: [
-  //  { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
