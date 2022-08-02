@@ -1,15 +1,15 @@
 export class Set {
   id: string;
+  Leader: string;
   SetName: string;
-  SetRow: SetRow;
+  SetRows: SetRow;
 }
 
 export class SetRow {
-  Seq: string;
-  Title: string;
-  FirstLine: string;
-  Key: string;
-  SongRef: number;
-  Lyrics: string;
-  Style: string;
+  SRType: string;
+  SRTitle: string;
+  SRFirstLine: string;
+  SRPaceGrp: number;
+  SRRef: number;
+  SRMusicalKey: string;
 }

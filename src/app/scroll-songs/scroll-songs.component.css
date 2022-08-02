@@ -248,23 +248,31 @@ ngx-sortable {
   outline-color: lightslategray;
 }
 
-#splitter {
+#L {
   height:10px;
   background-color: lightslategray;
 }
-#time {
+
+#L .rowseq {
+  display:inline-block;
+  width:0;
+  visibility: collapse;
+}
+
+#T {
   background-color: navy;
   color: white;
 }
-#time .rowseq {
+#T .rowseq {
   display:inline-block;
-  width:5%;
+  width:0;
+  visibility: collapse;
 }
-#Extra {
+#X {
   font-style:italic;
   background-color: lightgray;
 }
-#Pre {
+#P {
   background-color: cornflowerblue;
 }
 .setitem:hover {
@@ -302,4 +310,11 @@ ngx-sortable {
 
 .setdatetitle {
   background-color: transparent;
+}
+
+.setFile {
+  height:5rem;
+  visibility: visible;
+  background-color: darkcyan;
+  overflow-y: scroll;
 }

@@ -87,7 +87,7 @@
         <div class="form-group">
           <div class="input-group">
             <div class="title setdatetitle form-control">Set Details</div>
-            <input class="form-control " placeholder="yyyy-mm-yy"
+            <input class="form-control" placeholder="<set name> or <dd mmm yy>"
                    name="dp" [(ngModel)]="setDate" ngbDatepicker #dp="ngbDatepicker" (dateSelect)="onDateSelected()">
             <button class="btn calendar" (click)="dp.toggle()" type="button"><img width="28px" title="Pick Date" src="..\..\assets\Images\cal.png"/></button>
             <button class="btn" type="button"><img width="28px" title="Load Template" (click)="loadTemplate()" src="..\..\assets\Images\add_template.png"/></button>
@@ -100,23 +100,26 @@
       </form>
     </div>
 
-    <p *ngIf="!setStarted">Set Not Started</p>
-
+    <div *ngIf="chooseSet" class="setFile" >
+      <div *ngFor="let set of sets; let index = index" id="{{set.Leader}}">
+        <ul>
+          <li>{{ set.Leader }} - {{ set.SetName }}</li>
+        </ul>
+      </div>
+    </div>
 
     <div [sortablejs]="setList" [sortablejsOptions]="{ animation: 150 }">
-       <div class="setitem" *ngFor="let set of setRows; let index = index" id="{{set.Style}}" (contextmenu)="rightClick($event, index)">
-         <div class="rowseq">{{set.Seq}}</div>
-         <div class="rowtitle clipped">{{ set.Title }}</div>
-         <div class="rowfirstline clipped">{{ set.FirstLine }}</div>
-         <div class="rowkey">{{set.Key}}</div>
+       <div class="setitem" *ngFor="let set of setRows; let index = index" id="{{set.SRType}}" (contextmenu)="rightClick($event, index)">
+         <div class="rowseq">{{set.SRType}}</div>
+         <div class="rowtitle clipped">{{ set.SRTitle }}</div>
+         <div class="rowfirstline clipped">{{ set.SRFirstLine }}</div>
+         <div class="rowkey">{{set.SRMusicalKey}}</div>
        </div>
     </div>
 
-    <div *ngIf="chooseSet">
-      <div class="setFile" *ngFor="let set of sets; let index = index" id="{{set.SetName}}">
-        {{set.SetName}}
-      </div>
-    </div>
+
+    <p *ngIf="!setStarted">Set Not Started</p>
+
     <app-set-context-menu *ngIf="!isHidden" [x]="xPosTabMenu" [y]="yPosTabMenu" [menuitems]="showMenuOptions()" [index]="indexTabMenu" (menuItemSelected)="handleMenuSelection($event)"></app-set-context-menu>
 
     <hr>

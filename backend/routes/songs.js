@@ -35,7 +35,6 @@ router.get("", (req, res, next) => {
  const sortField = req.query.sortField;
  const sortDirection = +req.query.sortDirection;
 
-
  switch (sortField) {
     case "SongRef":
        sortParam = { 'SongRef': sortDirection };

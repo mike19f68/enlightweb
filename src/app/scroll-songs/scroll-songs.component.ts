@@ -13,29 +13,27 @@ import { DatePipe } from '@angular/common';
   templateUrl: './scroll-songs.component.html',
   styleUrls: ['./scroll-songs.component.css']
 })
-
 export class ScrollSongsComponent implements OnInit, OnDestroy {
-  hasData = false;
-  setStarted = false;
-  songs: Song[];
-  song: Song;
-  sets: Set[];
-  set: Set;
-  setList: Set[] = [];
-  setRows: SetRow[] = [];
-  newSet: Set;
-  newRow: SetRow;
-  setDate: Date = new Date();
-  dateString = '';
-  private songsSub: Subscription;
-  private setsSub: Subscription;
+   hasData = false;
+   setStarted = false;
+   songs: Song[];
+   song: Song;
+   sets: Set[];
+   set: Set;
+   setList: Set[] = [];
+   setRows: SetRow[] = [];
+   newSet: Set;
+   setDate: Date = new Date();
+   private songsSub: Subscription;
+   private setsSub: Subscription;
+
 
   constructor(public songsService: SongsService,
               public setsService: SetsService) {}
 
 
   isLoading = false;
-  chooseSet = false;
+  public chooseSet = false;
   ActiveIndex = 0;
   searchString = '';
   selectedGroup = '0';
@@ -98,42 +96,42 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
   }
 
   addtoSet(song: Song) {
-
      const newRow: SetRow = new SetRow();
-     newRow.Seq = 'S';
-     newRow.Key = song.MusicalKey;
-     newRow.FirstLine = song.FirstLine;
-     newRow.SongRef = song.SongRef;
-     newRow.Title = song.SongTitle;
-     newRow.Lyrics = song.Lyrics;
-     newRow.Style = 'Std';
+     newRow.SRType = 'S';
+     newRow.SRMusicalKey = song.MusicalKey;
+     newRow.SRFirstLine = song.FirstLine;
+     newRow.SRRef = song.SongRef;
+     newRow.SRTitle = song.SongTitle;
+     newRow.SRPaceGrp = song.PaceGrp;
      this.setRows.splice(this.setRows.length, 0 , newRow);
      this.setStarted = true;
   }
 
   onDateSelected() {
-    const d: Date = this.setDate;
+    // const d: Date = this.setDate;
   }
 
   loadTemplate() {
     let newRow: SetRow = new SetRow();
-    newRow.Seq = 'AM';
-    newRow.Title = '';
-    newRow.Style = 'time';
+    newRow.SRTitle = 'AM';
+    newRow.SRType = 'T';
     this.setRows.splice(this.setRows.length, 0 , newRow);
     newRow = new SetRow();
-    newRow.Style = 'splitter';
+    newRow.SRType = 'L';
     this.setRows.splice(this.setRows.length, 0 , newRow);
     newRow = new SetRow();
-    newRow.Style = 'splitter';
+    newRow.SRType = 'L';
     this.setRows.splice(this.setRows.length, 0 , newRow);
     newRow = new SetRow();
-    newRow.Style = 'splitter';
+    newRow.SRType = 'L';
     this.setRows.splice(this.setRows.length, 0 , newRow);
     newRow = new SetRow();
+    this.setStarted = true;
   }
+
   clearSet() {
     this.setRows.length = 0;
+    this.setStarted = false;
   }
 
   showMenuOptions() {
@@ -155,40 +153,58 @@ closeRightClickMenu() {
 }
 
 handleMenuSelection( menuselection: string) {
+  let newRow: SetRow = new SetRow();
   if ( menuselection === 'Delete') {
     this.setRows.splice(this.indexTabMenu, 1);
+    if (this.setRows.length === 0) {
+      this.setStarted = false;
+    }
   } else if ( menuselection === 'Standard Song') {
-    this.setRows[this.indexTabMenu].Style = 'song';
-    this.setRows[this.indexTabMenu].Seq = 'S';
+    this.setRows[this.indexTabMenu].SRType = 'S';
   } else if ( menuselection === 'Pre Song') {
-    this.setRows[this.indexTabMenu].Style = 'Pre';
-    this.setRows[this.indexTabMenu].Seq = 'P';
+    this.setRows[this.indexTabMenu].SRType = 'P';
   } else if ( menuselection === 'Extra Song') {
-    this.setRows[this.indexTabMenu].Style = 'Extra';
-    this.setRows[this.indexTabMenu].Seq = 'X';
+    this.setRows[this.indexTabMenu].SRType = 'X';
+  } else if (menuselection === 'Spacer') {
+    newRow = new SetRow();
+    newRow.SRType = 'L';
+    this.setRows.splice(this.setRows.length, 0 , newRow);
+  } else if (menuselection === 'AM Title') {
+    newRow = new SetRow();
+    newRow.SRTitle = 'AM';
+    newRow.SRType = 'T';
+    this.setRows.splice(this.setRows.length, 0 , newRow);
+  } else if (menuselection === 'PM Title') {
+    newRow = new SetRow();
+    newRow.SRTitle = 'PM';
+    newRow.SRType = 'T';
+    this.setRows.splice(this.setRows.length, 0 , newRow);
   }
 }
 
 
 transformDate(date) {
-  return this.datepipe.transform(date, 'yyyy-MM-dd');
+ return this.datepipe.transform(date, 'dd mmm yy');
 }
 
 getSets() {
-  this.chooseSet = true;
-  this.setsService.getSets(
-    );
-  this.setsSub = this.setsService.getSetUpdateListener()
-    .subscribe((sets: Set[]) => {
-      this.sets = sets;
-      this.set = this.sets[0];
-      this.hasData = true;
-      console.log(this.sets.length);
-    });
+  if (this.chooseSet === false)
+  {
+    this.chooseSet = true;
+    console.log('Choose Set: true');
+    this.setsService.getSets(
+      );
+    this.setsSub = this.setsService.getSetUpdateListener()
+      .subscribe((sets: Set[]) => {
+        this.sets = sets;
+      });
+  } else {
+    this.chooseSet = false;
+    console.log('Choose Set: false');
+  }
 }
-
   ngOnDestroy() {
     this.songsSub.unsubscribe();
+    this.setsSub.unsubscribe();
   }
-
 }

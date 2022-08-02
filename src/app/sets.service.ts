@@ -4,18 +4,16 @@ import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
-import { Set } from './set.model';
+import { Set, SetRow } from './set.model';
 
 @Injectable({providedIn: 'root'})
 export class SetsService {
   private sets: Set[] = [];
   private setsUpdated = new Subject<Set[]>();
-  private setId: string;
 
   constructor(private http: HttpClient, private router: Router) {}
 
   getSets() {
-
     this.http
       .get<{ message: string; sets: any }>(
         'http://localhost:3000/api/sets'
@@ -23,15 +21,18 @@ export class SetsService {
       .pipe(map((setData) => {
         return setData.sets.map(set => {
           return {
+            Leader: set.Leader,
             SetName: set.SetName,
-            Seq: set.Seq,
-            Title: set.Title,
-            FirstLine: set.FirstLine,
-            Key: set.Key,
-            SongRef: set.SongRef,
-            Lyrics: set.Lyrics,
-            Style: set.Style,
-            id: set._id
+            SetRows: [{
+              SR_Type: set.Type,
+              SR_Title: set.Title,
+              SR_FirstLine: set.FirstLine,
+              SR_MusicalKey: set.Key,
+              SR_Ref: set.SongRef,
+              SR_Lyrics: set.Lyrics,
+              SR_Style: set.Style,
+              id: set._id
+            }]
           };
         });
       }))
@@ -49,15 +50,19 @@ export class SetsService {
     .pipe(map((setData) => {
         return setData.sets.map(set => {
           return {
+            Leader: set.Leader,
             SetName: set.SetName,
-            Seq: set.Seq,
-            Title: set.Title,
-            FirstLine: set.FirstLine,
-            Key: set.Key,
-            SongRef: set.SongRef,
-            Lyrics: set.Lyrics,
-            Style: set.Style,
-            id: set._id
+            SetRows: [{
+              SR_Type: set.Type,
+              SR_Title: set.Title,
+              SR_FirstLine: set.FirstLine,
+              SR_MusicalKey: set.Key,
+              SR_Ref: set.SongRef,
+              SR_Lyrics: set.Lyrics,
+              SR_Style: set.Style,
+              id: set._id
+            }]
+
           };
         });
       }))
@@ -70,30 +75,18 @@ export class SetsService {
   getSetUpdateListener() {
     return this.setsUpdated.asObservable();
   }
-
-  addSet(
+/* below split to add parent + add children ??*/
+/*   addSet(
           id: string,
+          leader: string,
           setname: string,
-          seq: string,
-          title: string,
-          firstline: string,
-          key: string,
-          songref: number,
-          lyrics: string,
-          style: string ) {
+          setrows: SetRow[]
+        ) {
     const set: Set = {
       id: null,
+      Leader: leader,
       SetName: setname,
-      SetRow: {
-        Seq: seq,
-        Title: title,
-        FirstLine: firstline,
-        Key: key,
-        SongRef: songref,
-        Lyrics: lyrics,
-        Style: style
-      }
-
+      SetRow: setrows
     };
     this.http
       .post<{message: string, setId: string }>(
@@ -106,7 +99,7 @@ export class SetsService {
         this.sets.push(set);
         this.setsUpdated.next([...this.sets]);
       });
-    }
+    } */
 
     deleteSet(setId: string) {
       this.http.delete(

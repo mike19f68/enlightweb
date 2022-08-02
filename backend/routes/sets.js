@@ -1,21 +1,22 @@
 const express = require("express");
 
-const Song = require("../models/set");
+const set = require("../models/set");
 
 const router = express.Router();
 
 router.post("",(req, res, next) => {
   const set = new Set({
-    setname: req.body.SetName,
+    Leader: req.body.Leader,
+    SetName: req.body.SetName,
     SetRow: {
-      seq: req.body.Seq,
+      songtype: req.body.SongType,
+      songref: req.body.SongRef,
       title: req.body.Title,
       firstline: req.body.FirstLine,
-      key: req.body.Key,
-      songref: req.body.SongRef,
-      lyrics: req.body.Lyrics,
-      style: req.body.Style
+      pacegrp: req.body.PaceGrp,
+      musicalkey: req.body.MusicalKey
     }
+
   });
   set.save().then(createdSet => {
     res.status(201).json({
@@ -26,7 +27,9 @@ router.post("",(req, res, next) => {
 });
 
 router.get("", (req, res, next) => {
-  Set.find({ $or: queryArray }).find().then(documents => {
+  var query = {};
+  query.Leader = { $gt: ''};
+  set.find(query).then(documents => {
     res.status(200).json({
       message: "Sets fetched successfully!",
       sets: documents
