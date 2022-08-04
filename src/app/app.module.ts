@@ -4,6 +4,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatRadioModule } from '@angular/material/radio';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SortablejsModule } from 'ngx-sortablejs';
@@ -49,6 +50,7 @@ import { AuthInterceptor } from './auth/auth-interceptor';
     NgbModule,
     MatInputModule,
     MatFormFieldModule,
+    MatRadioModule,
     MatCardModule,
     MatProgressSpinnerModule,
     SortablejsModule.forRoot({ animation: 150 })
