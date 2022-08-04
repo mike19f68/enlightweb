@@ -7,6 +7,7 @@ import { BuildSetComponent } from './build-set/build-set.component';
 import { EditSongComponent } from './edit-song/edit-song.component';
 import { LeadSheetComponent } from './lead-sheet/lead-sheet.component';
 import { AuthGuard } from './auth/auth.guard';
+import { DatePipe } from '@angular/common';
 
 const routes: Routes = [
   { path: 'Login', component: LoginComponent},
@@ -19,7 +20,10 @@ const routes: Routes = [
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule],
-    providers: [AuthGuard]
+    providers: [
+      AuthGuard,
+      DatePipe
+    ]
   })
   export class AppRoutingModule {}
 

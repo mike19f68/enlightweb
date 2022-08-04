@@ -64,7 +64,7 @@
       </div>
       <div *ngIf="!isLoading">
         <table>
-          <tr class="picker" *ngFor="let song of songs; let index = index" id="song-{{index}}"
+          <tr class="picker _{{song.PaceGrp}}" *ngFor="let song of songs; let index = index" id="song-{{index}}"
             (mouseup)="showLyrics(song, index)"
             (dblclick)="addtoSet(song)"
             [class.active]="index == ActiveIndex">
@@ -120,12 +120,12 @@
       </div>
 
 
-    <div [sortablejs]="setList" [sortablejsOptions]="{ animation: 150 }">
-       <div class="setitem" *ngFor="let set of setRows; let index = index" id="{{set.SRType}}" (contextmenu)="rightClick($event, index)">
-         <div class="rowseq">{{set.SRType}}</div>
-         <div class="rowtitle clipped">{{ set.SRTitle }}</div>
-         <div class="rowfirstline clipped">{{ set.SRFirstLine }}</div>
-         <div class="rowkey">{{set.SRMusicalKey}}</div>
+    <div [sortablejs]="LocalRows" [sortablejsOptions]="{ animation: 150 }">
+       <div class="setitem" *ngFor="let rows of LocalRows; let index = index" id="{{rows.SRType}}" (contextmenu)="rightClick($event, index)">
+         <div class="rowseq">{{rows.SRType}}</div>
+         <div class="rowtitle clipped">{{ rows.SRTitle }} </div>
+         <div class="rowfirstline clipped">{{ rows.SRFirstLine }}</div>
+         <div class="rowkey">{{rows.SRMusicalKey}}</div>
        </div>
     </div>
 

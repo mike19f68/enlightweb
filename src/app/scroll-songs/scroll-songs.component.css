@@ -89,15 +89,6 @@ tr {
   border-bottom-style: solid;
   border-bottom-width:.5px;
 }
-tr.picker:hover {
-  background-color: #ffff99;
-  cursor: pointer;
-}
-
-tr.active {
-  background-color:#3871aa !important;
-  color: white;
-}
 
 .hdr_Ref {
   margin:0;
@@ -107,7 +98,6 @@ tr.active {
 }
 .col_Ref{
   font-size:small;
-  color: darkblue;
   width:40px;
 }
 
@@ -129,13 +119,28 @@ tr.active {
   background-color: darkslategrey;
   color:white;
   width:255px;
-
 }
 .col_FirstLine
 {
   min-width:255px;
   width:255px;
   max-width: 255px;
+}
+tr._1 {
+  color:red;
+  background-color: white;
+}
+tr._2 {
+  color:blue;
+  background-color: white;
+}
+tr._3 {
+  color:purple;
+  background-color: white;
+}
+tr._4 {
+  color:green;
+  background-color: white;
 }
 
 .hdr_Key {
@@ -258,12 +263,23 @@ ngx-sortable {
   width:0;
   visibility: collapse;
 }
-
-#T {
+#N {
+  background-color: sienna;
+  color:white;
+}
+#A {
+  background-color:lightsalmon;
+}
+#A .rowseq {
+  display:inline-block;
+  width:0;
+  visibility: collapse;
+}
+#B {
   background-color: navy;
   color: white;
 }
-#T .rowseq {
+#B .rowseq {
   display:inline-block;
   width:0;
   visibility: collapse;
@@ -274,6 +290,13 @@ ngx-sortable {
 }
 #P {
   background-color: cornflowerblue;
+}
+#N:hover, #B:hover {
+  background-color: white;
+  color:black;
+}
+#P:hover, #X:hover, #A:hover, #L:hover {
+  background-color: white;
 }
 .setitem:hover {
   background-color:white;
@@ -348,4 +371,14 @@ ngx-sortable {
 
 ul {
   height: 100%;
+}
+tr.picker:hover {
+  background-color: #ffff99;
+  color: black;
+  cursor: pointer;
+}
+
+tr.active {
+  background-color:#7596d4 !important;
+  color: white !important;
 }

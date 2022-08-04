@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { Song } from '../song.model';
-import { Set, SetRow } from '../set.model';
+import { Set, SetRow , LocalRow} from '../set.model';
 
 import { SongsService } from '../songs.service';
 import { SetsService } from '../sets.service';
@@ -23,17 +23,16 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
    song: Song;
    sets: Set[];
    set: Set;
-   setList: Set[] = [];
-   setRows: SetRow[] = [];
+   LocalRows: SetRow[] = [];
+   LocalsetRows: SetRow[] = [];
    newSet: Set;
-   setDate: Date = new Date();
    private songsSub: Subscription;
    private setsSub: Subscription;
 
-
-  constructor(public songsService: SongsService,
-              public setsService: SetsService) {}
-
+  constructor(
+    public songsService: SongsService,
+    public setsService: SetsService,
+    public datepipe: DatePipe) {}
 
   isLoading = false;
   public chooseSet = false;
@@ -46,13 +45,12 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
   sortField = 'SongRef';
   sortDirection = -1;
   setList1: any;
+  setDate = {year: 2022, month: 8, day: 4};
 
   public isHidden = true;
   xPosTabMenu = 0;
   yPosTabMenu = 0;
   indexTabMenu = 0;
-
-  public datepipe: DatePipe;
 
   SelectedLeader: string;
   Leaders: string[] = ['Mike', 'Ian', 'Jill', 'Terry'];
@@ -104,41 +102,49 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
   }
 
   addtoSet(song: Song) {
-     const newRow: SetRow = new SetRow();
+     const newRow: LocalRow = new LocalRow();
      newRow.SRType = 'S';
      newRow.SRMusicalKey = song.MusicalKey;
      newRow.SRFirstLine = song.FirstLine;
      newRow.SRRef = song.SongRef;
      newRow.SRTitle = song.SongTitle;
      newRow.SRPaceGrp = song.PaceGrp;
-     this.setRows.splice(this.setRows.length, 0 , newRow);
+     this.LocalRows.splice(this.LocalRows.length, 0 , newRow);
      this.setStarted = true;
   }
 
   onDateSelected() {
-     const d: Date = this.setDate;
+     const max = this.LocalRows.length;
+     for (let i = 0; i < max ; i++) {
+      if (this.LocalRows[i].SRType === 'A') {
+        this.LocalRows[i].SRTitle = this.transformDate(this.setDate) + ' am';
+      }
+      if (this.LocalRows[i].SRType === 'B') {
+        this.LocalRows[i].SRTitle = this.transformDate(this.setDate) + ' pm';
+      }
+     }
   }
 
   loadTemplate() {
-    let newRow: SetRow = new SetRow();
-    newRow.SRTitle = 'AM';
-    newRow.SRType = 'T';
-    this.setRows.splice(this.setRows.length, 0 , newRow);
-    newRow = new SetRow();
+    let newRow: SetRow = new LocalRow();
+    newRow.SRTitle = this.transformDate(this.setDate) + ' am';
+    newRow.SRType = 'A';
+    this.LocalRows.splice(this.LocalRows.length, 0 , newRow);
+    newRow = new LocalRow();
     newRow.SRType = 'L';
-    this.setRows.splice(this.setRows.length, 0 , newRow);
-    newRow = new SetRow();
+    this.LocalRows.splice(this.LocalRows.length, 0 , newRow);
+    newRow = new LocalRow();
     newRow.SRType = 'L';
-    this.setRows.splice(this.setRows.length, 0 , newRow);
-    newRow = new SetRow();
+    this.LocalRows.splice(this.LocalRows.length, 0 , newRow);
+    newRow = new LocalRow();
     newRow.SRType = 'L';
-    this.setRows.splice(this.setRows.length, 0 , newRow);
-    newRow = new SetRow();
+    this.LocalRows.splice(this.LocalRows.length, 0 , newRow);
+    newRow = new LocalRow();
     this.setStarted = true;
   }
 
   clearSet() {
-    this.setRows.length = 0;
+    this.LocalRows.length = 0;
     this.setStarted = false;
   }
 
@@ -161,38 +167,40 @@ closeRightClickMenu() {
 }
 
 handleMenuSelection( menuselection: string) {
-  let newRow: SetRow = new SetRow();
+  let newRow: LocalRow = new LocalRow();
   if ( menuselection === 'Delete') {
-    this.setRows.splice(this.indexTabMenu, 1);
-    if (this.setRows.length === 0) {
+    this.LocalRows.splice(this.indexTabMenu, 1);
+    if (this.LocalRows.length === 0) {
       this.setStarted = false;
     }
   } else if ( menuselection === 'Standard Song') {
-    this.setRows[this.indexTabMenu].SRType = 'S';
+    this.LocalRows[this.indexTabMenu].SRType = 'S';
   } else if ( menuselection === 'Pre Song') {
-    this.setRows[this.indexTabMenu].SRType = 'P';
+    this.LocalRows[this.indexTabMenu].SRType = 'P';
   } else if ( menuselection === 'Extra Song') {
-    this.setRows[this.indexTabMenu].SRType = 'X';
+    this.LocalRows[this.indexTabMenu].SRType = 'X';
   } else if (menuselection === 'Spacer') {
-    newRow = new SetRow();
+    newRow = new LocalRow();
     newRow.SRType = 'L';
-    this.setRows.splice(this.setRows.length, 0 , newRow);
+    this.LocalRows.splice(this.LocalRows.length, 0 , newRow);
   } else if (menuselection === 'AM Title') {
-    newRow = new SetRow();
-    newRow.SRTitle = 'AM';
-    newRow.SRType = 'T';
-    this.setRows.splice(this.setRows.length, 0 , newRow);
+    newRow = new LocalRow();
+    newRow.SRTitle = this.transformDate(this.setDate) + ' am';
+    newRow.SRType = 'A';
+    this.LocalRows.splice(this.LocalRows.length, 0 , newRow);
   } else if (menuselection === 'PM Title') {
-    newRow = new SetRow();
-    newRow.SRTitle = 'PM';
-    newRow.SRType = 'T';
-    this.setRows.splice(this.setRows.length, 0 , newRow);
+    newRow = new LocalRow();
+    newRow.SRTitle = this.transformDate(this.setDate) + ' pm';
+    newRow.SRType = 'B';
+    this.LocalRows.splice(this.LocalRows.length, 0 , newRow);
   }
 }
 
-
 transformDate(date) {
- return this.datepipe.transform(date, 'dd mmm yy');
+  const ngbDate = date;
+  const myDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
+  console.log(JSON.stringify(myDate));
+  return this.datepipe.transform(myDate, 'dd MMM yy');
 }
 
 toggleSets() {
@@ -219,8 +227,19 @@ getSets() {
   }
 
   LoadSet(set: Set) {
-    console.log(set.Leader + ' - ' + set.SetName + ' - ' + set.id + ' - ' + set.SetRows);
-    console.log(set);
+    this.LocalRows.length = 0;
+    const max = set.setRows.length;
+    for (let i = 0; i < max ; i++) {
+      const newRow: LocalRow = new LocalRow();
+      newRow.SRType = set.setRows[i].SR_Type;
+      newRow.SRMusicalKey = set.setRows[i].SR_MusicalKey;
+      newRow.SRFirstLine = set.setRows[i].SR_FirstLine;
+      newRow.SRRef = set.setRows[i].SR_Ref;
+      newRow.SRTitle = set.setRows[i].SR_Title;
+      newRow.SRPaceGrp = set.setRows[i].SR_PaceGrp;
+      this.LocalRows.splice(this.LocalRows.length, 0 , newRow);
+      this.setStarted = true;
+    }
     this.chooseSet = false;
   }
 
