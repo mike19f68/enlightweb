@@ -92,7 +92,7 @@
             <button class="btn calendar" (click)="dp.toggle()" type="button"><img width="28px" title="Pick Date" src="..\..\assets\Images\cal.png"/></button>
             <button class="btn" type="button"><img width="28px" title="Load Template" (click)="loadTemplate()" src="..\..\assets\Images\add_template.png"/></button>
             <button class="btn" type="button"><img width="28px" title="Clear Set" (click)="clearSet()" src="..\..\assets\Images\erase_document.png"/></button>
-            <button class="btn" type="button"><img width="28px" title="Load Set" (click)="getSets()" src="..\..\assets\Images\load_document.png"/></button>
+            <button class="btn" type="button"><img width="28px" title="Load Set" (click)="toggleSets()" src="..\..\assets\Images\load_document.png"/></button>
             <button class="btn" type="button"><img width="28px" title="Save Set" src="..\..\assets\Images\save_document.png"/></button>
             <button class="btn" type="button"><img width="28px" title="Export to Word" src="..\..\assets\Images\Export_document.png"/></button>
           </div>
@@ -100,13 +100,25 @@
       </form>
     </div>
 
-    <div *ngIf="chooseSet" class="setFile" >
-      <div *ngFor="let set of sets; let index = index" id="{{set.Leader}}">
-        <ul>
-          <li>{{ set.Leader }} - {{ set.SetName }}</li>
-        </ul>
+
+
+      <div *ngIf="chooseSet" class="getSetContainer" >
+        <mat-radio-group class="leadFilter" [(ngModel)]="selectedLead" (change)="LeaderChanged()">
+          <mat-radio-button value="Mike" checked="true">Mike</mat-radio-button>
+          <mat-radio-button value="Ian">Ian</mat-radio-button>
+          <mat-radio-button value="Jill">Jill</mat-radio-button>
+          <mat-radio-button value="Terry">Terry</mat-radio-button>
+        </mat-radio-group>
+
+        <div class="listSection">
+          <div *ngFor="let set of sets; let index = index" id="{{set.index}}" >
+            <ul>
+              <li (click)="LoadSet(set)">{{ set.Leader }} - {{ set.SetDate }}</li>
+            </ul>
+          </div>
+        </div>
       </div>
-    </div>
+
 
     <div [sortablejs]="setList" [sortablejsOptions]="{ animation: 150 }">
        <div class="setitem" *ngFor="let set of setRows; let index = index" id="{{set.SRType}}" (contextmenu)="rightClick($event, index)">

@@ -13,26 +13,19 @@ export class SetsService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  getSets() {
+  getSets(leader: string) {
+    const queryParams = `?Leader=${leader}`;
     this.http
       .get<{ message: string; sets: any }>(
-        'http://localhost:3000/api/sets'
+        'http://localhost:3000/api/sets' + queryParams
       )
       .pipe(map((setData) => {
         return setData.sets.map(set => {
           return {
-            Leader: set.Leader,
-            SetName: set.SetName,
-            SetRows: [{
-              SR_Type: set.Type,
-              SR_Title: set.Title,
-              SR_FirstLine: set.FirstLine,
-              SR_MusicalKey: set.Key,
-              SR_Ref: set.SongRef,
-              SR_Lyrics: set.Lyrics,
-              SR_Style: set.Style,
-              id: set._id
-            }]
+             id: set._id,
+             Leader: set.Leader,
+             SetDate: set.SetDate,
+             setRows: set.JsonSetRows
           };
         });
       }))
@@ -42,36 +35,6 @@ export class SetsService {
       });
   }
 
-  getSet(id: string) {
-    return this.http
-    .get<{ message: string; sets: any }>(
-      'http://localhost:3000/api/sets'
-      )
-    .pipe(map((setData) => {
-        return setData.sets.map(set => {
-          return {
-            Leader: set.Leader,
-            SetName: set.SetName,
-            SetRows: [{
-              SR_Type: set.Type,
-              SR_Title: set.Title,
-              SR_FirstLine: set.FirstLine,
-              SR_MusicalKey: set.Key,
-              SR_Ref: set.SongRef,
-              SR_Lyrics: set.Lyrics,
-              SR_Style: set.Style,
-              id: set._id
-            }]
-
-          };
-        });
-      }))
-      .subscribe(loadedSets => {
-        this.sets = loadedSets;
-        this.setsUpdated.next([...this.sets]);
-    });
-  }
-
   getSetUpdateListener() {
     return this.setsUpdated.asObservable();
   }
@@ -79,13 +42,13 @@ export class SetsService {
 /*   addSet(
           id: string,
           leader: string,
-          setname: string,
+          SetDate: string,
           setrows: SetRow[]
         ) {
     const set: Set = {
       id: null,
       Leader: leader,
-      SetName: setname,
+      SetDate: SetDate,
       SetRow: setrows
     };
     this.http
@@ -106,7 +69,6 @@ export class SetsService {
         'http://localhost:3000/api/sets/' + setId
         )
         .subscribe(() => {
-          console.log(setId);
           const updatedsets = this.sets.filter(post => post.id !== setId);
           this.sets = updatedsets;
           this.setsUpdated.next([...this.sets]);

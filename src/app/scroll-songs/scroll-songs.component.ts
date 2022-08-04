@@ -13,7 +13,10 @@ import { DatePipe } from '@angular/common';
   templateUrl: './scroll-songs.component.html',
   styleUrls: ['./scroll-songs.component.css']
 })
+
+
 export class ScrollSongsComponent implements OnInit, OnDestroy {
+
    hasData = false;
    setStarted = false;
    songs: Song[];
@@ -38,6 +41,7 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
   searchString = '';
   selectedGroup = '0';
   selectedAge = '1';
+  selectedLead = 'Mike';
   selectedRating = '2';
   sortField = 'SongRef';
   sortDirection = -1;
@@ -49,6 +53,10 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
   indexTabMenu = 0;
 
   public datepipe: DatePipe;
+
+  SelectedLeader: string;
+  Leaders: string[] = ['Mike', 'Ian', 'Jill', 'Terry'];
+
 
   ngOnInit() {
     this.getSongs();
@@ -108,7 +116,7 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
   }
 
   onDateSelected() {
-    // const d: Date = this.setDate;
+     const d: Date = this.setDate;
   }
 
   loadTemplate() {
@@ -187,24 +195,39 @@ transformDate(date) {
  return this.datepipe.transform(date, 'dd mmm yy');
 }
 
-getSets() {
+toggleSets() {
   if (this.chooseSet === false)
   {
     this.chooseSet = true;
-    console.log('Choose Set: true');
-    this.setsService.getSets(
-      );
-    this.setsSub = this.setsService.getSetUpdateListener()
-      .subscribe((sets: Set[]) => {
-        this.sets = sets;
-      });
+    this.getSets();
   } else {
     this.chooseSet = false;
-    console.log('Choose Set: false');
   }
 }
+LeaderChanged() {
+  this.getSets();
+}
+
+getSets() {
+    this.setsService.getSets(
+      this.selectedLead
+    );
+    this.setsSub = this.setsService.getSetUpdateListener()
+      .subscribe((sets: Set[]) => {
+      this.sets = sets;
+    });
+  }
+
+  LoadSet(set: Set) {
+    console.log(set.Leader + ' - ' + set.SetName + ' - ' + set.id + ' - ' + set.SetRows);
+    console.log(set);
+    this.chooseSet = false;
+  }
+
   ngOnDestroy() {
     this.songsSub.unsubscribe();
     this.setsSub.unsubscribe();
   }
+
 }
+

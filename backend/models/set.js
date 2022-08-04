@@ -1,18 +1,17 @@
 const mongoose = require('mongoose');
 
 const setSchema = mongoose.Schema({
+  id: { type: String},
   Leader: { type: String, required: true},
-  SetName: { type: String, required: true},
-  SetRows: [{
-    SongType: { type: String, required: true},
-    SongRef: { type: Number, required: true},
-    Title: { type: String, required: true},
-    FirstLine: { type: String, required: true},
-    PaceGrp: { type: Number},
-    MusicalKey: { type: String, required: true}
-  }]
+  SetDate: { type: String, required: true},
+  JsonSetRows: {
+    SR_Type: { type: String, required: true},
+    SR_Ref: { type: Number, required: true},
+    SR_Title: { type: String, required: true},
+    SR_FirstLine: { type: String, required: true},
+    SR_PaceGrp: { type: Number},
+    SR_MusicalKey: { type: String}
+  }
 });
 
-setSchema .index({fields: 'text'});
-
-module.exports = mongoose.model('Set', setSchema);
+module.exports = mongoose.model('set', setSchema);

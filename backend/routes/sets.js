@@ -7,15 +7,15 @@ const router = express.Router();
 router.post("",(req, res, next) => {
   const set = new Set({
     Leader: req.body.Leader,
-    SetName: req.body.SetName,
-    SetRow: {
+    setDate: req.body.setDate,
+    SetRow: [{
       songtype: req.body.SongType,
       songref: req.body.SongRef,
       title: req.body.Title,
       firstline: req.body.FirstLine,
       pacegrp: req.body.PaceGrp,
       musicalkey: req.body.MusicalKey
-    }
+    }]
 
   });
   set.save().then(createdSet => {
@@ -27,19 +27,23 @@ router.post("",(req, res, next) => {
 });
 
 router.get("", (req, res, next) => {
+  const leader = req.query.Leader;
   var query = {};
-  query.Leader = { $gt: ''};
-  set.find(query).then(documents => {
-    res.status(200).json({
-      message: "Sets fetched successfully!",
-      sets: documents
+  query.Leader = { $eq: leader};
+  set.find(query)
+    .then(documents => {
+      res.status(200).json({
+        message: "Sets fetched successfully!",
+        sets: documents
+      });
+    })
+    .catch({
+      message: "Failed to load data!"
     });
-  });
 });
 
 router.delete("/:id", (req, res, next) => {
   Song.deleteOne({ _id: req.params.id }).then(result => {
-    console.log(result);
     res.status(200).json({ message: "Set deleted" });
   });
 });
