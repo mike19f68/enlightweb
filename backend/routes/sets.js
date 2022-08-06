@@ -7,7 +7,7 @@ const router = express.Router();
 router.post("",(req, res, next) => {
   const set = new Set({
     Leader: req.body.Leader,
-    setDate: req.body.setDate,
+    setDate: req.body.SetDate,
     SetRow: [{
       songtype: req.body.SongType,
       songref: req.body.SongRef,
@@ -21,7 +21,7 @@ router.post("",(req, res, next) => {
   set.save().then(createdSet => {
     res.status(201).json({
       message: "Set saved successfully",
-      postId: createdSong._id
+      setId: createdSet._id
     });
   });
 });
@@ -41,6 +41,24 @@ router.get("", (req, res, next) => {
       message: "Failed to load data!"
     });
 });
+
+// router.get("", (req, res, next) => {
+//   const leader = req.query.Leader;
+//   const setdate = +req.query.SetDate;
+//   var query = {};
+//   query.Leader = { $eq: leader};
+//   query.SetDate = { $eq: setdate};
+//   set.find(query)
+//     .then(documents => {
+//       res.status(200).json({
+//         message: "Set fetched successfully!",
+//         sets: documents
+//       });
+//     })
+//     .catch({
+//       message: "Failed to load data!"
+//     });
+// });
 
 router.delete("/:id", (req, res, next) => {
   Song.deleteOne({ _id: req.params.id }).then(result => {

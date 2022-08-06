@@ -16,8 +16,8 @@
           (change)="ngOnInit()">
         <div id="searchclear" class="glyphicon glyphicon-remove-circle"></div>
       </div>
-      <div class="drop-filter d-inline-block btn-group" (change)="ngOnInit()">
-        <select id="PaceGrp" [(ngModel)]="selectedGroup" class="mr-0 drop-filter d-inline-block form-control">
+      <div class="btn-group d-inline-block" (change)="ngOnInit()">
+        <select id="PaceGrp" [(ngModel)]="selectedGroup" class="d-inline-block form-control form-select drop-filter">
           <option value="0" selected>Standard</option>
           <option value="1">Fast</option>
           <option value="2">Medium</option>
@@ -27,16 +27,16 @@
           <option value="6">All</option>
         </select>
       </div>
-      <div class="drop-filter d-inline-block btn-group" (change)="ngOnInit()">
-        <select id="PaceGrp" [(ngModel)]="selectedAge" class="mr-0 drop-filter d-inline-block form-control">
+      <div class="btn-group d-inline-block" (change)="ngOnInit()">
+        <select id="PaceGrp" [(ngModel)]="selectedAge" class="d-inline-block form-control form-select drop-filter">
           <option value="1" selected>Recent</option>
           <option value="2">2 years</option>
           <option value="3">3 years</option>
           <option value="10">All</option>
         </select>
       </div>
-      <div class="drop-filter d-inline-block btn-group" (change)="ngOnInit()">
-        <select id="Rating" [(ngModel)]="selectedRating" class="mr-0 drop-filter d-inline-block form-control">
+      <div class="btn-group d-inline-block" (change)="ngOnInit()">
+        <select id="Rating" [(ngModel)]="selectedRating" class="d-inline-block form-control form-select drop-filter">
           <option value="4">Rating 5</option>
           <option value="3">Rating 4+</option>
           <option value="2" selected>Rating 3+</option>
@@ -82,38 +82,32 @@
   <div></div>
   <div class="setSection" (click)="closeRightClickMenu()">
 
-    <div class="setHeader sticky-top">
-      <form class="form-inline">
-        <div class="form-group">
-          <div class="input-group">
-            <div class="title setdatetitle form-control">Set Details</div>
-            <input class="form-control" placeholder="<set name> or <dd mmm yy>"
+    <div class="setHeader sticky-top container-fluid d-inline-block">
+      <div class="btn-group">
+            <div class="setdatetitle btn-group">Set Date</div>
+            <input class="form-control" placeholder="Date/Set Name" value="{{stringDate}}"
                    name="dp" [(ngModel)]="setDate" ngbDatepicker #dp="ngbDatepicker" (dateSelect)="onDateSelected()">
             <button class="btn calendar" (click)="dp.toggle()" type="button"><img width="28px" title="Pick Date" src="..\..\assets\Images\cal.png"/></button>
             <button class="btn" type="button"><img width="28px" title="Load Template" (click)="loadTemplate()" src="..\..\assets\Images\add_template.png"/></button>
             <button class="btn" type="button"><img width="28px" title="Clear Set" (click)="clearSet()" src="..\..\assets\Images\erase_document.png"/></button>
             <button class="btn" type="button"><img width="28px" title="Load Set" (click)="toggleSets()" src="..\..\assets\Images\load_document.png"/></button>
-            <button class="btn" type="button"><img width="28px" title="Save Set" src="..\..\assets\Images\save_document.png"/></button>
+            <button class="btn" type="button"><img width="28px" title="Save Set" (click)="saveSet()"src="..\..\assets\Images\save_document.png"/></button>
             <button class="btn" type="button"><img width="28px" title="Export to Word" src="..\..\assets\Images\Export_document.png"/></button>
-          </div>
-        </div>
-      </form>
+      </div>
     </div>
 
-
-
-      <div *ngIf="chooseSet" class="getSetContainer" >
-        <mat-radio-group class="leadFilter" [(ngModel)]="selectedLead" (change)="LeaderChanged()">
-          <mat-radio-button value="Mike" checked="true">Mike</mat-radio-button>
-          <mat-radio-button value="Ian">Ian</mat-radio-button>
-          <mat-radio-button value="Jill">Jill</mat-radio-button>
-          <mat-radio-button value="Terry">Terry</mat-radio-button>
+      <div *ngIf="chooseSet" class="getSetContainer">
+        <mat-radio-group class="leadFilter" [(ngModel)]="selectedLead" (change)="LeaderChanged($event)">
+          <div class="radiobtn"><input id="rb1" type="radio" name="leader" value="Mike" checked='true'/><label class="radiobtn" for="rb1">Mike</label></div>
+          <div class="radiobtn"><input id="rb2" type="radio" name="leader" value="Ian"/><label class="radiobtn" for="rb2">Ian</label></div>
+          <div class="radiobtn"><input id="rb3" type="radio" name="leader" value="Jill"/><label class="radiobtn" for="rb3">Jill</label></div>
+          <div class="radiobtn"><input id="rb4" type="radio" name="leader" value="Terry"/><label class="radiobtn" for="rb4">Terry</label></div>
         </mat-radio-group>
 
         <div class="listSection">
           <div *ngFor="let set of sets; let index = index" id="{{set.index}}" >
             <ul>
-              <li (click)="LoadSet(set)">{{ set.Leader }} - {{ set.SetDate }}</li>
+              <li class="listSection" (click)="LoadSet(set)"><div class="listselection-content">::: {{ set.Leader }} - {{ set.SetDate }}<div class="del-x">-</div></div></li>
             </ul>
           </div>
         </div>
@@ -121,11 +115,12 @@
 
 
     <div [sortablejs]="LocalRows" [sortablejsOptions]="{ animation: 150 }">
-       <div class="setitem" *ngFor="let rows of LocalRows; let index = index" id="{{rows.SRType}}" (contextmenu)="rightClick($event, index)">
+       <div class="setitem _{{rows.SRPaceGrp}}" *ngFor="let rows of LocalRows; let index = index" id="{{rows.SRType}}" (contextmenu)="rightClick($event, index)">
          <div class="rowseq">{{rows.SRType}}</div>
          <div class="rowtitle clipped">{{ rows.SRTitle }} </div>
          <div class="rowfirstline clipped">{{ rows.SRFirstLine }}</div>
          <div class="rowkey">{{rows.SRMusicalKey}}</div>
+         <div class="del-x" (click)="deleterow(index)">-</div>
        </div>
     </div>
 

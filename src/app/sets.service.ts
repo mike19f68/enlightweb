@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
-import { Set, SetRow } from './set.model';
+import { Set } from './set.model';
 
 @Injectable({providedIn: 'root'})
 export class SetsService {
@@ -25,7 +25,7 @@ export class SetsService {
              id: set._id,
              Leader: set.Leader,
              SetDate: set.SetDate,
-             setRows: set.JsonSetRows
+             SetRows: set.JsonSetRows
           };
         });
       }))
@@ -38,38 +38,45 @@ export class SetsService {
   getSetUpdateListener() {
     return this.setsUpdated.asObservable();
   }
-/* below split to add parent + add children ??*/
-/*   addSet(
-          id: string,
-          leader: string,
-          SetDate: string,
-          setrows: SetRow[]
+
+  addSet(
+    id: string,
+    leader: string,
+    setDate: string,
+    setrows: [{
+      SR_Type: string,
+      SR_Title: string,
+      SR_FirstLine: string,
+      SR_PaceGrp: number,
+      SR_Ref: number,
+      SR_MusicalKey: string,
+    }]
         ) {
     const set: Set = {
       id: null,
       Leader: leader,
-      SetDate: SetDate,
-      SetRow: setrows
+      SetDate: setDate,
+      SetRows: setrows
     };
     this.http
       .post<{message: string, setId: string }>(
           'http://localhost:3000/api/sets', set
           )
       .subscribe(responseData => {
-        // tslint:disable-next-line: no-shadowed-variable
+// tslint:disable-next-line: no-shadowed-variable
         const id = responseData.setId;
         set.id = id;
         this.sets.push(set);
         this.setsUpdated.next([...this.sets]);
       });
-    } */
+    }
 
     deleteSet(setId: string) {
       this.http.delete(
         'http://localhost:3000/api/sets/' + setId
         )
         .subscribe(() => {
-          const updatedsets = this.sets.filter(post => post.id !== setId);
+          const updatedsets = this.sets.filter(set => set.id !== setId);
           this.sets = updatedsets;
           this.setsUpdated.next([...this.sets]);
         });

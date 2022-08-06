@@ -10,3 +10,7 @@ body{height:100vh;}
   border-color: darkblue;
   border-style: solid;
 }
+.nav-link:hover {
+  cursor: pointer;
+}
+

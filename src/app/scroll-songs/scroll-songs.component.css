@@ -1,7 +1,7 @@
 :host {
   display: block;
   float: left;
-  background-color: paleturquoise;
+  background-color: white;
   overflow: hidden;
   margin: auto;
   padding:0;
@@ -29,7 +29,7 @@
   height: calc(100vh - 4rem);
   width:250px;
   min-width: 250px;
-  background-color: lightyellow;
+  background-color: white;
   color: darkred;
   font-size:12px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -59,7 +59,6 @@
 .waiting {
   z-index:999;
   text-align: center;
-
 }
 
 #searchinput {
@@ -69,9 +68,12 @@
 }
 .drop-filter {
   height:28px;
-  padding:0;
+  padding:3px;
+  padding-right:30px !important;
   font-size:small;
-  margin-right:5px;
+}
+.btn-group {
+ margin-right: 5px;
 }
 
 table {
@@ -126,22 +128,6 @@ tr {
   width:255px;
   max-width: 255px;
 }
-tr._1 {
-  color:red;
-  background-color: white;
-}
-tr._2 {
-  color:blue;
-  background-color: white;
-}
-tr._3 {
-  color:purple;
-  background-color: white;
-}
-tr._4 {
-  color:green;
-  background-color: white;
-}
 
 .hdr_Key {
   margin:0;
@@ -193,7 +179,6 @@ ul {
 .setHeader {
   height:3rem;
   background-color: lightgray;
-  display:block;
 }
 
 ngx-sortable {
@@ -223,12 +208,15 @@ ngx-sortable {
 }
 
 .setitem {
-  background-color: navajowhite;
-  border-radius: 3px;
-  border-style: solid;
-  border-width: .5px;
+  background-color: white;
+  border-bottom-color:black;
+  border-bottom-style: solid;
+  border-bottom-width:.5px;
   cursor: move;
   padding-left: 3px;
+}
+.setitem:hover {
+  background-color:#ffff99;
 }
 
 .setFooter {
@@ -246,6 +234,7 @@ ngx-sortable {
 .setdatetitle {
   font-size:14px;
   vertical-align: middle;
+  font-weight: bold;
 }
 
 .form-control {
@@ -287,20 +276,19 @@ ngx-sortable {
 #X {
   font-style:italic;
   background-color: lightgray;
+  color:black !important;
 }
 #P {
   background-color: cornflowerblue;
 }
 #N:hover, #B:hover {
-  background-color: white;
+  background-color:#ffff99 !important;
   color:black;
 }
 #P:hover, #X:hover, #A:hover, #L:hover {
-  background-color: white;
+  background-color:#ffff99 !important;
 }
-.setitem:hover {
-  background-color:white;
-}
+
 .rowseq {
   display:inline-flex;
 }
@@ -329,6 +317,8 @@ ngx-sortable {
 .btn {
   width:45px;
   margin-left:2px;
+  outline: none;
+  box-shadow: none;
 }
 
 .setdatetitle {
@@ -337,6 +327,7 @@ ngx-sortable {
 
 .getSetContainer {
   width:100%;
+  transition: height 1.25s ease-in;
   height:10rem;
   display:inline-flex;
   background-color: white;
@@ -344,41 +335,98 @@ ngx-sortable {
 
 .leadFilter {
   font-size: smaller;
-  width:15%;
+  width:200px;
   background-color: aliceblue;
-}
-
-.mat-radio-button {
-  display: flex;
-  font-size:12px;
-  flex-direction: column;
-  margin: 12px 12px;
-  align-items: flex-start;
+  padding: 3px;
 }
 
 .listSection {
   border-left: 1px solid black;
+  padding:3px 5px 1px 5px;
+  background-color: aliceblue;
   width:100%;
   overflow-y: scroll;
+  columns: 3;
+  column-fill: auto;
 }
 .listSection li {
+  display:inline-flex;
   cursor: pointer;
-
+  border-style:solid;
+  border-width: 1px;
+  border-radius: 3px;
+  border-color: black;
+  margin: 3px;
+  padding: 1px 3px 1px 3px;
+  background-color: rgb(167, 190, 211);
+  overflow: hidden;
+  width:100%;
 }
 .listSection li:hover {
-  background-color: rgb(221, 99, 130);
+  background-color:#ffff99 !important;
+}
+.listselection-content {
+  width:100%;
+}
+.del-x {
+  float:right;
+  padding-left: 5px;
+  padding-right: 5px;
+  height: inherit;
+
+}
+.del-x:hover {
+  background-color: red;
+  cursor:pointer;
 }
 
 ul {
   height: 100%;
 }
-tr.picker:hover {
-  background-color: #ffff99;
-  color: black;
-  cursor: pointer;
-}
 
 tr.active {
   background-color:#7596d4 !important;
   color: white !important;
+}
+
+tr.picker:hover {
+  background-color:#ffff99 !important;
+  color: black !important;
+  cursor: pointer;
+}
+
+input[type="radio"]
+{
+  visibility: hidden;
+}
+input[type=radio]:checked+label {
+  margin:3px;
+  background-color: #7596d4;
+}
+.radiobtn label{
+  width: 80%;
+  background-color: white;
+  text-align: center;
+  font-size: 15px;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 3px;
+  margin:3px;
+}
+.radiobtn label:hover {
+  background-color:#ffff99 !important;
+  cursor: pointer;
+}
+
+tr._1 {color:red;}
+tr._2 {color:blue;}
+tr._3 {color:purple;}
+tr._4 {color:green;}
+div._1 {color:red;}
+div._2 {color:blue;}
+div._3 {color:purple;}
+div._4 {color:green;}
+
+.form-control {
+  border-radius: 3px;
 }

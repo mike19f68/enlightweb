@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { Song } from '../song.model';
-import { Set, SetRow , LocalRow} from '../set.model';
+import { Set, LocalRow, LocalSet} from '../set.model';
 
 import { SongsService } from '../songs.service';
 import { SetsService } from '../sets.service';
@@ -17,15 +17,17 @@ import { DatePipe } from '@angular/common';
 
 export class ScrollSongsComponent implements OnInit, OnDestroy {
 
-   hasData = false;
+  public stringDate: string;
+  hasData = false;
    setStarted = false;
    songs: Song[];
    song: Song;
    sets: Set[];
-   set: Set;
-   LocalRows: SetRow[] = [];
-   LocalsetRows: SetRow[] = [];
-   newSet: Set;
+   set: LocalSet;
+   currentId = '';
+   LocalRows: LocalRow[] = [];
+  //  LocalsetRows: SetRow[] = [];
+   // newSet: Set;
    private songsSub: Subscription;
    private setsSub: Subscription;
 
@@ -46,6 +48,7 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
   sortDirection = -1;
   setList1: any;
   setDate = {year: 2022, month: 8, day: 4};
+  leader = 'Mike';
 
   public isHidden = true;
   xPosTabMenu = 0;
@@ -114,19 +117,20 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
   }
 
   onDateSelected() {
+     this.stringDate = this.transformDate(this.setDate);
      const max = this.LocalRows.length;
      for (let i = 0; i < max ; i++) {
       if (this.LocalRows[i].SRType === 'A') {
-        this.LocalRows[i].SRTitle = this.transformDate(this.setDate) + ' am';
+        this.LocalRows[i].SRTitle = this.stringDate + ' am';
       }
       if (this.LocalRows[i].SRType === 'B') {
-        this.LocalRows[i].SRTitle = this.transformDate(this.setDate) + ' pm';
+        this.LocalRows[i].SRTitle = this.stringDate + ' pm';
       }
      }
   }
 
   loadTemplate() {
-    let newRow: SetRow = new LocalRow();
+    let newRow: LocalRow = new LocalRow();
     newRow.SRTitle = this.transformDate(this.setDate) + ' am';
     newRow.SRType = 'A';
     this.LocalRows.splice(this.LocalRows.length, 0 , newRow);
@@ -146,6 +150,7 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
   clearSet() {
     this.LocalRows.length = 0;
     this.setStarted = false;
+    this.currentId = '';
   }
 
   showMenuOptions() {
@@ -195,24 +200,37 @@ handleMenuSelection( menuselection: string) {
     this.LocalRows.splice(this.LocalRows.length, 0 , newRow);
   }
 }
-
+deleterow(index) {
+  this.LocalRows.splice(index, 1);
+  if (this.LocalRows.length === 0) {
+    this.setStarted = false;
+  }
+}
 transformDate(date) {
   const ngbDate = date;
   const myDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
-  console.log(JSON.stringify(myDate));
-  return this.datepipe.transform(myDate, 'dd MMM yy');
+  return this.datepipe.transform(myDate, 'dd MMM yyyy');
+}
+untransformDate(date: string) {
+  const [day, mmm, year] = date.split(' ');
+  const month = 'JanFebMarAprMayJunJulAugSepOctNovDec'.indexOf(mmm) / 3 + 1;
+  const myDate = {year: +year, month: +month, day: +day};
+  console.log(myDate);
+  return myDate;
 }
 
 toggleSets() {
   if (this.chooseSet === false)
   {
     this.chooseSet = true;
+    this.selectedLead = 'Mike';
     this.getSets();
   } else {
     this.chooseSet = false;
   }
 }
-LeaderChanged() {
+LeaderChanged(event) {
+  this.selectedLead = event.target.value;
   this.getSets();
 }
 
@@ -227,20 +245,42 @@ getSets() {
   }
 
   LoadSet(set: Set) {
+    // this.setDate = this.untransformDate(set.SetDate);
+    this.currentId = set.id;
     this.LocalRows.length = 0;
-    const max = set.setRows.length;
+    const max = set.SetRows.length;
     for (let i = 0; i < max ; i++) {
       const newRow: LocalRow = new LocalRow();
-      newRow.SRType = set.setRows[i].SR_Type;
-      newRow.SRMusicalKey = set.setRows[i].SR_MusicalKey;
-      newRow.SRFirstLine = set.setRows[i].SR_FirstLine;
-      newRow.SRRef = set.setRows[i].SR_Ref;
-      newRow.SRTitle = set.setRows[i].SR_Title;
-      newRow.SRPaceGrp = set.setRows[i].SR_PaceGrp;
+      newRow.SRType = set.SetRows[i].SR_Type;
+      newRow.SRMusicalKey = set.SetRows[i].SR_MusicalKey;
+      newRow.SRFirstLine = set.SetRows[i].SR_FirstLine;
+      newRow.SRRef = set.SetRows[i].SR_Ref;
+      newRow.SRTitle = set.SetRows[i].SR_Title;
+      newRow.SRPaceGrp = set.SetRows[i].SR_PaceGrp;
       this.LocalRows.splice(this.LocalRows.length, 0 , newRow);
       this.setStarted = true;
     }
+    this.stringDate = set.SetDate;
     this.chooseSet = false;
+  }
+
+  saveSet() {
+    this.set.Leader = 'Mike';
+    const max = this.LocalRows.length;
+    for (let i = 0; i < max; i++) {
+      let newRow: LocalRow = new LocalRow();
+      newRow = this.LocalRows[i];
+      console.log(newRow);
+      console.log(Object.entries(newRow));
+    }
+    console.log(this.LocalRows);
+    if (this.currentId === '') {
+       console.log('Create New Record');
+       // this.setsService.addSet(null, this.set.Leader, this.set.SetDate, this.set.SetRows);
+       console.log(this.set);
+    } else {
+      console.log('Ask to overwrite');
+    }
   }
 
   ngOnDestroy() {

@@ -1,3 +1,9 @@
+export class LocalSet {
+  Leader: string;
+  SetDate: string;
+  SetRows: LocalRow[];
+}
+
 export class LocalRow {
   SRType: string;
   SRTitle: string;
@@ -11,7 +17,7 @@ export interface Set {
   id: string;
   Leader: string;
   SetDate: string;
-  setRows: [{
+  SetRows: [{
     SR_Type: string;
     SR_Title: string;
     SR_FirstLine: string;
@@ -21,11 +27,11 @@ export interface Set {
   }];
 }
 
-export class SetRow {
-  SRType: string;
-  SRTitle: string;
-  SRFirstLine: string;
-  SRPaceGrp: number;
-  SRRef: number;
-  SRMusicalKey: string;
-}
+// export interface SetRow {
+//   SRType: string;
+//   SRTitle: string;
+//   SRFirstLine: string;
+//   SRPaceGrp: number;
+//   SRRef: number;
+//   SRMusicalKey: string;
+// }
