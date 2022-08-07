@@ -26,7 +26,6 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
    set: LocalSet;
    currentId = '';
    LocalRows: LocalRow[] = [];
-   private footer_string = '';
   //  LocalsetRows: SetRow[] = [];
    // newSet: Set;
    private songsSub: Subscription;
@@ -309,7 +308,7 @@ getSets() {
   toFindDuplicates() {
     this.duplicates = 0;
     this.hasDuplicates = '';
-    let arr = [];
+    const arr = [];
     const max = this.LocalRows.length;
     for (let i = 0; i < max; i++) {
       if (this.LocalRows[i].SRType === 'S' || this.LocalRows[i].SRType === 'P' || this.LocalRows[i].SRType === 'X' ) {
