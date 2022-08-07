@@ -44,16 +44,15 @@
           <option value="0">All Songs</option>
         </select>
       </div>
-      <div>
-        <table>
-          <tr>
-            <td class="hdr_Ref sortable" (click)='changeSort("SongRef")'>Ref</td>
-            <td class="hdr_Title sortable" (click)='changeSort("SongTitle")'>Title</td>
-            <td class="hdr_FirstLine sortable" (click)='changeSort("FirstLine")'>First Line</td>
-            <td class="hdr_Key sortable" (click)='changeSort("MusicalKey")'>Key</td>
-            <td class="hdr_Key">Add</td>
-          </tr>
-        </table>
+
+      <div class="table_content">
+        <div class="picker">
+        <div class="hdr_Ref sortable" (click)='changeSort("SongRef")'>Ref</div>
+        <div class="hdr_Title sortable" (click)='changeSort("SongTitle")'>Title</div>
+        <div class="hdr_FirstLine sortable" (click)='changeSort("FirstLine")'>First Line</div>
+        <div class="hdr_Key sortable" (click)='changeSort("MusicalKey")'>Key</div>
+        <div class="hdr_Add">  +</div>
+      </div>
       </div>
     </div>
     <div>
@@ -63,19 +62,19 @@
         </div>
       </div>
       <div *ngIf="!isLoading">
-        <table>
-          <tr class="picker _{{song.PaceGrp}}" *ngFor="let song of songs; let index = index" id="song-{{index}}"
+        <div class="table_content">
+          <div class="picker _{{song.PaceGrp}}" *ngFor="let song of songs; let index = index" id="song-{{index}}"
             (mouseup)="showLyrics(song, index)"
             (dblclick)="addtoSet(song)"
             [class.active]="index == ActiveIndex">
-            <td class="col_Ref">{{song.SongRef}}</td>
-            <td class="col_Title clipped">{{song.SongTitle}}</td>
-            <td class="col_FirstLine clipped">{{song.FirstLine}}</td>
-            <td class="col_key">{{song.MusicalKey}}</td>
-            <td><img src="../../assets/Images/ToList.png" alt=" " width="14" height="14" (click)="addtoSet(song)"></td>
-            <td #song style="display:none">{{song}}</td>
-          </tr>
-        </table>
+            <div class="col_Ref">{{song.SongRef}}</div>
+            <div class="col_Title clipped">{{song.SongTitle}}</div>
+            <div class="col_FirstLine clipped">{{song.FirstLine}}</div>
+            <div class="col_Key">{{song.MusicalKey}}</div>
+            <div class="col_Add"><img src="../../assets/Images/ToList.png" alt="+" width="12" height="12" (click)="addtoSet(song)"></div>
+            <div #song style="display:none">{{song}}</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -125,14 +124,12 @@
     </div>
 
 
-    <p *ngIf="!setStarted">Set Not Started</p>
+    <div class="setitem emptyset" *ngIf="!setStarted">Set Not Started</div>
 
     <app-set-context-menu *ngIf="!isHidden" [x]="xPosTabMenu" [y]="yPosTabMenu" [menuitems]="showMenuOptions()" [index]="indexTabMenu" (menuItemSelected)="handleMenuSelection($event)"></app-set-context-menu>
 
-    <hr>
-
-    <div class="sticky-bottom setFooter container-fluid">
-
+    <div class="setFooter">
+       <div class="status_content {{hasDuplicates}}">AM Songs {{amSongs}};  PM Songs {{pmSongs}};  Extras {{eXtras}};  Duplicates {{duplicates}}
     </div>
   </div>
 </div>

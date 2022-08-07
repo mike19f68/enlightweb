@@ -26,6 +26,7 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
    set: LocalSet;
    currentId = '';
    LocalRows: LocalRow[] = [];
+   private footer_string = '';
   //  LocalsetRows: SetRow[] = [];
    // newSet: Set;
    private songsSub: Subscription;
@@ -50,6 +51,11 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
   setDate = {year: 2022, month: 8, day: 4};
   leader = 'Mike';
 
+  amSongs = 0;
+  pmSongs = 0;
+  eXtras = 0;
+  duplicates = 0;
+  hasDuplicates = '';
   public isHidden = true;
   xPosTabMenu = 0;
   yPosTabMenu = 0;
@@ -114,6 +120,7 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
      newRow.SRPaceGrp = song.PaceGrp;
      this.LocalRows.splice(this.LocalRows.length, 0 , newRow);
      this.setStarted = true;
+     this.buildFooter();
   }
 
   onDateSelected() {
@@ -205,7 +212,9 @@ deleterow(index) {
   if (this.LocalRows.length === 0) {
     this.setStarted = false;
   }
+  this.buildFooter();
 }
+
 transformDate(date) {
   const ngbDate = date;
   const myDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
@@ -262,7 +271,61 @@ getSets() {
     }
     this.stringDate = set.SetDate;
     this.chooseSet = false;
+    this.buildFooter();
   }
+
+  buildFooter() {
+    let am = false;
+    this.amSongs = 0;
+    let pm = false;
+    this.pmSongs = 0;
+    this.eXtras = 0;
+    const max = this.LocalRows.length;
+    for (let i = 0; i < max; i++) {
+      switch (this.LocalRows[i].SRType) {
+        case 'A':
+          am = true;
+          pm = false;
+          break;
+        case 'B':
+          pm = true;
+          am = false;
+          break;
+        case 'S': case 'P':
+          if (pm === true) {
+            this.pmSongs++;
+          } else {
+            this.amSongs++;
+          }
+          break;
+        case 'X':
+          this.eXtras++;
+          break;
+      }
+    }
+    this.toFindDuplicates();
+  }
+
+  toFindDuplicates() {
+    this.duplicates = 0;
+    this.hasDuplicates = '';
+    let arr = [];
+    const max = this.LocalRows.length;
+    for (let i = 0; i < max; i++) {
+      if (this.LocalRows[i].SRType === 'S' || this.LocalRows[i].SRType === 'P' || this.LocalRows[i].SRType === 'X' ) {
+         if ( arr.includes(this.LocalRows[i].SRRef, 0) ) {
+            console.log(arr);
+            this.duplicates ++;
+            this.hasDuplicates = 'hasDuplicates';
+         } else {
+           arr.push(this.LocalRows[i].SRRef);
+         }
+      }
+    }
+  }
+
+
+
 
   saveSet() {
     this.set.Leader = 'Mike';

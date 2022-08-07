@@ -9,6 +9,7 @@
   height: calc(100vh - 3rem);
   width: calc(100vw - 30px);
 }
+
 .component {
   display:flex;
   width:100%;
@@ -17,26 +18,38 @@
 
 .tableSection {
   float:left;
-  width: 650px;
-  min-width: 650px;
+  width: 630px;
+  min-width: 630px;
   height: calc(100vh - 4rem);
   overflow-y: scroll;
+  font-size: 12px;
+  display:block;
 }
 
 .lyricsSection {
   float:left;
   display:block;
   height: calc(100vh - 4rem);
+  line-height: 14px;
   width:250px;
   min-width: 250px;
   background-color: white;
-  color: darkred;
+  color: black;
   font-size:12px;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: Arial, Helvetica, sans-serif, Geneva, Tahoma, sans-serif;
   text-align: center;
   padding:2px;
   overflow-y: scroll;
   overflow-x: hidden;
+}
+
+.filter {
+  padding:0;
+  display:block;
+  height: 4rem;
+  background-color: rgb(142, 172, 212);
+  width:100%;
+  float: left;
 }
 
 @media only screen and (max-width: 1420px) {
@@ -45,15 +58,13 @@
     min-width: 0px;
     visibility: collapse;
   }
-}
-
-.filter {
-  padding:0;
-  display:block;
-  height: 4rem;
-  background-color: rgb(142, 172, 212);
-  width:630px;
-  float: left;
+  .tableSection {
+    width: 530px;
+    min-width: 530px;
+  }
+  .filter {
+    width:530px;
+  }
 }
 
 .waiting {
@@ -76,77 +87,101 @@
  margin-right: 5px;
 }
 
-table {
-  width: 630px;
-  margin:0px;
+.table_content {
+  width: 100%;
   padding:1px;
-  table-layout: fixed;
 }
-td {
-  font-size:12px;
-  padding-left:3px;
-}
-tr {
+
+.picker {
+  width: 100%;
   border-bottom-color:black;
   border-bottom-style: solid;
   border-bottom-width:.5px;
 }
-
-.hdr_Ref {
-  margin:0;
-  background-color: darkslategrey;
-  color:white;
-  width:40px;
-}
-.col_Ref{
-  font-size:small;
-  width:40px;
-}
-
-.hdr_Title {
-  margin:0;
-  background-color: darkslategrey;
-  color:white;
-  width:245px;
-
-}
-.col_Title {
-  min-width:245px;
-  width:245px;
-  max-width: 245px;
-}
-
-.hdr_FirstLine {
-  margin:0;
-  background-color: darkslategrey;
-  color:white;
-  width:255px;
-}
-.col_FirstLine
-{
-  min-width:255px;
-  width:255px;
-  max-width: 255px;
-}
-
-.hdr_Key {
-  margin:0;
-  background-color: darkslategrey;
-  color:white;
-  width:45px;
-}
-
-.col_Key
-{
-  width:45px;
-}
-
-.sortable:hover {
-  text-decoration: underline overline;
-  text-decoration-color: red;
+.picker:hover {
+  background-color:#ffff99 !important;
+  color: black !important;
   cursor: pointer;
 }
 
+.hdr_Ref {
+  display:inline-flex;
+  margin:0;
+  background-color: darkslategrey;
+  color:white;
+  width:6%;
+  padding-left:2px;
+  padding-top:3px;
+  padding-bottom:3px;
+}
+.col_Ref{
+  display:inline-flex;
+  font-size:small;
+  width:6%;
+}
+.hdr_Title {
+  display:inline-flex;
+  background-color: darkslategrey;
+  color:white;
+  width:40%;
+  padding-top:3px;
+  padding-bottom:3px;
+}
+.col_Title {
+  display:inline-flex;
+  width:40%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.hdr_FirstLine {
+  display:inline-flex;
+  background-color: darkslategrey;
+  color:white;
+  width:46%;
+  padding-top:3px;
+  padding-bottom:3px;
+}
+.col_FirstLine {
+  display:inline-flex;
+  width:46%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.hdr_Key {
+  display:inline-flex;
+  background-color: darkslategrey;
+  color:white;
+  width:4%;
+  padding-top:3px;
+  padding-bottom:3px;
+}
+
+.col_Key {
+  display:inline-flex;
+  width:4%;
+}
+.hdr_Add {
+  display:inline-flex;
+  background-color: darkslategrey;
+  color:white;
+  width:4%;
+  padding-left:3px;
+  padding-top:3px;
+  padding-bottom:3px;
+}
+.col_Add {
+  display:inline-flex;
+  padding-left:5px;
+  width:4%;
+}
+
+.sortable:hover {
+  cursor: pointer;
+  background-color: rgb(71, 119, 119);
+}
 
 .lyrics {
   white-space: pre-line;
@@ -166,7 +201,6 @@ ul {
 
 .setSection {
   float:left;
-  /* width: calc(100vw - 960px); */
   width:100%;
   min-width:500px;
   height: calc(100vh - 3rem);
@@ -200,7 +234,6 @@ ngx-sortable {
 .seqFirstLine {
   font-size: 12px;
   width: 10px;
-
 }
 .setKey {
   font-size: 12px;
@@ -218,11 +251,8 @@ ngx-sortable {
 .setitem:hover {
   background-color:#ffff99;
 }
-
-.setFooter {
-  height:1rem;
-  background-color: lightsteelblue;
-  display:block;
+.emptyset {
+  background-color: rgb(177, 177, 177) !important;
 }
 
 .clipped {
@@ -280,6 +310,7 @@ ngx-sortable {
 }
 #P {
   background-color: cornflowerblue;
+  color:black !important;
 }
 #N:hover, #B:hover {
   background-color:#ffff99 !important;
@@ -290,7 +321,7 @@ ngx-sortable {
 }
 
 .rowseq {
-  display:inline-flex;
+  display:inline-block;
 }
 .rowtitle {
   display:inline-flex;
@@ -373,7 +404,6 @@ ngx-sortable {
   padding-left: 5px;
   padding-right: 5px;
   height: inherit;
-
 }
 .del-x:hover {
   background-color: red;
@@ -387,12 +417,6 @@ ul {
 tr.active {
   background-color:#7596d4 !important;
   color: white !important;
-}
-
-tr.picker:hover {
-  background-color:#ffff99 !important;
-  color: black !important;
-  cursor: pointer;
 }
 
 input[type="radio"]
@@ -429,4 +453,25 @@ div._4 {color:green;}
 
 .form-control {
   border-radius: 3px;
+}
+
+.setFooter {
+  font-size: 14px;
+  display:block;
+}
+.status_content {
+  width:100%;
+  margin:0px;
+  border-width: 2px;
+  border-color: green;
+  color: darkgreen;
+  background-color: rgb(186, 240, 186);
+  border-radius: 3px;
+  border-style: solid;
+  padding: 3px 3px 3px 5px;
+}
+.hasDuplicates {
+  border-color: red;
+  color: darkred;
+  background-color: rgb(216, 140, 140)
 }
