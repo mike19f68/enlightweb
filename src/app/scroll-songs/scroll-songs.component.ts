@@ -323,11 +323,9 @@ getSets() {
     }
   }
 
-
-
-
   saveSet() {
     this.set.Leader = 'Mike';
+    this.set.SetRows = [];
     const max = this.LocalRows.length;
     for (let i = 0; i < max; i++) {
       let newRow: LocalRow = new LocalRow();

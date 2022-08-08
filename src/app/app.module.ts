@@ -18,7 +18,6 @@ import { LeadSheetComponent } from './lead-sheet/lead-sheet.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ScrollSongsComponent } from './scroll-songs/scroll-songs.component';
-import { SetComponent } from './set/set.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -36,7 +35,6 @@ import { AuthInterceptor } from './auth/auth-interceptor';
     EditSongComponent,
     LeadSheetComponent,
     ScrollSongsComponent,
-    SetComponent,
     SetContextMenuComponent,
     HeaderComponent
   ],
