@@ -283,7 +283,6 @@ LeaderChanged(event) {
   this.selectedLead = event.target.value;
   this.getSets();
 }
-
 getSets() {
     this.setsService.getSets(
       this.selectedLead
@@ -294,8 +293,12 @@ getSets() {
     });
   }
 
-checkExists() {
-  this.stringDate = 'Music Practice';
+  NameChanged(event) {
+    this.stringDate = event.target.value;
+  }
+
+checkExists(setName) {
+  this.stringDate = setName;
 
   this.setsService.findSet(
     this.selectedLead,
@@ -401,10 +404,7 @@ checkExists() {
 
   saveSet(newsetname: string) {
     this.namingSet = false;
-    const songset: SongSet = new SongSet();
-    songset.Leader = 'Mike';
-    songset.SetDate = newsetname;
-    songset.SetRows = [];
+    const songset: SongSet = {id:null, Leader: 'Mike', SetDate: newsetname, SetRows: []}
     const max = this.LocalRows.length;
     for (let i = 0; i < max; i++) {
       let newRow: LocalRow = new LocalRow();

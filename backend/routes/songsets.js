@@ -45,7 +45,7 @@ router.get("/find", (req, res, next) => {
 
   songset.findOne(query).then(documents => {
       res.status(200).json({
-        message: "Set Already Exists",
+        message: "Search Completed",
         songsets: documents
       });
     });

@@ -9,6 +9,8 @@ import { SongSet, LocalRow } from './songset.model';
 @Injectable({providedIn: 'root'})
 export class SetsService {
   private songsets: SongSet[] = [];
+  private foundset: SongSet[] = [];
+
   private setsUpdated = new Subject<SongSet[]>();
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -37,23 +39,24 @@ export class SetsService {
 
   findSet(leader: string, setName: string) {
     const queryParams = `?leader=${leader}&setDate=${setName}`;
-    console.log('leader ' + leader + '; SetDate ' + setName);
     this.http
-      .get<{ message: string; songsets: any }>(
-        'http://localhost:3000/api/songsets/find' + queryParams
-      )
-      .pipe(map((setData) => {
-        return setData.songsets.map(songset => {
-          return {
-            Leader: songset.Leader,
-            SetDate: songset.SetDate,
-            id: songset._id
-          };
-        });
-      }))
-      .subscribe(transformedSets => {
-      this.songsets = transformedSets;
-      this.setsUpdated.next([...this.songsets]);
+    .get<{ message: string; foundset: any }>(
+      'http://localhost:3000/api/songsets/find' + queryParams)
+    .pipe(map((setData) => {
+        console.log('We got this: ' + JSON.stringify(setData.foundset));
+        return setData.foundset.map(songset => {
+            return {
+                id: songset._id,
+                Leader: songset.Leader,
+                SetDate: songset.SetDate,
+                SetRows: songset.JsonSetRows
+            }
+        })
+    }))            
+    .subscribe(() => {
+        const updatedsets = this.songsets.filter(songset => songset.id === songset.id );
+        this.songsets = updatedsets;
+        this.setsUpdated.next([...this.songsets]);
     });
   }
 

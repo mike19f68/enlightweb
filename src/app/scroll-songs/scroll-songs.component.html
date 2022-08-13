@@ -81,9 +81,9 @@
   <div></div>
   <div class="setSection" (click)="closeRightClickMenu()">
 
-    <div *ngIf="!namingSet" class="setHeader sticky-top container-fluid d-inline-block">
+    <div *ngIf="!namingSet" class="setHeader sticky-top d-inline-block">
       <div class="btn-group setHeader">
-            <div class="setdatetitle btn-group">Set Date</div>
+            <div class="setdatetitle">Set Date</div>
              <input class="form-control" placeholder="..set date.." value="{{stringDate}}" (change)="onDateSelected()"
                    name="dp" [(ngModel)]="setDate" ngbDatepicker #dp="ngbDatepicker" (dateSelect)="onDateSelected()">
             <button class="btnIcon calendar" (click)="dp.toggle()" type="button"><img width="28px" title="Pick Date" src="..\..\assets\Images\cal.png"/></button>
@@ -108,7 +108,7 @@
             <ul>
               <li>
                   <div class="d-flex align-items-center">
-                    <div class="listselection-content" (click)="LoadSet(set)" >::: {{ set.Leader }} - {{ set.SetDate }}</div>
+                    <div class="listselection-content" (click)="LoadSet(set)" >::: {{ set.SetDate }}</div>
                     <div class="listselection-delete align-center" (click)="checkDelete(set)">[X]</div>
                   </div>
               </li>
@@ -123,10 +123,10 @@
               <label for="songSetName" class="col-form-label namingSet bold">Set Name:</label>
             </div>
             <div class="namingSet-7">
-              <input type="text" class="form-control namingSet" id="songSetName" placeholder="SetName" value="{{stringDate}}">
+              <input type="text" class="form-control namingSet" id="songSetName" placeholder="SetName" value="{{stringDate}}" (change)="NameChanged($event)">
             </div>
             <div class="namingSet-1">
-              <button type="submit" class="btn btn-primary namingSet namingSet-10" (click)="checkExists()">Save</button>
+              <button type="submit" class="btn btn-primary namingSet namingSet-10" (click)="checkExists(stringDate)">Save</button>
             </div>
             <div class="namingSet-1">
               <button type="submit" class="btn btn-secondary namingSet namingSet-10" (click)="clicktoSave()">Cancel</button>
