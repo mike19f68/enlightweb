@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const songsRoutes = require("./routes/songs");
-const setsRoutes = require("./routes/sets");
+const setsRoutes = require("./routes/songsets");
 const userRoutes = require("./routes/user");
 
 const app = express();
@@ -46,7 +46,7 @@ mongoose
    });
 
 app.use("/api/songs", songsRoutes);
-app.use("/api/sets", setsRoutes);
+app.use("/api/songsets", setsRoutes);
 app.use("/api/user", userRoutes);
 
 app.use((req, res, next) => {

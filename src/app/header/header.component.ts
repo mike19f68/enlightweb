@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { Subscription } from 'rxjs';
-import { Song } from '../song.model';
+import { Song } from '../Shared/song.model';
 
 @Component({
   selector: 'app-header',

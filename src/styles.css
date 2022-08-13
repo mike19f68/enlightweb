@@ -3,3 +3,79 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mdf-dialog-container .btn-dialog-close {
+  width: 45px;
+  min-width: 0px !important;
+  height:40px;
+  min-height: 0px !important;
+}
+
+.mdf-dialog-container .mat-dialog-container {
+  border-radius: .25em .25em .4em .4em;
+  padding:0px;
+}
+
+.mdf-dialog-container .content-container {
+  margin: 5px 5px 15px 5px;
+  color: #8f9cb5;
+  display:flex;
+}
+
+.mdf-dialog-container #close-icon {
+  margin-left: auto;
+  order:2;
+  font-weight: bolder;
+}
+
+.mdf-dialog-container #close-icon:hover {
+  cursor: pointer;
+}
+
+.mdf-dialog-container #no-button {
+  height: 50px;
+  width:45%;
+  background-color: #fc7169;
+  color:white;
+  border-radius: 0px;
+  margin: auto 5px 3px 5px;
+}
+
+.mdf-dialog-container #yes-button {
+  height: 50px;
+  width:45%;
+  background-color: #b6bece;
+  color:white;
+  border-radius: 0px;
+  margin: auto 5px 3px 5px;
+}
+
+.mdf-dialog-container span.content-span {
+  padding: 35px 16px;
+  text-align: center;
+  font-size:20px;
+}
+
+.mdf-dialog-container #ok-button {
+  height: 50px;
+  width:50%;
+  align-self: center;
+  background-color: #b6bece;
+  color:white;
+  border-radius: 0px;
+  margin: auto 5px 3px 5px;
+}
+.mdf-dialog-container .icon-bg {
+  font-size: 60px;
+  width:80px;
+}
+.mdf-dialog-container .success-false {
+  color: red;
+}
+.mdf-dialog-container .success-true {
+  color: green;
+}
+.mdf-dialog-container .bar {
+  margin:0px;
+  background-color: lightgray;
+}

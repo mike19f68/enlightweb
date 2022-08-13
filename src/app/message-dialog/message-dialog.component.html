@@ -1,0 +1,17 @@
+<div>
+  <div class='content-container bar'>
+    <mat-icon id="close-icon" (click)="closeDialog()">close</mat-icon>
+  </div>
+  <div class='content-container align-middle'>
+    <span class="content-span d-flex align-items-center">
+      <div *ngIf="data.success" class="success-true"><mat-icon class="icon-bg" id="ok">check_circle</mat-icon></div>
+      <div *ngIf="!data.success" class="success-false"><mat-icon class="icon-bg" id="error">error</mat-icon></div>
+      <div>{{data.message}}</div>
+    </span>
+  </div>
+  <div class="text-center">
+    <button mat-flat-button id="ok-button" [mat-dialog-close]="">OK</button>
+  </div>
+
+</div>
+

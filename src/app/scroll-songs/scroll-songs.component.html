@@ -81,17 +81,17 @@
   <div></div>
   <div class="setSection" (click)="closeRightClickMenu()">
 
-    <div class="setHeader sticky-top container-fluid d-inline-block">
-      <div class="btn-group">
+    <div *ngIf="!namingSet" class="setHeader sticky-top container-fluid d-inline-block">
+      <div class="btn-group setHeader">
             <div class="setdatetitle btn-group">Set Date</div>
-            <input class="form-control" placeholder="Date/Set Name" value="{{stringDate}}"
+             <input class="form-control" placeholder="..set date.." value="{{stringDate}}" (change)="onDateSelected()"
                    name="dp" [(ngModel)]="setDate" ngbDatepicker #dp="ngbDatepicker" (dateSelect)="onDateSelected()">
-            <button class="btn calendar" (click)="dp.toggle()" type="button"><img width="28px" title="Pick Date" src="..\..\assets\Images\cal.png"/></button>
-            <button class="btn" type="button"><img width="28px" title="Load Template" (click)="loadTemplate()" src="..\..\assets\Images\add_template.png"/></button>
-            <button class="btn" type="button"><img width="28px" title="Clear Set" (click)="clearSet()" src="..\..\assets\Images\erase_document.png"/></button>
-            <button class="btn" type="button"><img width="28px" title="Load Set" (click)="toggleSets()" src="..\..\assets\Images\load_document.png"/></button>
-            <button class="btn" type="button"><img width="28px" title="Save Set" (click)="saveSet()"src="..\..\assets\Images\save_document.png"/></button>
-            <button class="btn" type="button"><img width="28px" title="Export to Word" src="..\..\assets\Images\Export_document.png"/></button>
+            <button class="btnIcon calendar" (click)="dp.toggle()" type="button"><img width="28px" title="Pick Date" src="..\..\assets\Images\cal.png"/></button>
+            <button class="btnIcon" type="button"><img width="28px" title="Load Template" (click)="loadTemplate()" src="..\..\assets\Images\add_template.png"/></button>
+            <button class="btnIcon" type="button"><img width="28px" title="Clear Set" (click)="clearSet()" src="..\..\assets\Images\erase_document.png"/></button>
+            <button class="btnIcon" type="button"><img width="28px" title="Load Set" (click)="clicktoLoad()" src="..\..\assets\Images\load_document.png"/></button>
+            <button class="btnIcon" type="button"><img width="28px" title="Save Set" (click)="clicktoSave()"src="..\..\assets\Images\save_document.png"/></button>
+            <button class="btnIcon" type="button"><img width="28px" title="Export to Word" src="..\..\assets\Images\Export_document.png"/></button>
       </div>
     </div>
 
@@ -104,25 +104,45 @@
         </mat-radio-group>
 
         <div class="listSection">
-          <div *ngFor="let set of sets; let index = index" id="{{set.index}}" >
+          <div *ngFor="let set of songsets; let index = index" id="{{set.index}}" >
             <ul>
-              <li class="listSection" (click)="LoadSet(set)"><div class="listselection-content">::: {{ set.Leader }} - {{ set.SetDate }}<div class="del-x">-</div></div></li>
+              <li>
+                  <div class="d-flex align-items-center">
+                    <div class="listselection-content" (click)="LoadSet(set)" >::: {{ set.Leader }} - {{ set.SetDate }}</div>
+                    <div class="listselection-delete align-center" (click)="checkDelete(set)">[X]</div>
+                  </div>
+              </li>
             </ul>
           </div>
         </div>
       </div>
-
-
+      <div *ngIf="namingSet" class="namingSet-container">
+        <form>
+          <div class="namingSet-Row">
+            <div class="namingSet-1">
+              <label for="songSetName" class="col-form-label namingSet bold">Set Name:</label>
+            </div>
+            <div class="namingSet-7">
+              <input type="text" class="form-control namingSet" id="songSetName" placeholder="SetName" value="{{stringDate}}">
+            </div>
+            <div class="namingSet-1">
+              <button type="submit" class="btn btn-primary namingSet namingSet-10" (click)="checkExists()">Save</button>
+            </div>
+            <div class="namingSet-1">
+              <button type="submit" class="btn btn-secondary namingSet namingSet-10" (click)="clicktoSave()">Cancel</button>
+            </div>
+          </div>
+        </form>
+      </div>
     <div [sortablejs]="LocalRows" [sortablejsOptions]="{ animation: 150 }">
-       <div class="setitem _{{rows.SRPaceGrp}}" *ngFor="let rows of LocalRows; let index = index" id="{{rows.SRType}}" (contextmenu)="rightClick($event, index)">
-         <div class="rowseq">{{rows.SRType}}</div>
-         <div class="rowtitle clipped">{{ rows.SRTitle }} </div>
-         <div class="rowfirstline clipped">{{ rows.SRFirstLine }}</div>
-         <div class="rowkey">{{rows.SRMusicalKey}}</div>
+       <div class="setitem _{{rows.SR_PaceGrp}}" *ngFor="let rows of LocalRows; let index = index" id="{{rows.SR_Type}}" (contextmenu)="rightClick($event, index)">
+         <div class="rowseq">{{rows.SR_Type}}</div>
+         <div class="rowtitle clipped">{{ rows.SR_Title }} </div>
+         <div class="rowfirstline clipped">{{ rows.SR_FirstLine }}</div>
+         <div class="rowkey">{{rows.SR_MusicalKey}}</div>
          <div class="del-x" (click)="deleterow(index)">-</div>
        </div>
     </div>
-
 
     <div class="setitem emptyset" *ngIf="!setStarted">Set Not Started</div>
 

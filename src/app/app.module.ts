@@ -1,30 +1,30 @@
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { MatInputModule } from '@angular/material/input';
-import { MatCardModule } from '@angular/material/card';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatRadioModule } from '@angular/material/radio';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+
+// Angular Material
+import { MaterialModule } from './material/material.module';
+
+// Shared components
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SortablejsModule } from 'ngx-sortablejs';
 
+// App Components
+import { HeaderComponent } from './header/header.component';
+import { AuthInterceptor } from './auth/auth-interceptor';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { BuildSetComponent } from './build-set/build-set.component';
 import { EditSongComponent } from './edit-song/edit-song.component';
 import { LeadSheetComponent } from './lead-sheet/lead-sheet.component';
-
-
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ScrollSongsComponent } from './scroll-songs/scroll-songs.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { SetContextMenuComponent } from './set-context-menu/set-context-menu.component';
-import { HeaderComponent } from './header/header.component';
-import { AuthInterceptor } from './auth/auth-interceptor';
+import { MessageDialogComponent } from './message-dialog/message-dialog.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +36,9 @@ import { AuthInterceptor } from './auth/auth-interceptor';
     LeadSheetComponent,
     ScrollSongsComponent,
     SetContextMenuComponent,
-    HeaderComponent
+    HeaderComponent,
+    ConfirmDialogComponent,
+    MessageDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -46,17 +48,14 @@ import { AuthInterceptor } from './auth/auth-interceptor';
     ReactiveFormsModule,
     HttpClientModule,
     NgbModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatRadioModule,
-    MatCardModule,
-    MatProgressSpinnerModule,
+    MaterialModule,
     SortablejsModule.forRoot({ animation: 150 })
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ConfirmDialogComponent]
 })
 export class AppModule {}
 

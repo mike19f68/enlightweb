@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-import { Song } from '../song.model';
-import { SongsService } from '../songs.service';
+import { Song } from '../Shared/song.model';
+import { SongsService } from '../Shared/songs.service';
 import { DatePipe } from '@angular/common';
 
 @Component({
