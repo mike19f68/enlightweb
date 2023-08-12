@@ -10,7 +10,8 @@ router.post("/signup", (req, res, next) => {
   bcrypt.hash(req.body.password, 10).then(hash => {
     const user = new User({
       email: req.body.email,
-      password: hash
+      password: hash,
+      leader: req.body.leader
     });
     user
       .save()
@@ -53,7 +54,8 @@ router.post("/login", (req, res, next) => {
       );
       res.status(200).json({
         token: token,
-        expiresIn: 28800
+        expiresIn: 28800,
+        leader: fetchedUser.leader
       });
     })
     .catch(err => {

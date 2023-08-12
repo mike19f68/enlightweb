@@ -6,6 +6,7 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { BuildSetComponent } from './build-set/build-set.component';
 import { EditSongComponent } from './edit-song/edit-song.component';
 import { LeadSheetComponent } from './lead-sheet/lead-sheet.component';
+import { ExportRtfComponent } from './export-rtf/export-rtf.component';
 import { AuthGuard } from './auth/auth.guard';
 import { DatePipe } from '@angular/common';
 
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'BuildSet', component: BuildSetComponent, canActivate: [AuthGuard]},
   { path: 'EditSong', component: EditSongComponent, canActivate: [AuthGuard]},
   { path: 'LeadSheet', component: LeadSheetComponent, canActivate: [AuthGuard]},
+  { path: 'ExportRtf', component: ExportRtfComponent, canActivate: [AuthGuard]}
   ];
 
 @NgModule({

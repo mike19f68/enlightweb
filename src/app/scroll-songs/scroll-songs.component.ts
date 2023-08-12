@@ -6,12 +6,15 @@ import { SongSet, LocalRow} from '../Shared/songset.model';
 
 import { SongsService } from '../Shared/songs.service';
 import { SetsService } from '../Shared/songsets.service';
+import { addFonts } from '../Shared/addFonts';
+
 import { DatePipe } from '@angular/common';
 import { DialogService } from '../Shared/dialog.service';
 
 import {Injectable} from '@angular/core';
 import {NgbDateParserFormatter, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+
+import { jsPDF } from "jspdf";
 
 
 @Injectable()
@@ -44,8 +47,7 @@ export class CustomDateParserFormatter extends NgbDateParserFormatter {
 
 export class ScrollSongsComponent implements OnInit, OnDestroy {
 
-  public stringDate: string;
-  hasData = false;
+   hasData = false;
    setStarted = false;
    songs: Song[];
    song: Song;
@@ -54,30 +56,28 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
    currentId = '';
    LocalRows: LocalRow[] = [];
 
-
    private songsSub: Subscription;
    private setsSub: Subscription;
 
   constructor(
     public songsService: SongsService,
     public setsService: SetsService,
+    public addFonts: addFonts,
     public datepipe: DatePipe,
     private dialogservice: DialogService) {}
 
   isLoading = false;
+  setsLoading = false;
   public chooseSet = false;
   public namingSet = false;
   ActiveIndex = 0;
   searchString = '';
   selectedGroup = '0';
   selectedAge = '1';
-  selectedLead = 'Mike';
   selectedRating = '2';
   sortField = 'SongRef';
   sortDirection = -1;
   setList1: any;
-
-  leader = 'Mike';
 
   amSongs = 0;
   pmSongs = 0;
@@ -91,9 +91,13 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
   dialogTitle = '';
   dialogMsg = '';
   public setDate = {};
+  public setName: string;
+  public origName: string;
 
-  SelectedLeader: string;
+  leader: string;
+  selectedLead: string;
   Leaders: string[] = ['Mike', 'Ian', 'Jill', 'Terry'];
+
 
   displayStyle = 'none';
 
@@ -103,8 +107,14 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
     const day = currentDt.getDate();
     const year = currentDt.getFullYear();
     this.setDate ={year, month, day};
-    this.stringDate = this.transformDate(this.setDate);
+    this.setName = this.serializeDate(this.setDate);
+    this.leader = localStorage.getItem('leader');
+    this.selectedLead = this.leader;
     this.getSongs();
+  }
+
+  onSearchChange() {
+  this.getSongs();
   }
 
   getSongs() {
@@ -162,31 +172,57 @@ export class ScrollSongsComponent implements OnInit, OnDestroy {
   }
 
   onDateSelected() {
-     this.stringDate = this.transformDate(this.setDate);
+     this.setName = this.serializeDate(this.setDate);
      const max = this.LocalRows.length;
      for (let i = 0; i < max ; i++) {
       if (this.LocalRows[i].SR_Type === 'A') {
-        this.LocalRows[i].SR_Title = this.stringDate + ' am';
+        this.LocalRows[i].SR_Title = this.setName + ' am';
       }
       if (this.LocalRows[i].SR_Type === 'B') {
-        this.LocalRows[i].SR_Title = this.stringDate + ' pm';
+        this.LocalRows[i].SR_Title = this.setName + ' pm';
       }
      }
   }
 
+  clearId() {
+    if (this.origName != this.setDate)
+    {
+      this.currentId=null;
+    }
+  }
+
   loadTemplate() {
     let newRow: LocalRow = new LocalRow();
-    newRow.SR_Title = this.transformDate(this.setDate) + ' am';
+    newRow.SR_Title = this.serializeDate(this.setDate) + ' am';
     newRow.SR_Type = 'A';
+    newRow.SR_Ref = 0;
+    newRow.SR_FirstLine = "";
+    newRow.SR_PaceGrp = 0;
+    newRow.SR_MusicalKey = null;
     this.LocalRows.splice(this.LocalRows.length, 0 , newRow);
     newRow = new LocalRow();
     newRow.SR_Type = 'L';
+    newRow.SR_Ref = 0;
+    newRow.SR_Title = "-------------------------";
+    newRow.SR_FirstLine = "-------------------------";
+    newRow.SR_PaceGrp = 0;
+    newRow.SR_MusicalKey = null;
     this.LocalRows.splice(this.LocalRows.length, 0 , newRow);
     newRow = new LocalRow();
     newRow.SR_Type = 'L';
+    newRow.SR_Ref = 0;
+    newRow.SR_Title = "-------------------------";
+    newRow.SR_FirstLine = "-------------------------";
+    newRow.SR_PaceGrp = 0;
+    newRow.SR_MusicalKey = null;
     this.LocalRows.splice(this.LocalRows.length, 0 , newRow);
     newRow = new LocalRow();
     newRow.SR_Type = 'L';
+    newRow.SR_Ref = 0;
+    newRow.SR_Title = "-------------------------";
+    newRow.SR_FirstLine = "-------------------------";
+    newRow.SR_PaceGrp = 0;
+    newRow.SR_MusicalKey = null;
     this.LocalRows.splice(this.LocalRows.length, 0 , newRow);
     newRow = new LocalRow();
     this.setStarted = true;
@@ -234,16 +270,29 @@ handleMenuSelection( menuselection: string) {
   } else if (menuselection === 'Spacer') {
     newRow = new LocalRow();
     newRow.SR_Type = 'L';
+    newRow.SR_Ref = 0;
+    newRow.SR_Title = "-------------------------";
+    newRow.SR_FirstLine = "-------------------------";
+    newRow.SR_PaceGrp = 0;
+    newRow.SR_MusicalKey = null;
     this.LocalRows.splice(this.LocalRows.length, 0 , newRow);
   } else if (menuselection === 'AM Title') {
     newRow = new LocalRow();
-    newRow.SR_Title = this.transformDate(this.setDate) + ' am';
+    newRow.SR_Title = this.serializeDate(this.setDate) + ' am';
     newRow.SR_Type = 'A';
+    newRow.SR_Ref = 0;
+    newRow.SR_FirstLine = "";
+    newRow.SR_PaceGrp = 0;
+    newRow.SR_MusicalKey = null;
     this.LocalRows.splice(this.LocalRows.length, 0 , newRow);
   } else if (menuselection === 'PM Title') {
     newRow = new LocalRow();
-    newRow.SR_Title = this.transformDate(this.setDate) + ' pm';
     newRow.SR_Type = 'B';
+    newRow.SR_Ref = 0;
+    newRow.SR_Title = this.serializeDate(this.setDate) + ' pm';
+    newRow.SR_FirstLine = "";
+    newRow.SR_PaceGrp = 0;
+    newRow.SR_MusicalKey = null;
     this.LocalRows.splice(this.LocalRows.length, 0 , newRow);
   }
 }
@@ -255,17 +304,27 @@ deleterow(index) {
   this.buildFooter();
 }
 
-transformDate(date) {
-  const ngbDate = date;
-  const myDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
-  return this.datepipe.transform(myDate, 'dd MMM yyyy');
+serializeDate(date) {
+    if (isNaN(date.day))
+    {
+      return date;
+    }
+    const ngbDate = date;
+    const myDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
+    const rtnDate: string  = this.datepipe.transform(myDate, 'dd MMM yyyy');
+    return rtnDate;
 }
-untransformDate(date: string) {
+deserializeDate(date: string) {
   const [day, mmm, year] = date.split(' ');
   const month = 'JanFebMarAprMayJunJulAugSepOctNovDec'.indexOf(mmm) / 3 + 1;
   const myDate = {year: +year, month: +month, day: +day};
-  console.log(myDate);
-  return myDate;
+  if (isNaN(myDate.day))
+  {
+    return date;
+  }
+  else{
+    return myDate;
+  }
 }
 
 clicktoLoad() {
@@ -273,7 +332,7 @@ clicktoLoad() {
   {
     this.chooseSet = true;
     this.namingSet = false;
-    this.selectedLead = 'Mike';
+    this.selectedLead = localStorage.getItem('leader');
     this.getSets();
   } else {
     this.chooseSet = false;
@@ -284,15 +343,18 @@ LeaderChanged(event) {
   this.getSets();
 }
 getSets() {
+    this.setsLoading = true;
     this.setsService.getSets(
       this.selectedLead
     );
     this.setsSub = this.setsService.getSetUpdateListener()
       .subscribe((songsets: SongSet[]) => {
       this.songsets = songsets;
+      this.setsLoading = false;
     });
   }
 
+<<<<<<< HEAD
   NameChanged(event) {
     this.stringDate = event.target.value;
   }
@@ -320,6 +382,8 @@ checkExists(setName) {
   }
 }
 
+=======
+>>>>>>> ac434a9 (SetSave)
   LoadSet(loadset: SongSet) {
     this.currentId = loadset.id;
     this.LocalRows.length = 0;
@@ -327,16 +391,17 @@ checkExists(setName) {
     for (let i = 0; i < max ; i++) {
       const newRow: LocalRow = new LocalRow();
       newRow.SR_Type = loadset.SetRows[i].SR_Type;
-      newRow.SR_MusicalKey = loadset.SetRows[i].SR_MusicalKey;
-      newRow.SR_FirstLine = loadset.SetRows[i].SR_FirstLine;
       newRow.SR_Ref = loadset.SetRows[i].SR_Ref;
       newRow.SR_Title = loadset.SetRows[i].SR_Title;
+      newRow.SR_FirstLine = loadset.SetRows[i].SR_FirstLine;
       newRow.SR_PaceGrp = loadset.SetRows[i].SR_PaceGrp;
+      newRow.SR_MusicalKey = loadset.SetRows[i].SR_MusicalKey;
       this.LocalRows.splice(this.LocalRows.length, 0 , newRow);
       this.setStarted = true;
     }
-    this.setDate = this.untransformDate(loadset.SetDate);
-    this.stringDate = loadset.SetDate;
+    this.setDate = this.deserializeDate(loadset.SetDate);
+    this.setName = loadset.SetDate;
+    this.origName = loadset.SetDate;
     this.chooseSet = false;
     this.buildFooter();
   }
@@ -381,7 +446,6 @@ checkExists(setName) {
     for (let i = 0; i < max; i++) {
       if (this.LocalRows[i].SR_Type === 'S' || this.LocalRows[i].SR_Type === 'P' || this.LocalRows[i].SR_Type === 'X' ) {
          if ( arr.includes(this.LocalRows[i].SR_Ref, 0) ) {
-            console.log(arr);
             this.duplicates ++;
             this.hasDuplicates = 'hasDuplicates';
          } else {
@@ -390,42 +454,126 @@ checkExists(setName) {
       }
     }
   }
-  clicktoSave() {
-    this.namingSet = this.namingSet === false;
-    if (this.namingSet === true) {
-      const max = this.LocalRows.length;
-      if (max === 0){
-        this.namingSet = false;
-        this.dialogservice.openMessageDialog('Nothing to save', false);
-      }
-      this.chooseSet = false;
+  exporttortf() {
+
+    const TopMargin = 2.54;
+    const LeftMargin = 1.54;
+    const max = this.LocalRows.length;
+    if (max === 0){
+      this.namingSet = false;
+      this.dialogservice.openMessageDialog('Nothing to export', false);
+      return
     }
+
+    this.addFonts.addArialFonts();
+    const doc = new jsPDF({
+      orientation: "portrait",
+      unit: "cm",
+      format: [21, 29.7]
+    });
+    doc.setFont("helvetica","bold");
+    doc.setFontSize(20);
+    doc.text("Song Set", LeftMargin + 7.5,TopMargin);
+    let seq=1;
+    let vPos = TopMargin+1;
+    for (let i=0; i<this.LocalRows.length; i++) {
+      switch (this.LocalRows[i].SR_Type) {
+        case "S":
+          vPos += 0.4
+          doc.setTextColor("Black");
+          doc.setFont("helvetica",'normal','normal');
+          doc.setFontSize(12);
+          doc.text(" "+seq, LeftMargin,vPos)
+          doc.setFontSize(16);
+          doc.text(this.LocalRows[i].SR_Title+" - "+this.LocalRows[i].SR_MusicalKey, LeftMargin+0.8,vPos)
+          doc.setFontSize(12);
+          vPos+=0.6
+          doc.text(this.LocalRows[i].SR_FirstLine, LeftMargin+2,vPos)
+          vPos += 0.4
+          seq+=1
+          break;
+        case "P":
+          vPos += 0.4
+          doc.setTextColor("Blue");
+          doc.setFont("helvetica",'normal','normal');
+          doc.setFontSize(12);
+          doc.text(" "+seq, LeftMargin,vPos)
+          doc.setFontSize(16);
+          doc.text(this.LocalRows[i].SR_Title+" - "+this.LocalRows[i].SR_MusicalKey, LeftMargin+0.8,vPos)
+          doc.setFontSize(12);
+          vPos+=0.6
+          doc.text(this.LocalRows[i].SR_FirstLine, LeftMargin+2,vPos)
+          vPos += 0.4
+          seq+=1
+          break;
+        case "L":
+          doc.setTextColor("Black");
+          doc.setFont("helvetica",'normal','normal');
+          doc.setFontSize(8);
+          doc.text(this.LocalRows[i].SR_Title, LeftMargin+0.8,vPos);
+          doc.setFontSize(8);
+          doc.text(this.LocalRows[i].SR_FirstLine, LeftMargin+10,vPos)
+          vPos += 0.2
+          break;
+        case "A":
+          doc.setFont("helvetica",'bold');
+          doc.setFontSize(11);
+          doc.text(this.setName + " am",LeftMargin+.5,vPos)
+          seq=1;
+          vPos += 0.4;
+          break;
+        case "B":
+          vPos += 0.8
+          doc.setFont("helvetica",'bold');
+          doc.setFontSize(11);
+          doc.text(this.setName + " pm",LeftMargin+.5,vPos)
+          vPos += 0.4;
+          seq=1;
+          break;
+        case "X":
+          break;
+      }
+    }
+    doc.save("setlist.pdf");
+
   }
 
+<<<<<<< HEAD
   saveSet(newsetname: string) {
     this.namingSet = false;
     const songset: SongSet = {id:null, Leader: 'Mike', SetDate: newsetname, SetRows: []}
+=======
+  saveSet() {
+>>>>>>> ac434a9 (SetSave)
     const max = this.LocalRows.length;
-    for (let i = 0; i < max; i++) {
-      let newRow: LocalRow = new LocalRow();
-      newRow = this.LocalRows[i];
-      songset.SetRows.push(this.LocalRows[i]);
+    if (max === 0){
+      this.namingSet = false;
+      this.dialogservice.openMessageDialog('Nothing to save', false);
+      return
     }
-    this.setsService.findSet('Mike', newsetname);
-    if (this.currentId === '') {
-       this.setsService.addSet(null, songset.Leader, songset.SetDate, songset.SetRows);
-       this.dialogservice.openMessageDialog('Set Saved succesfully', true);
-    } else {
-      this.dialogservice.openConfirmDialog('Overwrite Existing Set?')
+    if (this.origName != this.setName)
+    {
+      this.currentId=null;
+    }
+    if (this.currentId) {
+      this.dialogservice.openConfirmDialog('Update Set: '  + this.setName + ' ?')
       .afterClosed().subscribe(res => {
         if ( res === true ) {
-          this.setsService.deleteSet(this.currentId);
-          console.log('new name...' + songset.SetDate);
-          this.setsService.addSet(null, songset.Leader, songset.SetDate, songset.SetRows);
-          this.dialogservice.openMessageDialog('Set Saved succesfully', true);
+          this.setsService.updateSet(this.currentId, this.leader, this.setName, this.LocalRows);
+          this.dialogservice.openMessageDialog('Set updated successfully', true);
+        }
+      });
+    } else {
+      this.dialogservice.openConfirmDialog('Create Set: '  + this.setName + ' ?')
+      .afterClosed().subscribe(res => {
+        if ( res === true ) {
+          this.setsService.addSet(null, this.leader, this.setName, this.LocalRows);
+          this.dialogservice.openMessageDialog('New Set Created successfully', true);
+          this.currentId = "Created";
         }
       });
     }
+    this.origName = this.setName;
   }
 
   checkDelete(songset: SongSet) {
@@ -433,13 +581,14 @@ checkExists(setName) {
     .afterClosed().subscribe(res => {
       if ( res === true ) {
         this.setsService.deleteSet(songset.id);
-        this.dialogservice.openMessageDialog('Set deleted succesfully', true);
       }
     });
   }
 
+  writeSet(songset: SongSet){
+    this.setsService.updateSet(songset.id, songset.Leader, songset.SetDate, songset.SetRows);
+  }
   deleteSet(songset: SongSet) {
-    console.log('songset: ' + JSON.stringify(songset));
     this.setsService.deleteSet(songset.id);
   }
 

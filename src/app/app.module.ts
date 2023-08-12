@@ -25,6 +25,8 @@ import { ScrollSongsComponent } from './scroll-songs/scroll-songs.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { SetContextMenuComponent } from './set-context-menu/set-context-menu.component';
 import { MessageDialogComponent } from './message-dialog/message-dialog.component';
+import { ExportRtfComponent } from './export-rtf/export-rtf.component';
+
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { MessageDialogComponent } from './message-dialog/message-dialog.componen
     SetContextMenuComponent,
     HeaderComponent,
     ConfirmDialogComponent,
-    MessageDialogComponent
+    MessageDialogComponent,
+    ExportRtfComponent
   ],
   imports: [
     BrowserModule,

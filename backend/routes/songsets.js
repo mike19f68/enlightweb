@@ -1,11 +1,10 @@
 const express = require("express");
 
-const songset = require("../models/songset");
+const songset = require("../models/set");
 
 const router = express.Router();
 
 router.post("",(req, res, next) => {
-  console.log(JSON.stringify(req.body.SetRows));
   const postset = new songset({
     Leader: req.body.Leader,
     SetDate: req.body.SetDate,
@@ -16,6 +15,19 @@ router.post("",(req, res, next) => {
       message: "Set saved successfully on " + createdSet._id,
       setId: createdSet._id
     });
+  });
+});
+
+router.put("/:id", (req, res, next) => {
+  const postset = new songset({
+    _id: req.body.id,
+    Leader: req.body.Leader,
+    SetDate: req.body.SetDate,
+    JsonSetRows: req.body.SetRows
+  });
+  songset.updateOne({ _id: req.params.id },  postset).then(result => {
+    res.status(200).json({ message: "Update Successful" });
+    console.log(result);
   });
 });
 
@@ -36,25 +48,29 @@ router.get("", (req, res, next) => {
 });
 
 router.get("/find", (req, res, next) => {
-  const leader = req.query.leader;
-  const setDate = req.query.setDate;
+  const leader = req.query.Leader;
+  const setDate = req.query.SetDate;
   var query = {};
   query.Leader = {$eq: leader};
   query.SetDate = {$eq: setDate};
-  console.log(JSON.stringify(query));
 
-  songset.findOne(query).then(documents => {
+  songset.findOne(query)
+     .then(documents => {
       res.status(200).json({
+<<<<<<< HEAD
         message: "Search Completed",
         songsets: documents
+=======
+        message: "Set Already Exists",
+        songsets: query
+>>>>>>> ac434a9 (SetSave)
       });
-    });
+  });
 });
 
 router.delete("/:id", (req, res, next) => {
-    songset.deleteOne({ _id: req.params.id }).then(result => {
+  songset.deleteOne({ _id: req.params.id }).then(result => {
     res.status(200).json({ message: "Set deleted" });
-    console.log(result);
   });
 });
 

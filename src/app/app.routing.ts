@@ -5,7 +5,7 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { BuildSetComponent } from './build-set/build-set.component';
 import { EditSongComponent } from './edit-song/edit-song.component';
 import { LeadSheetComponent } from './lead-sheet/lead-sheet.component';
-import { AuthGuard } from './auth/auth.guard';
+import { ExportRtfComponent } from './export-rtf/export-rtf.component';
 
 const routes: Routes = [
   { path: 'Login', component: LoginComponent},
@@ -13,6 +13,7 @@ const routes: Routes = [
   { path: 'BuildSet', component: BuildSetComponent},
   { path: 'EditSong', component: EditSongComponent},
   { path: 'LeadSheet', component: LeadSheetComponent},
+  { path: 'ExportRtf', component: ExportRtfComponent},
   { path: '**', redirectTo: '\Login'}
   ];
 

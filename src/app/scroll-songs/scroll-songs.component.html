@@ -13,8 +13,8 @@
     <div class="filter sticky-top container-fluid">
       <div class="btn-group">
         <input id="searchinput" type="search" class="form-control" placeholder="Search" [(ngModel)]="searchString"
-          (change)="ngOnInit()">
-        <div id="searchclear" class="glyphicon glyphicon-remove-circle"></div>
+          (change)="onSearchChange()">
+        <div id="searchclear" class="glyphicon glyphicon-remove-circle" ></div>
       </div>
       <div class="btn-group d-inline-block" (change)="ngOnInit()">
         <select id="PaceGrp" [(ngModel)]="selectedGroup" class="d-inline-block form-control form-select drop-filter">
@@ -83,39 +83,57 @@
 
     <div *ngIf="!namingSet" class="setHeader sticky-top d-inline-block">
       <div class="btn-group setHeader">
+<<<<<<< HEAD
             <div class="setdatetitle">Set Date</div>
              <input class="form-control" placeholder="..set date.." value="{{stringDate}}" (change)="onDateSelected()"
+=======
+            <div class="setdatetitle btn-group">Set Name</div>
+             <input class="form-control" placeholder="..set date.." value="{{setName}}" [(ngModel)]="setName">
+             <input class="form-control d-none" placeholder="..set date.." value="{{setName}}" (change)="onDateSelected()"
+>>>>>>> ac434a9 (SetSave)
                    name="dp" [(ngModel)]="setDate" ngbDatepicker #dp="ngbDatepicker" (dateSelect)="onDateSelected()">
             <button class="btnIcon calendar" (click)="dp.toggle()" type="button"><img width="28px" title="Pick Date" src="..\..\assets\Images\cal.png"/></button>
             <button class="btnIcon" type="button"><img width="28px" title="Load Template" (click)="loadTemplate()" src="..\..\assets\Images\add_template.png"/></button>
             <button class="btnIcon" type="button"><img width="28px" title="Clear Set" (click)="clearSet()" src="..\..\assets\Images\erase_document.png"/></button>
             <button class="btnIcon" type="button"><img width="28px" title="Load Set" (click)="clicktoLoad()" src="..\..\assets\Images\load_document.png"/></button>
-            <button class="btnIcon" type="button"><img width="28px" title="Save Set" (click)="clicktoSave()"src="..\..\assets\Images\save_document.png"/></button>
-            <button class="btnIcon" type="button"><img width="28px" title="Export to Word" src="..\..\assets\Images\Export_document.png"/></button>
+            <button class="btnIcon" type="button"><img width="28px" title="Save Set" (click)="saveSet()"src="..\..\assets\Images\save_document.png"/></button>
+            <button class="btnIcon" type="button"><img width="28px" title="Export" (click)="exporttortf()" src="..\..\assets\Images\Export_document.png"/></button>
+            <label class="leader" type="setHeader">{{leader}}</label>
       </div>
     </div>
 
       <div *ngIf="chooseSet" class="getSetContainer">
         <mat-radio-group class="leadFilter" [(ngModel)]="selectedLead" (change)="LeaderChanged($event)">
-          <div class="radiobtn"><input id="rb1" type="radio" name="leader" value="Mike" checked='true'/><label class="radiobtn" for="rb1">Mike</label></div>
-          <div class="radiobtn"><input id="rb2" type="radio" name="leader" value="Ian"/><label class="radiobtn" for="rb2">Ian</label></div>
-          <div class="radiobtn"><input id="rb3" type="radio" name="leader" value="Jill"/><label class="radiobtn" for="rb3">Jill</label></div>
-          <div class="radiobtn"><input id="rb4" type="radio" name="leader" value="Terry"/><label class="radiobtn" for="rb4">Terry</label></div>
+          <div class="radiobtn"><input id="rb1" type="radio" name="leader" value="Mike" [(ngModel)]="selectedLead"/><label class="radiobtn" for="rb1">Mike</label></div>
+          <div class="radiobtn"><input id="rb2" type="radio" name="leader" value="Ian" [(ngModel)]="selectedLead"/><label class="radiobtn" for="rb2">Ian</label></div>
+          <div class="radiobtn"><input id="rb3" type="radio" name="leader" value="Jill" [(ngModel)]="selectedLead"/><label class="radiobtn" for="rb3">Jill</label></div>
+          <div class="radiobtn"><input id="rb4" type="radio" name="leader" value="Terry" [(ngModel)]="selectedLead"/><label class="radiobtn" for="rb4">Terry</label></div>
         </mat-radio-group>
-
-        <div class="listSection">
+        <div *ngIf="setsLoading" class="waiting listSection-full">
+          <div class="spinner-border" role="status">
+            <div class="sr-only"></div>
+          </div>
+        </div>
+        <div class="listSection" *ngIf="!setsLoading">
           <div *ngFor="let set of songsets; let index = index" id="{{set.index}}" >
             <ul>
               <li>
+<<<<<<< HEAD
                   <div class="d-flex align-items-center">
                     <div class="listselection-content" (click)="LoadSet(set)" >::: {{ set.SetDate }}</div>
                     <div class="listselection-delete align-center" (click)="checkDelete(set)">[X]</div>
+=======
+                  <div class="d-flex align-items-center listselection-hover">
+                    <div class="listselection-content" (click)="LoadSet(set)" >:::  {{ set.SetDate }}</div>
+                    <div class="listselection-delete align-center" (click)="checkDelete(set)"><img width="10px" title="Delete Set" src="..\..\assets\Images\delete.png"/></div>
+>>>>>>> ac434a9 (SetSave)
                   </div>
               </li>
             </ul>
           </div>
         </div>
       </div>
+<<<<<<< HEAD
       <div *ngIf="namingSet" class="namingSet-container">
         <form>
           <div class="namingSet-Row">
@@ -134,13 +152,15 @@
           </div>
         </form>
       </div>
+=======
+>>>>>>> ac434a9 (SetSave)
     <div [sortablejs]="LocalRows" [sortablejsOptions]="{ animation: 150 }">
        <div class="setitem _{{rows.SR_PaceGrp}}" *ngFor="let rows of LocalRows; let index = index" id="{{rows.SR_Type}}" (contextmenu)="rightClick($event, index)">
          <div class="rowseq">{{rows.SR_Type}}</div>
          <div class="rowtitle clipped">{{ rows.SR_Title }} </div>
          <div class="rowfirstline clipped">{{ rows.SR_FirstLine }}</div>
          <div class="rowkey">{{rows.SR_MusicalKey}}</div>
-         <div class="del-x" (click)="deleterow(index)">-</div>
+         <div class="del-x" title="Remove" (click)="deleterow(index)"><img class="{{rows.SR_Type}}" width="10px" src="..\..\assets\Images\delete.png"/></div>
        </div>
     </div>
 
